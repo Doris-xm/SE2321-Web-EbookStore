@@ -1,0 +1,27 @@
+import React from 'react';
+import {Card} from 'antd';
+import {Link} from 'react-router-dom'
+
+const {Meta} = Card;
+
+const {info} = this.props;
+
+const Book: React.FC = () => (
+    <Link to={{
+        pathname: '/bookDetails',
+        search: '?id=' + info.bookId
+    }}
+          target="_blank"
+    >
+        <Card
+            hoverable
+            style={{width: 181}}
+            cover={<img alt="Book Cover" src={info.image} className={"bookImg"}/>}
+            //onClick={this.showBookDetails.bind(this, info.bookId)}
+        >
+            <Meta title={info.name} description={'¥' + info.price}/>
+        </Card>
+    </Link>
+);
+
+export default Book;

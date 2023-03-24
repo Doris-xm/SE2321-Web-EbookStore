@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="b6f3e5ec-6516-4e64-ba79-184ab23ffdcb" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../../ProjectEBook/ebook" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../ProjectEBook/ebook.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ebookstore_front.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ebookstore_front/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ebookstore_front/.idea/ebookstore_front.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ebookstore_front/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ebookstore_front/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ebookstore_front/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ebookstore_front/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ebookstore_front/package-lock.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ebookstore_front/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ebookstore_front/public/favicon.ico" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ebookstore_front/public/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ebookstore_front/public/logo192.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ebookstore_front/public/logo512.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ebookstore_front/public/manifest.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ebookstore_front/public/robots.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ebookstore_front/src/App.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ebookstore_front/src/App.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ebookstore_front/src/App.test.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ebookstore_front/src/assets/bg.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ebookstore_front/src/assets/carousel/book1.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ebookstore_front/src/assets/carousel/book2.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ebookstore_front/src/assets/carousel/book3.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ebookstore_front/src/assets/carousel/book4.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ebookstore_front/src/assets/logo-name.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ebookstore_front/src/assets/logo.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ebookstore_front/src/assets/timg.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ebookstore_front/src/components/Book.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ebookstore_front/src/components/BookList.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ebookstore_front/src/components/HeaderInfo.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ebookstore_front/src/css/bookDetail.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ebookstore_front/src/css/home.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ebookstore_front/src/css/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ebookstore_front/src/css/login.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ebookstore_front/src/error-page.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ebookstore_front/src/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ebookstore_front/src/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ebookstore_front/src/logo.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ebookstore_front/src/reportWebVitals.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ebookstore_front/src/routes/Home.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ebookstore_front/src/routes/SideBar.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ebookstore_front/src/setupTests.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../reactrouter.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/favicon.ico" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/logo192.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/logo512.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/manifest.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/robots.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/App.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/App.test.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/contacts.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/logo.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/reportWebVitals.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/routes/contact.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/routes/destroy.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/routes/edit.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/routes/error-page.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/routes/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/routes/root.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/setupTests.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../routersample.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../routersample/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../routersample/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../routersample/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../routersample/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../routersample/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../routersample/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../routersample/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../routersample/package-lock.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../routersample/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../routersample/public/favicon.ico" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../routersample/public/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../routersample/public/logo192.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../routersample/public/logo512.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../routersample/public/manifest.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../routersample/public/robots.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../routersample/src/App.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../routersample/src/App.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../routersample/src/App.test.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../routersample/src/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../routersample/src/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../routersample/src/logo.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../routersample/src/reportWebVitals.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../routersample/src/setupTests.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../my_app" beforeDir="false" afterPath="$PROJECT_DIR$/../../my_app" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SE122_4_ReactSamples.rar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../untitled" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../untitled.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../se122_4_reactrouter.zip" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2NDqL59KNgKlBxbobNuisuHWCuc" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "E:/JavaProject/hwk/router/reactrouter",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_interpreter_path": "node",
+    "nodejs_package_manager_path": "npm",
+    "ts.external.directory.path": "D:\\Downloadddd\\InteliJ\\IntelliJ IDEA 2022.3.2\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RunManager" selected="npm.npm start">
+    <configuration name="Debug Application" type="JavascriptDebugType" uri="http://localhost:3000">
+      <method v="2" />
+    </configuration>
+    <configuration name="npm start" type="js.build_tools.npm">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="start" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="b6f3e5ec-6516-4e64-ba79-184ab23ffdcb" name="Changes" comment="" />
+      <created>1679208941701</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1679208941701</updated>
+      <workItem from="1679208942839" duration="342000" />
+      <workItem from="1679223725421" duration="4427000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+</project>
