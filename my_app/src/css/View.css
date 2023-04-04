@@ -1,0 +1,38 @@
+/* 为整个页面添加页面边距 */
+body {
+    padding: 0px;
+    margin: 0;
+}
+
+/* 为特定元素添加内边距 */
+.my-content {
+    padding: 10px;
+    width: 90%;
+    /*justify-content: center;*/
+    align-content: center;
+}
+
+.horizon-content {
+    display: flex;
+    flex-direction: row;
+    padding: 10px;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px;
+    align-content: center;
+    justify-content: end;
+}
+.buttons > button {
+    margin-bottom: 10px;
+    background-color: peachpuff;
+}
+.my-descriptions .ant-descriptions-item-content {
+    display: flex;
+    padding: 10px;
+    width: 90%;
+    /*justify-content: center;*/
+    align-content: center;
+}

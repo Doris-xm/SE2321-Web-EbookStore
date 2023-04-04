@@ -1,0 +1,23 @@
+.login-form {
+    max-width: 300px;
+}
+.login-form-right {
+    float: right;
+}
+.ant-col-rtl .login-form-forgot {
+    float: left;
+}
+.login-form-button {
+    width: 100%;
+}
+
+.login-view {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-image: linear-gradient( 135deg, #81FFEF 20%, #F067B4 100%);
+}
