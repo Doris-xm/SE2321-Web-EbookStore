@@ -1,22 +1,31 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import '../css/View.css'
 import {Badge, Button, Descriptions} from "antd";
 import { booksData } from '../data/book'; // 自定义图书数据
 import { useParams,useNavigate  } from "react-router-dom";
-import {AddToCart} from "../Service/BookService";
+import {AddToCart, getBook} from "../Service/BookService";
 
 function BookDetail () {
 
-        const {bookId} = useParams();
-        const navigate = useNavigate();// 获取navigate对象
-        const book = booksData.find((book) => book.id === parseInt(bookId));
-
-        if(!book) {
-            return <div>Book not Found</div>;
-        }
-        const handleGoBack = () => {
-            navigate(-1); // 调用navigate返回上一页
+    const {bookId} = useParams();
+    const navigate = useNavigate();// 获取navigate对象
+    // const book = booksData.find((book) => book.id === parseInt(bookId));
+     const [book, setBook] = useState(null);
+    useEffect(() => {
+        const fetchData = async () => {
+            const fetchedBook = await getBook(bookId);
+            setBook(fetchedBook);
         };
+        fetchData();
+    }, [bookId]);
+
+
+    if(!book) {
+         return <div>Loading</div>;
+    }
+    const handleGoBack = () => {
+        navigate(-1); // 调用navigate返回上一页
+    };
 
     return (
             <div className="my-descriptions" >

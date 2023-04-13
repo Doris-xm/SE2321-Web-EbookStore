@@ -40,8 +40,9 @@ export const ChangeQuantity = (ID, quantity) => {
     // 如果书籍已经存在，则更新其数量
     if (existingBookIndex !== -1) {
         if(quantity === 0){
-            cart[existingBookIndex].quantity = quantity;
-            cart = cart.splice(existingBookIndex,1);
+            // cart[existingBookIndex].quantity = quantity;
+            cart.splice(existingBookIndex,1);
+            console.log("cart",cart)
         }
         else {
             cart[existingBookIndex].quantity = quantity;
@@ -52,4 +53,29 @@ export const ChangeQuantity = (ID, quantity) => {
 
     localStorage.setItem("cart", JSON.stringify(cart));
     console.log(localStorage.getItem("cart"));
+};
+
+export const getBooks = async () => {
+    let books = [];
+    try {
+        const response = await fetch('/books');
+        const data = await response.json();
+        books = data;
+        console.log("getbooks", books);
+    } catch (error) {
+        console.error("Error fetching books:", error);
+    }
+    return books;
+};
+export const getBook = async (id) => {
+    let book = null;
+    try {
+        const response = await fetch('/books');
+        const data = await response.json();
+        book = data.find((book) => book.id === parseInt(id));
+        console.log("getbook", book);
+    } catch (error) {
+        console.error("Error fetching books:", error);
+    }
+    return book;
 };

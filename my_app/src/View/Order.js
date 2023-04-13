@@ -4,48 +4,35 @@ import { booksData } from '../data/book'; // 自定义图书数据
 import {Layout, InputNumber, Table, Tag} from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import '../css/View.css'
-
+import {getBooks} from "../Service/BookService";
+import {getOrders, OrderStateEnum} from "../Service/OrderService";
+import {OrderCard} from '../Component/OrderCard';
 interface DataType {
-    name: string;
+    id: number;
+    title: string;
     price: number;
-    num: number;
+    quantity: number;
     total: number;
-    addr: string;
+    address:string;
     state:string;
 }
 
-const cartData = [
-    {
-        id: 1,
-        num: 1,
-        addr:'Beijing',
-        state:'运输中',
-        bought: true,
-    },
-    {
-        id: 2,
-        num: 2,
-        addr:'Shanghai',
-        state:'配送中',
-        bought: true,
-    },
-    {
-        id: 3,
-        num: 3,
-        addr:'Jiangsu',
-        state:'已送达',
-        bought: true,
-    },
-];
-
 export class Order extends React.Component {
-    state = { cartData };
+    // state = { cartData };
+    constructor(props) {
+        super(props);
+        this.state = { orders: [] };
+    }
+    async componentDidMount() {
+        const orders = await getOrders();
+        this.setState({ orders });
+    }
     render = () => {
         const columns: ColumnsType<DataType> = [
             {
                 title: '书名',
-                dataIndex: 'name',
-                key: 'name',
+                dataIndex: 'title',
+                key: 'title',
                 render: (text) => <a>{text}</a>,
             },
             {
@@ -55,8 +42,8 @@ export class Order extends React.Component {
             },
             {
                 title: '数量',
-                dataIndex: 'num',
-                key: 'num',
+                dataIndex: 'quantity',
+                key: 'quantity',
             },
             {
                 title: '总价',
@@ -65,8 +52,8 @@ export class Order extends React.Component {
             },
             {
                 title: '地址',
-                dataIndex: 'addr',
-                key: 'addr',
+                dataIndex: 'address',
+                key: 'address',
             },
             {
                 title: '状态',
@@ -74,24 +61,22 @@ export class Order extends React.Component {
                 key: 'state',
             },
         ];
-        const combinedData = this.state.cartData.filter((cartItem) => cartItem.bought).map(cartItem => {
-            const bookItem = booksData.find(book => book.id === cartItem.id);
+        const orderItems = this.state.orders.map((order) => {
             return {
-                id: cartItem.id,
-                num: cartItem.num,
-                addr:cartItem.addr,
-                state:cartItem.state,
-                name: bookItem.title,
-                author: bookItem.author,
-                price: bookItem.price,
-                cover: bookItem.cover,
-                total: bookItem.price * cartItem.num
+                bookID: order.id,
+                title: order.title,
+                price: order.price,
+                quantity: order.quantity,
+                total:  parseFloat((order.price * order.quantity).toFixed(2)),
+                address: order.address,
+                orderState:  order.orderState,
             };
         });
         return (
             <Layout className={'my-content'}>
                 <head1 >My Order</head1>
-                <Table columns={columns} dataSource={combinedData} />
+                <Table columns={columns} dataSource={orderItems} style={{ width: '90%' }}/>
+                <OrderCard />
             </Layout>
         );
     };
@@ -101,3 +86,94 @@ export default Order;
 
 
 
+
+// //Original Code
+
+// import React from "react";
+// import { useState } from 'react';
+// import { booksData } from '../data/book'; // 自定义图书数据
+// import {Layout, InputNumber, Table, Tag} from 'antd';
+// import type { ColumnsType } from 'antd/es/table';
+// import '../css/View.css'
+// import {getBooks} from "../Service/BookService";
+// import {getOrders, OrderStateEnum} from "../Service/OrderService";
+// import {OrderCard} from '../Component/OrderCard';
+// interface DataType {
+//     id: number;
+//     title: string;
+//     price: number;
+//     quantity: number;
+//     total: number;
+//     address:string;
+//     state:string;
+// }
+//
+// export class Order extends React.Component {
+//     // state = { cartData };
+//     constructor(props) {
+//         super(props);
+//         this.state = { orders: [] };
+//     }
+//     async componentDidMount() {
+//         const orders = await getOrders();
+//         this.setState({ orders });
+//     }
+//     render = () => {
+//         const columns: ColumnsType<DataType> = [
+//             {
+//                 title: '书名',
+//                 dataIndex: 'title',
+//                 key: 'title',
+//                 render: (text) => <a>{text}</a>,
+//             },
+//             {
+//                 title: '价格',
+//                 dataIndex: 'price',
+//                 key: 'price',
+//             },
+//             {
+//                 title: '数量',
+//                 dataIndex: 'quantity',
+//                 key: 'quantity',
+//             },
+//             {
+//                 title: '总价',
+//                 dataIndex: 'total',
+//                 key: 'total',
+//             },
+//             {
+//                 title: '地址',
+//                 dataIndex: 'address',
+//                 key: 'address',
+//             },
+//             {
+//                 title: '状态',
+//                 dataIndex: 'state',
+//                 key: 'state',
+//             },
+//         ];
+//         const orderItems = this.state.orders.map((order) => {
+//             return {
+//                 bookID: order.id,
+//                 title: order.title,
+//                 price: order.price,
+//                 quantity: order.quantity,
+//                 total:  parseFloat((order.price * order.quantity).toFixed(2)),
+//                 address: order.address,
+//                 orderState:  order.orderState,
+//             };
+//         });
+//         return (
+//             <Layout className={'my-content'}>
+//                 <head1 >My Order</head1>
+//                 <Table columns={columns} dataSource={orderItems} style={{ width: '90%' }}/>
+//                 <OrderCard />
+//             </Layout>
+//         );
+//     };
+// };
+// export default Order;
+//
+//
+//
+//

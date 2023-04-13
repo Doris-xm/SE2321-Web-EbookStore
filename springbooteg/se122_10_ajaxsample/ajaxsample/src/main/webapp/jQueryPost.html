@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("button").on("click", (function () {
+                $.post("JQueryPost",
+                    {
+                        name: "Donald Duck",
+                        city: "Duckburg"
+                    },
+                    function (data, status) {
+                        alert("data: " + data + "\nStatus: " + status);
+                    });
+            }));
+        });
+    </script>
+</head>
+<body>
+
+<button>Send HTTP POST request, and obtain the response</button>
+
+</body>
+</html>

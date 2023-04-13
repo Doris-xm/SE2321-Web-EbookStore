@@ -60,24 +60,26 @@ export class Cart extends React.Component {
                 author: book.author,
                 price: book.price,
                 num: book.quantity,
-                total: book.price * book.quantity,
+                total:  parseFloat((book.price * book.quantity).toFixed(2)),
                 selected: book.selected || false, // 默认未选中x
             };
         });
-        cartItems.forEach((item) => {
-            // console.log(item);
-            if (item.num === 0) {
-                console.log(item);
-                // 删除
-                const updatedCartData = cartItems.filter((it) => it.id !== item.id);
-                if (cartItems.length === 1) {
-                    localStorage.setItem("cart", "[]");
-                    return [];
-                }
-                return cartItems;
-            }
-        });
-        return cartItems;
+        // cartItems.forEach((item) => {
+        //     // console.log(item);
+        //     if (item.num === 0) {
+        //         // 删除
+        //         const updatedCartData = cartItems.filter((it) => it.id !== item.id);
+        //         if (cartItems.length === 1) {
+        //             localStorage.setItem("cart", "[]");
+        //             return [];
+        //         }
+        //         return cartItems;
+        //     }
+        // });
+        // return cartItems;
+        const updatedCartItems = cartItems.filter((item) => item.num !== 0);
+
+        return updatedCartItems;
     };
 
 
@@ -129,11 +131,11 @@ export class Cart extends React.Component {
                 key: 'total',
             },
         ];
-       
+
         return (
             <Layout className={'my-content'}>
                 <h1 >My Cart</h1>
-                <Checkbox.Group
+                <Checkbox.Group style={{ width: '95%' }}
                     // value={this.state.cartData.filter(item => item.selected).map(item => item.id)}
                     onChange={(checkedValue) => this.handleSelectChange(checkedValue)}>
                     <div className={'my-content'}>

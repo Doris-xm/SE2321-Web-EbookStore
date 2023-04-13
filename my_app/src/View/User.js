@@ -26,7 +26,7 @@ export class User extends React.Component {
                     </div>
                 </div>
 
-                <div >
+                <div style={{ width: '95%' }}>
                     <Descriptions title="用户信息" bordered={false} >
                         <Descriptions.Item label="昵称">{user.name}</Descriptions.Item>
                         <Descriptions.Item label="账号">{user.id}</Descriptions.Item>

@@ -1,15 +1,22 @@
 import React from 'react';
 import { List } from 'antd';
 import { BookCard } from './BookCard';
-import { booksData } from '../data/book'; // 导入自定义图书数据
+// import { booksData } from '../data/book';
+import {getBooks} from "../Service/BookService"; // 导入自定义图书数据
 
 export class BookList extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { books: booksData }; // 将自定义图书数据存储在组件状态中的 books 属性中
+        // this.state = { books: booksData };
+        this.state = { books: [] };
+    }
+    async componentDidMount() {
+        const books = await getBooks();
+        this.setState({ books });
     }
 
     render() {
+
         return (
             <List
                 grid={{ gutter: 10, column: 4 }}
@@ -22,7 +29,7 @@ export class BookList extends React.Component {
                 }}
                 renderItem={item => (
                     <List.Item>
-                        <BookCard info={item} />
+                        <BookCard info={item}  />
                     </List.Item>
                 )}
             />

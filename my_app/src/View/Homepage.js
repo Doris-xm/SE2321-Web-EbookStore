@@ -4,6 +4,7 @@ import {Carousel, Layout} from "antd";
 import {SearchBar} from "../Component/SearchBar";
 import BookCarousel from "../Component/BookCarousel";
 import {BookList} from "../Component/BookList";
+import "../css/View.css"
 
 export class HomePage extends React.Component {
     render = () => {

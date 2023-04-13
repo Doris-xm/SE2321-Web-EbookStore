@@ -6,6 +6,7 @@ import {Content, Header} from "antd/es/layout/layout";
 import Sider from "antd/es/layout/Sider";
 import {Link, Navigate, Outlet, useLocation, useNavigate, useRoutes} from "react-router-dom";
 import getRoutes from '../routes/router';
+import "../css/View.css"
 
 
 
@@ -80,7 +81,8 @@ const BasicView = ({user, onLogin}) => {
                         </Menu>
                     </Sider>
 
-                    <Content style={{flex: '1' }} >
+                    {/*<Content style={{flex: '1' }} >*/}
+                    <Content className="background">
                         {element}
                     </Content>
                 </Layout>
