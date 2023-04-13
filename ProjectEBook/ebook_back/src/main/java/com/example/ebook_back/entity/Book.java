@@ -1,24 +1,19 @@
 package com.example.ebook_back.entity;
 
 public class Book {
-
     private Long id;
-
     private String title;
     private String author;
-    private String language;
-    private String published;
-    private String sales;
+    private float price;
+    private String cover;
 
-    public Book(Long id, String title, String author, String language, String published, String sales) {
+    public Book(Long id, String title, String author, float price, String cover) {
         this.id = id;
         this.title = title;
         this.author = author;
-        this.language = language;
-        this.published = published;
-        this.sales = sales;
+        this.price = price;
+        this.cover = cover;
     }
-
 
     public Long getId() {
         return id;
@@ -41,33 +36,20 @@ public class Book {
         this.author = author;
     }
 
-    public String getLanguage() {
-        return language;
+    public float getPrice() {
+        return price;
     }
-    public void setLanguage(String language) {
-        this.language = language;
-    }
+    public void setPrice(float price) {   this.price = price;  }
 
-    public String getPublished() {
-        return published;
-    }
-    public void setPublished(String published) {
-        this.published = published;
-    }
-
-    public String getSales() {
-        return sales;
-    }
-    public void setSales(String sales) {
-        this.sales = sales;
-    }
+    public String getCover() {  return cover; }
+    public void setCover(String cover) {    this.cover = cover;}
 
 
     @Override
     public String toString() {
         return String.format(
-                "Book[id=%d, title='%s', author='%s', language='%s', published='%s', sales='%s']",
-                id, title, author, language, published, sales);
+                "Book[id=%d, title='%s', author='%s', price='%f', cover='%s']",
+                id, title, author, price, cover);
     }
 
 }
