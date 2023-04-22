@@ -3,7 +3,8 @@ import '../css/View.css'
 import {Badge, Button, Descriptions} from "antd";
 import { booksData } from '../data/book'; // 自定义图书数据
 import { useParams,useNavigate  } from "react-router-dom";
-import {AddToCart, getBook} from "../Service/BookService";
+import {getBook} from "../Service/BookService";
+import {AddToCart} from "../Service/OrderService";
 
 function BookDetail () {
 

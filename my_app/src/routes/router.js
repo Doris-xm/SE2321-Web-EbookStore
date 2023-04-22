@@ -54,7 +54,7 @@ const getRoutes = (user) => [
             },
             {
                 path: 'order',
-                element: <Order />,
+                element: <Order user={user}/>,
                 label: '订单',
                 icon: <FileTextOutlined />,
                 hideInMenu:false,

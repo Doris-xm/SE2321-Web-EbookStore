@@ -1,11 +1,10 @@
-import React from "react";
-import { useState } from 'react';
-import {ChangeQuantity} from "../Service/BookService";
-// import {cartData} from "../data/cart";
-import {Layout, InputNumber, Table, Tag, Checkbox, Button} from 'antd';
+import React, {useState} from "react";
+import {ChangeQuantity} from "../Service/OrderService";
+import {Layout, InputNumber, Table} from 'antd';
+import type { TableRowSelection } from 'antd/es/table/interface';
 import type { ColumnsType } from 'antd/es/table';
-import '../css/View.css'
-import {Link} from "react-router-dom";
+import '../css/View.css';
+import OrderModel from "../Component/OrderModel";
 
 interface DataType {
     bookID: number;
@@ -16,7 +15,6 @@ interface DataType {
     total: number;
     selected: boolean; // 新增加的选择框字段
 }
-
 
 
 export class Cart extends React.Component {
@@ -30,18 +28,6 @@ export class Cart extends React.Component {
             this.setState({ cartData: this.getCartData() });
     }
 
-    handleSelectChange= (id: number) =>  {
-        const updatedCartData = this.state.cartData.map((item) => {
-            if (item.id === id) {
-                return { ...item, selected: !item.selected };
-            } else {
-                // 第二次点击
-                return item;
-            }
-        });
-        // 更新购物车状态
-        this.setState({ cartData: updatedCartData });
-    }
 
     getCartData = () => {
         // 从 localStorage 中获取购物车数据
@@ -64,39 +50,16 @@ export class Cart extends React.Component {
                 selected: book.selected || false, // 默认未选中x
             };
         });
-        // cartItems.forEach((item) => {
-        //     // console.log(item);
-        //     if (item.num === 0) {
-        //         // 删除
-        //         const updatedCartData = cartItems.filter((it) => it.id !== item.id);
-        //         if (cartItems.length === 1) {
-        //             localStorage.setItem("cart", "[]");
-        //             return [];
-        //         }
-        //         return cartItems;
-        //     }
-        // });
-        // return cartItems;
         const updatedCartItems = cartItems.filter((item) => item.num !== 0);
 
         return updatedCartItems;
     };
 
 
+
     render = () => {
 
         const columns: ColumnsType<DataType> = [
-            {
-                title: '',
-                dataIndex: 'id',
-                key: 'id',
-                render: (id, record) => (
-                    <Checkbox
-                        checked={record.selected}// 根据 selected 字段确定当前复选框是否选中
-                        onChange={() => this.handleSelectChange([record.id]) }
-                       />
-                ),
-            },
             {
                 title: '书名',
                 dataIndex: 'title',
@@ -132,22 +95,36 @@ export class Cart extends React.Component {
             },
         ];
 
+        // const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+        // const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
+        //     console.log('selectedRowKeys changed: ', newSelectedRowKeys);
+        //     setSelectedRowKeys(newSelectedRowKeys);
+        // };
+        // const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
+        //     console.log('selectedRowKeys changed: ', newSelectedRowKeys);
+        //     setSelectedRowKeys(newSelectedRowKeys);
+        // };
+        // const rowSelection: TableRowSelection<DataType> = {
+        //     selectedRowKeys,
+        //     onChange: onSelectChange,
+        //     selections: [
+        //         Table.SELECTION_ALL,
+        //         Table.SELECTION_INVERT,
+        //         Table.SELECTION_NONE,
+        //     ],
+        //     getCheckboxProps: (record: DataType) => ({
+        //         disabled: !record.selected,
+        //     }),
+        // };
+
         return (
             <Layout className={'my-content'}>
                 <h1 >My Cart</h1>
-                <Checkbox.Group style={{ width: '95%' }}
-                    // value={this.state.cartData.filter(item => item.selected).map(item => item.id)}
-                    onChange={(checkedValue) => this.handleSelectChange(checkedValue)}>
-                    <div className={'my-content'}>
-                        <Table rowKey={record => record.id}
-                            columns={columns} dataSource={this.getCartData()} />
-                    </div>
+                <Table rowKey={record => record.id} style={{width: '95%', backgroundColor: 'transparent'}}
+                    columns={columns} dataSource={this.getCartData()}  />
 
-                </Checkbox.Group>
                 <div>
-                    <Button className="buttons"  >
-                        <Link to="http://www.alipay.com/" target="_blank">付款</Link>
-                    </Button>
+                    <OrderModel />
                 </div>
 
             </Layout>
