@@ -10,24 +10,21 @@
 //}
 package com.example.ebook_back.service;
 
-import com.example.ebook_back.dao.BookDao;
-import com.example.ebook_back.entity.Book;
+import com.example.ebook_back.dao.UserDao;
+import com.example.ebook_back.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class BookService{
+public class UserService{
 
     @Autowired
-    private BookDao bookDao;
+    private UserDao userDao;
 
-    public Book findBookById(int id){
-        return bookDao.findBookById(id);
+    public User findUserByName(String name){
+        return userDao.findByName(name);
     }
 
-    public List<Book> getBooks() {
-        return bookDao.findAll();
-    }
 }

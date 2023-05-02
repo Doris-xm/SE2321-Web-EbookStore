@@ -5,31 +5,30 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 
+import javax.persistence.*;
 import javax.persistence.Entity;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.Table;
 
 @Data
 @Entity
-@Table(name = "book")
+@Table(name = "user")
 @JsonIgnoreProperties(value = {"handler","hibernateLazyInitializer","fieldHandler"})
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "id")
-public class Book {
+public class User {
     @Id
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(nullable = false)
-    private String title;
+    private String name;
 
     @Column(nullable = false)
-    private String author;
+    private String password;
 
-    @Column(nullable = false)
-    private double price;
+    private String email;
 
-    @Column(nullable = false)
-    private String cover;
+    private Integer years;
+
+    private String introduce;
+    private String avatar;
 
 }

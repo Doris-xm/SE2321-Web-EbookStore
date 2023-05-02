@@ -27,7 +27,7 @@ public class BookController {
         return bookService.getBooks();
     }
     @RequestMapping("/book")
-    public Book getBookById(@RequestParam("id") long id) {
+    public Book getBookById(@RequestParam("id") int id) {
         return  bookService.findBookById(id);
     }
 //    @RequestMapping("/")

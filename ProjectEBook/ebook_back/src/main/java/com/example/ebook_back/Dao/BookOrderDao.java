@@ -1,5 +1,6 @@
 package com.example.ebook_back.dao;
-import com.example.ebook_back.entity.MyOrder;
+
+import com.example.ebook_back.entity.BookOrder;
 import com.example.ebook_back.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,6 +10,6 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @Repository
-public interface  OrderDao extends JpaRepository<MyOrder, Integer>{
-    List<MyOrder> findByUserID(int id);
+public interface  BookOrderDao extends JpaRepository<BookOrder, Integer>{
+    List<BookOrder> findByOrder_OrderID(int orderID);
 }

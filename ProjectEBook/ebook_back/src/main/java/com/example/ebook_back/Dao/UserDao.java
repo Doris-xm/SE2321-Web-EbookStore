@@ -9,6 +9,6 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @Repository
-public interface  OrderDao extends JpaRepository<MyOrder, Integer>{
-    List<MyOrder> findByUserID(int id);
+public interface  UserDao extends JpaRepository<User, Integer>{
+    User findByName(String name);
 }
