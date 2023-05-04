@@ -1,16 +1,14 @@
 import React, {useEffect, useState} from "react";
 import '../css/View.css'
 import {Badge, Button, Descriptions} from "antd";
-import { booksData } from '../data/book'; // 自定义图书数据
 import { useParams,useNavigate  } from "react-router-dom";
 import {getBook} from "../Service/BookService";
-import {AddToCart} from "../Service/OrderService";
+import {AddToCart} from "../Service/CartService";
 
 function BookDetail () {
 
     const {bookId} = useParams();
     const navigate = useNavigate();// 获取navigate对象
-    // const book = booksData.find((book) => book.id === parseInt(bookId));
      const [book, setBook] = useState(null);
     useEffect(() => {
         const fetchData = async () => {
@@ -65,7 +63,7 @@ function BookDetail () {
                     </Descriptions.Item>
                 </Descriptions>
                 <div className="button-group" style={{ display: 'flex',flexDirection:'row', justifyContent: 'space-between' }}>
-                    <Button className="buttons" onClick={() => AddToCart(book)}>
+                    <Button className="buttons" onClick={() => AddToCart(bookId)}>
                         加入购物车
                     </Button>
                     <Button className="buttons" onClick={handleGoBack}>返回</Button>

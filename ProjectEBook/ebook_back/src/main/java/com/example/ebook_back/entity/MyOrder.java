@@ -1,6 +1,7 @@
 package com.example.ebook_back.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
@@ -9,6 +10,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.IntStream;
 
 @Data
@@ -47,20 +49,20 @@ public class MyOrder {
     @Column(name = "comment")
     private String comment;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+//    @JsonIgnore
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true) // 一对多关系,使用级联操作因为BookOrder中的orderID是外键，删除MyOrder时也会删除BookOrder
+    //检查session是否关闭，如果关闭则重新打开
     private List<BookOrder> bookOrders = new ArrayList<>();
 
 
-    // getters and setters
-    public void addBookOrder(BookOrder bookOrder) {
+    public MyOrder() {}
 
-    }
+    // getters and setters
     public void createOrder(OrderCommit order) {
         orderID = order.getOrderID();
         userID = order.getUserID();
         state = order.getState();
         address = order.getAddress();
-        totalprice = order.getTotalPrice();
         createtime = order.getCreatetime();
         finishtime = null;
         comment = null;
@@ -71,7 +73,9 @@ public class MyOrder {
                     bookOrder.setOrder(this);
                     bookOrder.setBookID(order.getBookIDs().get(i));
                     bookOrder.setQuantity(order.getBookNums().get(i));
-                    bookOrder.setTotalprice(order.getTotalPrice());
+                    System.out.println("bookOrder_price " + totalprice);
+                    bookOrder.setTotalprice(order.getTotalPrice().get(i));
+                    totalprice += order.getTotalPrice().get(i);
                     bookOrders.add(bookOrder);
                 });
 

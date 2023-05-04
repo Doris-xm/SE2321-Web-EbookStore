@@ -19,6 +19,7 @@ public class OrderService{
         List<MyOrder> orders = OrderDao.findByUserID(id);
         for(MyOrder order : orders) {
             List<BookOrder> Orders = BookOrderDao.findByOrder_OrderID(order.getOrderID());
+//            System.out.println(Orders.toString());
             order.setBookOrders(Orders);
         }
         return orders;

@@ -25,14 +25,13 @@ public class OrderController {
     @GetMapping("/orders")
     public List<MyOrder> getAllOrders(@RequestParam("id") int id) {
         return orderService.findOrderById(id);
-
     }
 
     @PostMapping
     @RequestMapping("/sendorders")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> createOrder(@RequestBody OrderCommit order) {
-        // TODO:保存订单到数据库
+        // 保存订单到数据库
         MyOrder newOrder = new MyOrder();
         newOrder.createOrder(order);
 

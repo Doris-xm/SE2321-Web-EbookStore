@@ -8,6 +8,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
+import javax.transaction.Transactional;
 
 @Data
 @Entity
@@ -24,7 +25,7 @@ public class BookOrder {
      * Solve:使用 @JsonIgnore 注解标记关联实体的属性，从而告诉 Jackson 在序列化时忽略该属性
     */
      @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "orderID")
     private MyOrder order;
 //    @Column(name = "orderID")
@@ -38,5 +39,6 @@ public class BookOrder {
 
     @Column(nullable = false)
     private int quantity;
+
 
 }

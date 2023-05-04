@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {ChangeQuantity, getOrders} from "../Service/OrderService";
+import {ChangeQuantity, getCart} from "../Service/CartService";
 import {Layout, InputNumber, Table, Button} from 'antd';
 import type { TableRowSelection } from 'antd/es/table/interface';
 import type { ColumnsType } from 'antd/es/table';
@@ -7,13 +7,14 @@ import '../css/View.css';
 import OrderModel from "../Component/OrderModel";
 import {getUser} from "../Service/UserService";
 import {Link} from "react-router-dom";
+import {getBook} from "../Service/BookService";
 
 interface DataType {
     bookID: number;
     title: string;
     author: string;
     price: number;
-    num: number;
+    quantity: number;
     total: number;
     selected: boolean; // 新增加的选择框字段
 }
@@ -27,38 +28,61 @@ export class Cart extends React.Component {
     async componentDidMount() {
         const user = await getUser();
         this.setState({ user });
+        const cartData = await this.getCartData();
+        console.log('cartData', cartData)
+        this.setState({ cartData });
     }
-    handleNumChange= (ID:number, value: number) => {
-        // console.log('handleNumChange', ID, value);
-        ChangeQuantity(ID,value);
-            // 更新购物车状态
-            this.setState({ cartData: this.getCartData() });
+    handleNumChange= async (ID:number, value: number) => {
+        //更新前端的state（改变后显示的不是从后端发来的，而是前端直接改的，避免频繁刷新）
+        let newData = this.state.cartData;
+        const existingBookIndex = newData.findIndex((item) => item.bookID === ID);
+        // 如果书籍已经存在，则更新其数量
+        if (existingBookIndex === -1) {
+           return;
+        } else {
+            if(value > 0){
+                newData[existingBookIndex].quantity = value;
+                // let book = await getBook(ID);
+                newData[existingBookIndex].total = parseFloat((newData[existingBookIndex].price * value).toFixed(2));
+            }
+            else {
+                //react默认都是浅监听，只会监听数据的第一层，内层数据发生改变，并不会监听到。
+                //先将原数组浅拷贝，赋值给新数组，再修改新数组（不影响原状态），将修改后的新数组使用setState传递进去，这样就会引起视图更新。
+                newData = [...this.state.cartData];
+                newData.splice(existingBookIndex,1);
+                console.log("cart",newData);
+            }
+        }
+        this.setState({ cartData: newData });
+
+        // 更新数据库
+        await ChangeQuantity(ID,value);
     }
 
-    getCartData = () => {
-        // 从 localStorage 中获取购物车数据
-        let cart = localStorage.getItem("cart");
-        if (cart == null) {
-            localStorage.setItem("cart", "[]");
-            return [];
-        } else {
-            cart = JSON.parse(cart);
-        }
-        console.log('购物车数组：', cart)
-        const cartItems = cart.map((book) => {
+    getCartData = async () => {
+        let cart = null;
+        cart = await getCart();
+        const cartItemsPromise = cart.map(async (cart_book) => {
+            let book = await getBook(cart_book.bookID);
             return {
-                bookID: book.id,
-                title: book.title, // 或 book.name，根据实际属性名称
+                bookID: cart_book.bookID,
+                title: book.title,
                 author: book.author,
                 price: book.price,
-                num: book.quantity,
-                total:  parseFloat((book.price * book.quantity).toFixed(2)),
-                selected: book.selected || false, // 默认未选中x
+                quantity: cart_book.quantity,
+                total:  parseFloat((book.price * cart_book.quantity).toFixed(2)),
+                // selected: cart_book.selected || false, // 默认未选中x
+                selected: true, // 默认未选中x
             };
         });
-        const updatedCartItems = cartItems.filter((item) => item.num !== 0);
 
-        return updatedCartItems;
+        Promise.all(cartItemsPromise)
+            .then((cartItems) => {
+                console.log('购物车数组：', cartItems)
+                this.setState({ cartData: cartItems });
+                return cartItems;
+            });
+        // return null;
     };
 
 
@@ -82,7 +106,10 @@ export class Cart extends React.Component {
                 title: '书名',
                 dataIndex: 'title',
                 key: 'title',
-                render: (text) => <a>{text}</a>,
+                render: (text,record) =>
+                    <a href={`/bookDetails/${record.bookID}`}>
+                        {text}
+                    </a>,
             },
             {
                 title: '作者',
@@ -96,13 +123,16 @@ export class Cart extends React.Component {
             },
             {
                 title: '数量',
-                dataIndex: 'num',
-                key: 'num',
+                dataIndex: 'quantity',
+                key: 'quantity',
                 render: (text, record) => (
                     <InputNumber
                         min={0}
                         defaultValue={text}
-                        onChange={(value) => this.handleNumChange(record.bookID, value)}
+                        onChange={async (value) => {
+                            await this.handleNumChange(record.bookID, value);
+                        }}
+
                     />
                 ),
             },
@@ -139,10 +169,10 @@ export class Cart extends React.Component {
             <Layout className={'my-content'}>
                 <h1 >My Cart</h1>
                 <Table rowKey={record => record.id} style={{width: '95%', backgroundColor: 'transparent'}}
-                    columns={columns} dataSource={this.getCartData()}  />
+                    columns={columns} dataSource={this.state.cartData}  />
 
                 <div>
-                    <OrderModel />
+                    <OrderModel cartData = {this.state.cartData}/>
                 </div>
 
             </Layout>

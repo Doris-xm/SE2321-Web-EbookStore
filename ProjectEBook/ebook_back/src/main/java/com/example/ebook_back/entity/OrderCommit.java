@@ -12,7 +12,7 @@ public class OrderCommit {
     private String phone;
     private String address;
     private String address_detail;
-    private double totalPrice;
+    private List<Double> totalPrice;
     private List<Integer> bookIDs;
     private List<Integer> bookNums;
 

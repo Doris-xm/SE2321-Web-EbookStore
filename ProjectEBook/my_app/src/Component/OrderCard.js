@@ -2,20 +2,20 @@ import {Card, Table} from 'antd';
 import React, {useEffect, useState} from 'react';
 import {OrderStateBar} from './OrderStateBar';
 import {getBook} from "../Service/BookService";
-import {Link} from "react-router-dom";
+// import {Link} from "react-router-dom";
 
 
 
-interface OrderType {
-    orderID: number;
-    userID: number;
-    state: number;
-    address: string;
-    totalprice: number;
-    createtime: Date;
-    finishtime: Date;
-    comment?: string;
-}
+// interface OrderType {
+//     orderID: number;
+//     userID: number;
+//     state: number;
+//     address: string;
+//     totalprice: number;
+//     createtime: Date;
+//     finishtime: Date;
+//     comment?: string;
+// }
 
 
 
@@ -29,7 +29,7 @@ const tabList = [
         tab: '订单状态',
     },
 ];
-const ContentList: React.FC<{order:OrderType}> = ({order}) => {
+const ContentList: React.FC = ({order}) => {
 
     console.log("OrderCard",order);
     const [bookOrdersNew, setBookOrdersNew] = useState([]);
@@ -68,7 +68,8 @@ const ContentList: React.FC<{order:OrderType}> = ({order}) => {
                             {bookOrder.bookName}
                         </a>
                         <p style={{color:"grey"}}>{bookOrder.quantity}本</p>
-                        <p style={{color:"grey"}}>{bookOrder.totalprice}元</p>
+                        <p style={{color:"grey"}}>{parseFloat(bookOrder.totalprice).toFixed(2)}元</p>
+
                     </div>
                 ))}
                 <p>地址: {order.address}</p>
@@ -78,7 +79,7 @@ const ContentList: React.FC<{order:OrderType}> = ({order}) => {
 
 
                 <div style={{ textAlign: "right", marginTop: 10 }}>
-                    <p>总价：{order.totalprice}元</p>
+                    <p>总价：{parseFloat(order.totalprice).toFixed(2)}元</p>
                 </div>
             </div>
         ),
@@ -86,7 +87,7 @@ const ContentList: React.FC<{order:OrderType}> = ({order}) => {
     };
 };
 
-export const OrderCard: React.FC<{orders:OrderType}> = ({orders}) => {
+export const OrderCard: React.FC = ({orders}) => {
     const [activeTabKey1, setActiveTabKey1] = useState('detail');
     const onTab1Change = (key: string) => {
         setActiveTabKey1(key);

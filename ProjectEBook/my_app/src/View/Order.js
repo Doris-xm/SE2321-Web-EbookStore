@@ -1,7 +1,7 @@
 import React from "react";
 import {Layout, InputNumber, Table, Tag, List, Button} from 'antd';
 import '../css/View.css'
-import {AddToCart, getOrders, OrderStateEnum} from "../Service/OrderService";
+import {getOrders} from "../Service/OrderService";
 import {OrderCard} from '../Component/OrderCard';
 import {getUser} from "../Service/UserService";
 import {Link} from "react-router-dom";

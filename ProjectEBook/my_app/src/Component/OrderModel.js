@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import {Button, Cascader, Form, Input, Modal} from 'antd';
-import {sendOrder} from "../Service/OrderService";
-const OrderModel: React.FC = () => {
+import {sendOrder} from "../Service/OrderService"
+import {CityOptions} from "../data/city"
+const OrderModel: React.FC = ({cartData}) => {
     const [form] = Form.useForm();
     const [open, setOpen] = useState(false);
     const [confirmLoading, setConfirmLoading] = useState(false);
@@ -25,7 +26,7 @@ const OrderModel: React.FC = () => {
             setOpen(false);
             setConfirmLoading(false);
             form.resetFields();
-            sendOrder(values); // 调用 sendOrder 函数将订单信息发送到后端
+            sendOrder(values, cartData); // 调用 sendOrder 函数将订单信息发送到后端
         }, 1000);
     };
 
@@ -66,13 +67,7 @@ const OrderModel: React.FC = () => {
                                name="address"
                                rules={[{ required: true, message: '请选择收货地址' }]}>
                         <Cascader
-                            options={[
-                                {
-                                    value: 'zhejiang',
-                                    label: 'Zhejiang',
-                                    children: [{ value: 'hangzhou', label: 'Hangzhou' }],
-                                },
-                            ]}
+                            options={CityOptions}
                         />
                     </Form.Item>
                     <Form.Item label="详细地址"
