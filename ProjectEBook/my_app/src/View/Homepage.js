@@ -9,9 +9,9 @@ import "../css/View.css"
 export class HomePage extends React.Component {
     render = () => {
         return (
-            <Layout >
+            <Layout style={{backgroundColor:'transparent'}}>
                 <Content >
-                    <div className="home-content" style={{ display: 'flex', flexDirection:'column',alignItems:"center"}}>
+                    <div style={{ display: 'flex', flexDirection:'column',alignItems:"center"}}>
                         <SearchBar />
                         <div style={{ width:'60%' }} >
                             <BookCarousel />

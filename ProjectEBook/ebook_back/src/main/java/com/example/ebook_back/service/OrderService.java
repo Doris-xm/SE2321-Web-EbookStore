@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.IntStream;
 
 @Service
 public class OrderService{
@@ -18,7 +19,7 @@ public class OrderService{
     public List<MyOrder> findOrderById(int id){ //id为用户id
         List<MyOrder> orders = OrderDao.findByUserID(id);
         for(MyOrder order : orders) {
-            List<BookOrder> Orders = BookOrderDao.findByOrder_OrderID(order.getOrderID());
+            List<BookOrder> Orders = BookOrderDao.findByOrderID(order.getOrderID());
 //            System.out.println(Orders.toString());
             order.setBookOrders(Orders);
         }
@@ -27,7 +28,16 @@ public class OrderService{
 
     public boolean saveOrder(MyOrder order) {
         try {
+//            System.out.println("New Order1:");
             OrderDao.save(order);
+//            System.out.println("New Order1:");
+            IntStream.range(0, order.getBookOrders().size())
+                    .forEach(i -> {
+                        BookOrder bookOrder = order.getBookOrders().get(i);
+                        System.out.println("New Order1:");
+                        bookOrder.setOrderID(order.getOrderID());
+                        BookOrderDao.save(bookOrder);
+                    });
             return true;
         } catch (Exception e) {
             return false;

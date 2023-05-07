@@ -12,6 +12,7 @@ package com.example.ebook_back.service;
 
 import com.example.ebook_back.dao.UserDao;
 import com.example.ebook_back.entity.User;
+import com.example.ebook_back.entity.UserAuth;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,8 +24,8 @@ public class UserService{
     @Autowired
     private UserDao userDao;
 
-    public User findUserByName(String name){
-        return userDao.findByName(name);
+    public UserAuth findUserByName(String name){
+        return userDao.findByUserName(name);
     }
 
 }

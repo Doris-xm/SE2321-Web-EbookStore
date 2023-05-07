@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card } from 'antd';
 import '../css/Book.css'
+import '../css/View.css'
 
 import {Link} from 'react-router-dom'
 

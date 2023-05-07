@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import {Button, Cascader, Form, Input, Modal} from 'antd';
 import {sendOrder} from "../Service/OrderService"
 import {CityOptions} from "../data/city"
-const OrderModel: React.FC = ({cartData}) => {
+const OrderModel: React.FC = ({cartData,onClearCart}) => {
     const [form] = Form.useForm();
     const [open, setOpen] = useState(false);
     const [confirmLoading, setConfirmLoading] = useState(false);
@@ -27,6 +27,7 @@ const OrderModel: React.FC = ({cartData}) => {
             setConfirmLoading(false);
             form.resetFields();
             sendOrder(values, cartData); // 调用 sendOrder 函数将订单信息发送到后端
+            onClearCart(); // 调用 onClearCart 函数清空购物车
         }, 1000);
     };
 

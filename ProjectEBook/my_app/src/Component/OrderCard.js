@@ -72,11 +72,12 @@ const ContentList: React.FC = ({order}) => {
 
                     </div>
                 ))}
+                <p>收件人: {order.receiver}</p>
+                <p>电话: {order.phone}</p>
                 <p>地址: {order.address}</p>
                 <p>创建时间: {order.createtime}</p>
-                <p>完成时间: {order.finishtime}</p>
-                <p>评价: {order.comment}</p>
-
+                {order.finishtime && <p>完成时间: {order.finishtime}</p>}
+                {order.comment &&  <p>评价: {order.comment}</p>}
 
                 <div style={{ textAlign: "right", marginTop: 10 }}>
                     <p>总价：{parseFloat(order.totalprice).toFixed(2)}元</p>

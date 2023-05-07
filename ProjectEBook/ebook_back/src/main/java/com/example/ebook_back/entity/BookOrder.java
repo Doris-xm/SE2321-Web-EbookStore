@@ -24,14 +24,14 @@ public class BookOrder {
      * 并且此时 Session 已经关闭，导致无法初始化该代理对象。
      * Solve:使用 @JsonIgnore 注解标记关联实体的属性，从而告诉 Jackson 在序列化时忽略该属性
     */
-     @JsonIgnore
-     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "orderID")
-    private MyOrder order;
-//    @Column(name = "orderID")
-//    private int orderID;
+//     @JsonIgnore
+//     @ManyToOne(fetch = FetchType.EAGER)
+//     @JoinColumn(name = "orderID")
+//     private MyOrder order;
+    @Column(name = "orderID")
+    private int orderID;
 
-    @Column(nullable = false)
+    @Column(nullable = false,name = "total_price")
     private double totalprice;
 
     @Column(nullable = false)

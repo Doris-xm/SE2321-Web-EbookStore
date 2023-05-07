@@ -6,20 +6,19 @@ import React from "react";
 import {checkUser} from "../Service/UserService";
 const LoginForm = () => {
     // const props = this.props;
-    const onFinish = (values) => {
+    const onFinish = async (values) => {
         console.log('Received values of form: ', values);
-        checkUser(values.username, values.password).then(targetUser => {
+        await checkUser(values.username, values.password).then(targetUser => {
             console.log("targetUSer",targetUser);
-            if (targetUser > 0 ) {
-                localStorage.setItem('authToken', targetUser);
-                navigate("/");
+            if (targetUser === null ) {
+                localStorage.setItem('authToken', -1);
                 return;
             }
-            if (targetUser === -1 ) {
-                message.error('密码错误。用户名：dxm  密码：dxm');
-                return;
-            }
-            message.error('用户名不存在。用户名：dxm  密码：dxm');
+            // localStorage.setItem('User', targetUser);
+            localStorage.setItem('User',  JSON.stringify(targetUser));
+
+            localStorage.setItem('authToken', targetUser.id);
+            navigate("/");
         });
 
     };

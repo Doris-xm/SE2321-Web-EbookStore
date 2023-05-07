@@ -75,7 +75,7 @@ export const sendOrder = async (order,cartData) => {
             }
             console.log('Order sent successfully!');
             message.success('订单提交成功!');
-            clearCart();
+            clearCart(); //清空购物车
             return response.text(); // 返回响应的文本内容
         })
         .then(data => console.log(data))

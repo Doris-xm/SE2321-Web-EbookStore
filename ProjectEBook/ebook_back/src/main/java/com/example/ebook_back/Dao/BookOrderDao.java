@@ -11,5 +11,6 @@ import java.util.List;
 
 @Repository
 public interface  BookOrderDao extends JpaRepository<BookOrder, Integer>{
-    List<BookOrder> findByOrder_OrderID(int orderID);
+//    List<BookOrder> findByOrder_OrderID(int orderID);
+    List<BookOrder> findByOrderID(int orderID);
 }

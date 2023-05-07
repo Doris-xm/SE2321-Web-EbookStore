@@ -37,7 +37,7 @@ public class MyOrder {
     @Column(name = "address")
     private String address;
 
-    @Column(name = "totalprice")
+    @Column(name = "total_price")
     private double totalprice;
 
     @Column(name = "createtime")
@@ -49,8 +49,13 @@ public class MyOrder {
     @Column(name = "comment")
     private String comment;
 
-//    @JsonIgnore
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true) // 一对多关系,使用级联操作因为BookOrder中的orderID是外键，删除MyOrder时也会删除BookOrder
+    @Column(name = "receiver")
+    private String receiver;
+    @Column(name = "phone")
+    private String phone;
+
+    @Transient
+    @OneToMany(mappedBy = "orderID", cascade = CascadeType.ALL, orphanRemoval = true) // 一对多关系,使用级联操作因为BookOrder中的orderID是外键，删除MyOrder时也会删除BookOrder
     //检查session是否关闭，如果关闭则重新打开
     private List<BookOrder> bookOrders = new ArrayList<>();
 
@@ -59,18 +64,21 @@ public class MyOrder {
 
     // getters and setters
     public void createOrder(OrderCommit order) {
-        orderID = order.getOrderID();
+//        orderID = null;
         userID = order.getUserID();
         state = order.getState();
         address = order.getAddress();
         createtime = order.getCreatetime();
         finishtime = null;
         comment = null;
+        receiver = order.getReceiver();
+        phone = order.getPhone();
 
         IntStream.range(0, order.getBookIDs().size())
                 .forEach(i -> {
                     BookOrder bookOrder = new BookOrder();
-                    bookOrder.setOrder(this);
+//                    bookOrder.setOrder(this);
+                    bookOrder.setOrderID(this.getOrderID());
                     bookOrder.setBookID(order.getBookIDs().get(i));
                     bookOrder.setQuantity(order.getBookNums().get(i));
                     System.out.println("bookOrder_price " + totalprice);

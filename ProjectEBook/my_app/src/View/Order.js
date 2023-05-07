@@ -5,15 +5,15 @@ import {getOrders} from "../Service/OrderService";
 import {OrderCard} from '../Component/OrderCard';
 import {getUser} from "../Service/UserService";
 import {Link} from "react-router-dom";
-interface DataType {
-    orderID: number;
-    title: string;
-    price: number;
-    quantity: number;
-    total: number;
-    address:string;
-    state:string;
-}
+// interface DataType {
+//     orderID: number;
+//     title: string;
+//     price: number;
+//     quantity: number;
+//     total: number;
+//     address:string;
+//     state:string;
+// }
 
 export class Order extends React.Component {
     constructor(props) {
@@ -33,6 +33,7 @@ export class Order extends React.Component {
         const orders = await getOrders(user.id);
         this.setState({ orders });
     }
+
     render = () => {
         if(this.state.user === null) {
             return (
@@ -62,7 +63,7 @@ export class Order extends React.Component {
 
                     renderItem={item => (
                         <List.Item>
-                            <OrderCard orders={item} />
+                            <OrderCard orders={item}  />
                         </List.Item>
                     )}
                 />

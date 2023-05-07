@@ -4,6 +4,7 @@ import {Badge, Button, Descriptions} from "antd";
 import { useParams,useNavigate  } from "react-router-dom";
 import {getBook} from "../Service/BookService";
 import {AddToCart} from "../Service/CartService";
+import {getUser} from "../Service/UserService";
 
 function BookDetail () {
 
@@ -24,6 +25,12 @@ function BookDetail () {
     }
     const handleGoBack = () => {
         navigate(-1); // 调用navigate返回上一页
+    };
+    const handleAddToCart = () => {
+        let user = getUser();
+        if(user === null)
+            navigate('/my/cart')
+        AddToCart(bookId);
     };
 
     return (
@@ -63,7 +70,7 @@ function BookDetail () {
                     </Descriptions.Item>
                 </Descriptions>
                 <div className="button-group" style={{ display: 'flex',flexDirection:'row', justifyContent: 'space-between' }}>
-                    <Button className="buttons" onClick={() => AddToCart(bookId)}>
+                    <Button className="buttons" onClick={handleAddToCart}>
                         加入购物车
                     </Button>
                     <Button className="buttons" onClick={handleGoBack}>返回</Button>

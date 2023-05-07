@@ -28,9 +28,10 @@ export class Cart extends React.Component {
     async componentDidMount() {
         const user = await getUser();
         this.setState({ user });
-        const cartData = await this.getCartData();
-        console.log('cartData', cartData)
-        this.setState({ cartData });
+        await this.getCartData();
+        // const cartData = await this.getCartData();
+        // console.log('cartData', cartData)
+        // this.setState({ cartData });
     }
     handleNumChange= async (ID:number, value: number) => {
         //更新前端的state（改变后显示的不是从后端发来的，而是前端直接改的，避免频繁刷新）
@@ -85,7 +86,10 @@ export class Cart extends React.Component {
         // return null;
     };
 
-
+    handleClearCart = () => {
+        // 更新购物车数据为空
+        this.setState({ cartData: [] });
+    };
 
     render = () => {
         if(this.state.user === null) {
@@ -172,7 +176,7 @@ export class Cart extends React.Component {
                     columns={columns} dataSource={this.state.cartData}  />
 
                 <div>
-                    <OrderModel cartData = {this.state.cartData}/>
+                    <OrderModel cartData = {this.state.cartData} onClearCart={this.handleClearCart}/>
                 </div>
 
             </Layout>

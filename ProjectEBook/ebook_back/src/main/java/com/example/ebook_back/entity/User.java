@@ -7,6 +7,8 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
@@ -16,13 +18,11 @@ import javax.persistence.Entity;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
-    private String password;
 
     private String email;
 
@@ -30,5 +30,11 @@ public class User {
 
     private String introduce;
     private String avatar;
+
+//    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+//    @JoinColumn(name = "id")
+//    private List<Cart> myCart = new ArrayList<>();
+
+
 
 }

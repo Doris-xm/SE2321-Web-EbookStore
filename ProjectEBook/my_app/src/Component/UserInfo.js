@@ -1,6 +1,7 @@
 import React from 'react';
 import { Avatar, Dropdown, Menu} from 'antd';
 import '../css/index.css'
+import '../css/View.css'
 import {Link} from "react-router-dom";
 import {getUser} from "../Service/UserService";
 import {handleLogout} from "../Service/UserService";
