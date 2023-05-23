@@ -1,8 +1,5 @@
 package com.example.ebook_back.controller;
 
-import com.example.ebook_back.entity.MyOrder;
-import com.example.ebook_back.entity.OrderCommit;
-import com.example.ebook_back.entity.User;
 import com.example.ebook_back.entity.UserAuth;
 import com.example.ebook_back.service.UserService;
 import net.sf.json.JSONObject;

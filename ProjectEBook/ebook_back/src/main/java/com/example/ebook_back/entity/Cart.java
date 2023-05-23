@@ -1,6 +1,5 @@
 package com.example.ebook_back.entity;
 
-import com.example.ebook_back.dao.BookDao;
 import com.fasterxml.jackson.annotation.*;
 import lombok.Data;
 

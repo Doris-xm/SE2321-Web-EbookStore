@@ -1,13 +1,11 @@
 package com.example.ebook_back.dao;
 import com.example.ebook_back.entity.MyOrder;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-
 import java.util.List;
 
-@Repository
-public interface  OrderDao extends JpaRepository<MyOrder, Integer>{
+public interface  OrderDao{
     List<MyOrder> findByUserID(int id);
+
+    void saveOrder(MyOrder order);
 
 //    Object save(MyOrder order);
 }
