@@ -7,5 +7,7 @@ public interface  OrderDao{
 
     void saveOrder(MyOrder order);
 
+    List<MyOrder> findAll();
+
 //    Object save(MyOrder order);
 }

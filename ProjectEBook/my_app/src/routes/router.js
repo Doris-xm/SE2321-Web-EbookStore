@@ -11,7 +11,7 @@ import {
     BookOutlined,
     HomeOutlined,
     FileTextOutlined,
-    UserOutlined, SmileOutlined
+    SmileOutlined
 } from '@ant-design/icons'
 const headers = ["Book", "Author", "Language", "Published", "Sales"];
 

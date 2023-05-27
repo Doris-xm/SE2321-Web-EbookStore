@@ -1,5 +1,6 @@
 package com.example.ebook_back.controller;
 
+import com.example.ebook_back.entity.User;
 import com.example.ebook_back.entity.UserAuth;
 import com.example.ebook_back.service.UserService;
 import net.sf.json.JSONObject;
@@ -38,7 +39,12 @@ public class UserController {
             jsonObjectErr2.put("err", "密码错误");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(jsonObjectErr2);
         }
-        JSONObject jsonObject = JSONObject.fromObject(userAuth.getUser());
+        User user = userAuth.getUser();
+
+        JSONObject jsonObject = JSONObject.fromObject(user);
+        jsonObject.put("userMode", userAuth.getUserMode());
+        
+//        JSONObject jsonObject = JSONObject.fromObject(userAuth.getUser());
         return ResponseEntity.ok().body(jsonObject);
     }
 }

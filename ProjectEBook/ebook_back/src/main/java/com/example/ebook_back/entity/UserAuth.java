@@ -23,6 +23,9 @@ public class UserAuth {
     @Basic
     @Column(name = "user_name")
     private String userName;
+    @Basic
+    @Column(name = "user_mode")
+    private int userMode;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "user_id")

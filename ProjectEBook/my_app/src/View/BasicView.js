@@ -1,16 +1,12 @@
 import {Layout, Menu} from "antd";
 import {HeaderInfo} from "../Component/HeaderInfo";
 import React  from "react";
-// import {UserData} from "../App";
 import {Content, Header} from "antd/es/layout/layout";
 import wave from "../asset/wave.svg";
 import Sider from "antd/es/layout/Sider";
 import {Link, useLocation, useRoutes} from "react-router-dom";
 import getRoutes from '../routes/router';
 import "../css/View.css"
-// import {getUser} from "../Service/UserService";
-
-
 
 
 const BasicView = () => {

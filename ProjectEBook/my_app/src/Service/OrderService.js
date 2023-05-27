@@ -19,6 +19,26 @@ export const getOrders = async (id) => {
     return orders;
 };
 
+/*
+* @brief: 获取所有订单,用于管理员审核
+* */
+export const getAllOrders = async () => {
+    let orders = [];
+    try {
+        const response = await fetch(`/allorders`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        orders = await response.json();
+        console.log("get_all_orders", orders);
+    } catch (error) {
+        console.error("Error fetching orders:", error);
+    }
+    return orders;
+};
+
 /**
  * 发送订单至后端
  *

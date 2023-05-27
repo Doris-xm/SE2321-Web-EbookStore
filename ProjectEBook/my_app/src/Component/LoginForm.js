@@ -18,6 +18,9 @@ const LoginForm = () => {
             localStorage.setItem('User',  JSON.stringify(targetUser));
 
             localStorage.setItem('authToken', targetUser.id);
+            // if(targetUser.role === "admin") //TODO
+            //     navigate("/admin");
+            // else if(targetUser.role === "user"
             navigate("/");
         });
 

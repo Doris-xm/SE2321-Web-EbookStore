@@ -19,10 +19,13 @@ public class OrderController {
     @Resource
     private OrderService orderService;
     @GetMapping("/orders")
-    public List<MyOrder> getAllOrders(@RequestParam("id") int id) {
+    public List<MyOrder> getOrdersById(@RequestParam("id") int id) {
         return orderService.findOrderById(id);
     }
-
+    @RequestMapping("/allorders")
+    public List<MyOrder> getAllOrders() {
+        return orderService.findAll();
+    }
     @PostMapping
     @RequestMapping("/sendorders")
     @ResponseStatus(HttpStatus.OK)
@@ -41,5 +44,8 @@ public class OrderController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Order creation failed");
         }
     }
+
+
+
 
 }

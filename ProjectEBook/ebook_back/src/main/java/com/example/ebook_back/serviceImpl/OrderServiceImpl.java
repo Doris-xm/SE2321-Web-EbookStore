@@ -47,5 +47,17 @@ public class OrderServiceImpl implements OrderService {
             return false;
         }
     }
+    @Override
+    public List<MyOrder> findAll() {
+//        return orderDao.findAll();
+        List<MyOrder> orders = orderDao.findAll();
+        for(MyOrder order : orders) {
+            List<BookOrder> Orders = bookOrderDao.findByOrderID(order.getOrderID());
+//            System.out.println(Orders.toString());
+            order.setBookOrders(Orders);
+        }
+        return orders;
+
+    }
 
 }

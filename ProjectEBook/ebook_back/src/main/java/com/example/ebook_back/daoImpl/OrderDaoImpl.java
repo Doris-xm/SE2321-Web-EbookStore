@@ -3,7 +3,6 @@ import com.example.ebook_back.dao.OrderDao;
 import com.example.ebook_back.entity.MyOrder;
 import com.example.ebook_back.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -21,5 +20,9 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public void saveOrder(MyOrder order) {
         orderRepository.save(order);
+    }
+    @Override
+    public List<MyOrder> findAll(){
+        return orderRepository.findAll();
     }
 }
