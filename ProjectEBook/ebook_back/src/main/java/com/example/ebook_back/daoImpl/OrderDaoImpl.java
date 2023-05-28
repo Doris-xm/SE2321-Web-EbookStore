@@ -25,4 +25,19 @@ public class OrderDaoImpl implements OrderDao {
     public List<MyOrder> findAll(){
         return orderRepository.findAll();
     }
+    @Override
+    public boolean changeState(int orderId, int state){
+        try {
+            MyOrder order = orderRepository.findMyOrderByOrderID(orderId);
+            if(order == null){
+                return false;
+            }
+            order.setState(state);
+            orderRepository.save(order);
+            return true;
+        }catch ( Exception e) {
+            return false;
+        }
+
+    }
 }

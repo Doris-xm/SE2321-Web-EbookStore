@@ -60,4 +60,9 @@ public class OrderServiceImpl implements OrderService {
 
     }
 
+    @Override
+    public boolean changeState(int orderId, int state) {
+        return orderDao.changeState(orderId, state);
+    }
+
 }

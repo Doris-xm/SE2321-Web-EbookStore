@@ -102,3 +102,27 @@ export const sendOrder = async (order,cartData) => {
         .catch(error => console.error(error));
 };
 
+export const changeOrderState = (orderId,state) => {
+    fetch('http://localhost:8001/change_state', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            orderId: orderId,
+            state: state,
+        })
+    })
+        .then(response => {
+            if (!response.ok) {
+                message.error('订单状态修改失败!');
+                throw new Error('Failed to change order state');
+            }
+            console.log('Order state changed successfully!');
+            message.success('订单状态修改成功!');
+            window.location.reload();
+            return response.text(); // 返回响应的文本内容
+        })
+        .then(data => console.log(data))
+        .catch(error => message.error(error));
+}

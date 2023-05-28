@@ -1,9 +1,9 @@
-import Excel from '../View/Excel'
-import Cart from '../View/Cart'
-import Order from '../View/Order'
+import Excel from '../View/User/Excel'
+import Cart from '../View/User/Cart'
+import Order from '../View/User/Order'
 import User from '../View/User'
-import HomePage from '../View/Homepage'
-import BookDetail from "../View/BookDetail";
+import HomePage from '../View/User/Homepage'
+import BookDetail from "../View/User/BookDetail";
 
 import {
     HeartOutlined,

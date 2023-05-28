@@ -9,5 +9,7 @@ public interface  OrderDao{
 
     List<MyOrder> findAll();
 
+    boolean changeState(int orderId, int state);
+
 //    Object save(MyOrder order);
 }

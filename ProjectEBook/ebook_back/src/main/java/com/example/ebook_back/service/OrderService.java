@@ -9,4 +9,5 @@ public interface OrderService {
     boolean saveOrder(MyOrder order);
 
     List<MyOrder> findAll();
+    boolean changeState(int orderId, int state);
 }

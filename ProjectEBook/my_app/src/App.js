@@ -4,7 +4,8 @@ import './css/Book.css';
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import "./css/index.css";
 import LoginView from "./View/LoginView";
-import BasicView from "./View/BasicView";
+import BasicView from "./View/User/BasicView";
+import SelectView from "./View/SelectView";
 
 const root = createRoot(document.getElementById("root"));
 
@@ -16,7 +17,7 @@ function App() {
         <Router>
             <Routes>
                 <Route path="/login" element={<LoginView />}/>
-                <Route path="/*" element={<BasicView />}/>
+                <Route path="/*" element={<SelectView />}/>
             </Routes>
         </Router>
 

@@ -8,6 +8,7 @@ import java.util.List;
 @Repository
 public interface  OrderRepository extends JpaRepository<MyOrder, Integer>{
     List<MyOrder> findByUserID(int id);
+    MyOrder findMyOrderByOrderID(int orderId);
 
 //    Object save(MyOrder order);
 }

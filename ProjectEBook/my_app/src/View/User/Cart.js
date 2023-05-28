@@ -1,13 +1,13 @@
 import React, {useState} from "react";
-import {ChangeQuantity, getCart} from "../Service/CartService";
+import {ChangeQuantity, getCart} from "../../Service/CartService";
 import {Layout, InputNumber, Table, Button} from 'antd';
 import type { TableRowSelection } from 'antd/es/table/interface';
 import type { ColumnsType } from 'antd/es/table';
-import '../css/View.css';
-import OrderModel from "../Component/OrderModel";
-import {getUser} from "../Service/UserService";
+import '../../css/View.css';
+import OrderModel from "../../Component/OrderModel";
+import {getUser} from "../../Service/UserService";
 import {Link} from "react-router-dom";
-import {getBook} from "../Service/BookService";
+import {getBook} from "../../Service/BookService";
 
 interface DataType {
     bookID: number;

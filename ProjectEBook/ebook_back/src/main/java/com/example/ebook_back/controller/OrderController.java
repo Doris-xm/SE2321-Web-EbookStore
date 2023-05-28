@@ -1,4 +1,5 @@
 package com.example.ebook_back.controller;
+import com.example.ebook_back.constant.Constant;
 import com.example.ebook_back.entity.MyOrder;
 import com.example.ebook_back.entity.OrderCommit;
 import com.example.ebook_back.service.OrderService;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000") //允许跨域
@@ -44,8 +46,16 @@ public class OrderController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Order creation failed");
         }
     }
-
-
-
-
+    @PostMapping
+    @RequestMapping("/change_state")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<String> changeState(@RequestBody Map<String,Object> data) {
+        Integer orderId = Integer.valueOf(data.get(Constant.ORDER_ID).toString());
+        Integer state = Integer.valueOf(data.get(Constant.ORDER_STATE).toString());
+        if( orderService.changeState(orderId,state)) {
+            return ResponseEntity.ok("订单状态修改成功");
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("状态修改失败！");
+        }
+    }
 }

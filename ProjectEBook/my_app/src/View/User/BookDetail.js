@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from "react";
-import '../css/View.css'
+import '../../css/View.css'
 import {Badge, Button, Descriptions} from "antd";
 import { useParams,useNavigate  } from "react-router-dom";
-import {getBook} from "../Service/BookService";
-import {AddToCart} from "../Service/CartService";
-import {getUser} from "../Service/UserService";
+import {getBook} from "../../Service/BookService";
+import {AddToCart} from "../../Service/CartService";
+import {getUser} from "../../Service/UserService";
 
 function BookDetail () {
 

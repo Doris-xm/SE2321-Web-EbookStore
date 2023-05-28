@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import '../css/Book.css';
-import Toolbar from "../Component/Toolbar";
-import Table from "../Component/Table";
+import '../../css/Book.css';
+import Toolbar from "../../Component/Toolbar";
+import Table from "../../Component/Table";
 
 export class Excel extends React.Component {
 
