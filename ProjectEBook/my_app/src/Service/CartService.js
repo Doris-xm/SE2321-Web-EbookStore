@@ -27,7 +27,12 @@ import {message} from "antd";
 //     console.log(localStorage.getItem("cart"));
 // };
 export const AddToCart = (bookID) => {
-    const userID = getUser().id;
+    const user = getUser();
+    if(user === null){
+        message.error('请先登录!');
+        return;
+    }
+    const userID = user.id;
     console.log("addBookToCart", bookID);
     fetch('http://localhost:8001/addtocart', {
         method: 'POST',

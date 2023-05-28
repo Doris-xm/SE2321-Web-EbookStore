@@ -2,6 +2,7 @@ import { message } from 'antd';
 import {getUser} from "./UserService";
 import {getCart} from "./CartService";
 import {clearCart} from "./CartService";
+import {postRequest} from "../util/ajax";
 export const getOrders = async (id) => {
     let orders = [];
     try {
@@ -81,48 +82,35 @@ export const sendOrder = async (order,cartData) => {
         createtime: new Date().toISOString()
     };
     console.log("orderCommit", orderCommit);
-    fetch('http://localhost:8001/sendorders', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(orderCommit)
-    })
-        .then(response => {
-            if (!response.ok) {
-                message.error('订单提交失败!');
-                throw new Error('Failed to send order');
-            }
-            console.log('Order sent successfully!');
-            message.success('订单提交成功!');
+
+    const url = `/api/sendorders`;
+    const callback = (data) => {
+        if (data.status <= 0) {
+            message.error(data.msg);
+            return false;
+        } else {
+            message.success(data.msg);
             clearCart(); //清空购物车
-            return response.text(); // 返回响应的文本内容
-        })
-        .then(data => console.log(data))
-        .catch(error => console.error(error));
+            return true;
+        }
+    };
+    return postRequest(url, orderCommit, callback);
 };
 
 export const changeOrderState = (orderId,state) => {
-    fetch('http://localhost:8001/change_state', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            orderId: orderId,
-            state: state,
-        })
-    })
-        .then(response => {
-            if (!response.ok) {
-                message.error('订单状态修改失败!');
-                throw new Error('Failed to change order state');
-            }
-            console.log('Order state changed successfully!');
-            message.success('订单状态修改成功!');
-            window.location.reload();
-            return response.text(); // 返回响应的文本内容
-        })
-        .then(data => console.log(data))
-        .catch(error => message.error(error));
+    const url = `/api/change_state`;
+    const data = {
+        orderId: orderId,
+        state: state,
+    };
+    const callback = (data) => {
+        if (data.status <= 0) {
+            message.error(data.msg);
+            return false;
+        } else {
+            message.success(data.msg);
+            return true;
+        }
+    };
+    return postRequest(url, data, callback);
 }

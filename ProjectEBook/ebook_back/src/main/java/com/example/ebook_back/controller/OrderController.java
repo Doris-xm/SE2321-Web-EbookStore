@@ -1,5 +1,8 @@
 package com.example.ebook_back.controller;
 import com.example.ebook_back.constant.Constant;
+import com.example.ebook_back.constant.Msg;
+import com.example.ebook_back.constant.MsgCode;
+import com.example.ebook_back.constant.MsgUtil;
 import com.example.ebook_back.entity.MyOrder;
 import com.example.ebook_back.entity.OrderCommit;
 import com.example.ebook_back.service.OrderService;
@@ -30,8 +33,7 @@ public class OrderController {
     }
     @PostMapping
     @RequestMapping("/sendorders")
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<String> createOrder(@RequestBody OrderCommit order) {
+    public Msg createOrder(@RequestBody OrderCommit order) {
         // 保存订单到数据库
         MyOrder newOrder = new MyOrder();
         newOrder.createOrder(order);
@@ -40,22 +42,23 @@ public class OrderController {
         System.out.println(order.toString());
         // 返回成功的消息
         if( orderService.saveOrder(newOrder)) {
-            return ResponseEntity.ok("Order created successfully");
+            return MsgUtil.makeMsg(MsgCode.SUCCESS, MsgUtil.ORDER_SUCCESS_MSG);
         }
        else {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Order creation failed");
+            return MsgUtil.makeMsg(MsgCode.ERROR, MsgUtil.ORDER_ERR_MSG);
         }
     }
     @PostMapping
     @RequestMapping("/change_state")
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<String> changeState(@RequestBody Map<String,Object> data) {
+    public Msg changeState(@RequestBody Map<String,Object> data) {
         Integer orderId = Integer.valueOf(data.get(Constant.ORDER_ID).toString());
         Integer state = Integer.valueOf(data.get(Constant.ORDER_STATE).toString());
         if( orderService.changeState(orderId,state)) {
-            return ResponseEntity.ok("订单状态修改成功");
+            return MsgUtil.makeMsg(MsgCode.SUCCESS, MsgUtil.UPDATE_SUCCESS_MSG);
+//            return ResponseEntity.ok("订单状态修改成功");
         } else {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("状态修改失败！");
+            return MsgUtil.makeMsg(MsgCode.ERROR, MsgUtil.UPDATE_ERR_MSG);
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("状态修改失败！");
         }
     }
 }

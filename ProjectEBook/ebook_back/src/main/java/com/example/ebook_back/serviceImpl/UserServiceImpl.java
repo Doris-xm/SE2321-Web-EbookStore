@@ -26,5 +26,18 @@ public class UserServiceImpl implements UserService {
     public UserAuth findUserByName(String name) {
         return userDao.findByUserName(name);
     }
+    @Override
+    public void activateUser(int id){
+        userDao.activateUser(id);
+    }
+    @Override
+    public boolean logout(int id){
+        return userDao.logout(id);
+    }
+
+    @Override
+    public boolean checkSession(int id){
+        return userDao.checkSession(id);
+    }
 
 }

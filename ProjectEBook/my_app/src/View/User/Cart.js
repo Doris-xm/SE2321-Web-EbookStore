@@ -5,7 +5,7 @@ import type { TableRowSelection } from 'antd/es/table/interface';
 import type { ColumnsType } from 'antd/es/table';
 import '../../css/View.css';
 import OrderModel from "../../Component/OrderModel";
-import {getUser} from "../../Service/UserService";
+import {checkSession, getUser} from "../../Service/UserService";
 import {Link} from "react-router-dom";
 import {getBook} from "../../Service/BookService";
 
@@ -27,8 +27,22 @@ export class Cart extends React.Component {
     };
     async componentDidMount() {
         const user = await getUser();
-        this.setState({ user });
-        await this.getCartData();
+        if(user === null) {
+            this.setState({ user });
+        }
+        else {
+           await checkSession(user.id).then(async (res) => {
+                if(res === false) {
+                    this.setState({ user: null });
+                }
+                else {
+                    this.setState({ user });
+                    await this.getCartData();
+                }
+            });
+        }
+
+        // await this.getCartData();
         // const cartData = await this.getCartData();
         // console.log('cartData', cartData)
         // this.setState({ cartData });

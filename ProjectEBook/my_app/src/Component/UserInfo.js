@@ -3,7 +3,7 @@ import { Avatar, Dropdown, Menu} from 'antd';
 import '../css/index.css'
 import '../css/View.css'
 import {Link} from "react-router-dom";
-import {getUser} from "../Service/UserService";
+import {checkSession, getUser} from "../Service/UserService";
 import {handleLogout} from "../Service/UserService";
 
 
@@ -16,7 +16,14 @@ export class UserInfo extends React.Component {
     }
     async componentDidMount() {
         const user = getUser();
-        this.setState({ user });
+        if(user === null)
+            return;
+        await checkSession(user.id).then(res => {
+            if(res) {
+                this.setState({ user });
+            }
+        });
+        // this.setState({ user });
     }
 
 

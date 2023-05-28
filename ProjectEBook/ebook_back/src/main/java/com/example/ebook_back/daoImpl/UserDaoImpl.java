@@ -14,4 +14,29 @@ public class UserDaoImpl implements UserDao {
     public UserAuth findByUserName(String name) {
         return userRepository.findByUserName(name);
     }
+    @Override
+    public void activateUser(int id){
+        UserAuth userAuth = userRepository.findByUserId(id);
+        userAuth.setLogin(true);
+        userRepository.save(userAuth);
+    }
+    @Override
+    public boolean logout(int id){
+        UserAuth userAuth = userRepository.findByUserId(id);
+        if(userAuth.isLogin()){
+            userAuth.setLogin(false);
+            userRepository.save(userAuth);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean checkSession(int id){
+        UserAuth userAuth = userRepository.findByUserId(id);
+        if(userAuth == null){
+            return false;
+        }
+        return userAuth.isLogin();
+    }
 }

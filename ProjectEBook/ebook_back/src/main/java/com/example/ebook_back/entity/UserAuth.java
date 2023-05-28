@@ -27,6 +27,10 @@ public class UserAuth {
     @Column(name = "user_mode")
     private int userMode;
 
+    @Basic
+    @Column(name = "is_login")
+    private boolean isLogin;
+
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "user_id")
     private User user;

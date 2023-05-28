@@ -1,5 +1,9 @@
 package com.example.ebook_back.controller;
 
+import com.example.ebook_back.constant.Constant;
+import com.example.ebook_back.constant.Msg;
+import com.example.ebook_back.constant.MsgCode;
+import com.example.ebook_back.constant.MsgUtil;
 import com.example.ebook_back.entity.User;
 import com.example.ebook_back.entity.UserAuth;
 import com.example.ebook_back.service.UserService;
@@ -9,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.Map;
 import java.util.Objects;
 
 @RestController
@@ -23,28 +28,49 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<JSONObject> checkLogin(@RequestBody String[] requestBody) {
-        String name = requestBody[0];
-        String password = requestBody[1];
+    public Msg checkLogin(@RequestBody Map<String,Object> data) {
+        String name = data.get(Constant.USERNAME).toString();
+        String password = data.get(Constant.PASSWORD).toString();
 
         // 验证逻辑，如果验证成功则返回 UserAuth.User 对象，否则返回错误信息
         UserAuth userAuth = userService.findUserByName(name);
         if (userAuth == null) {
-            JSONObject jsonObjectErr1 = new JSONObject();
-            jsonObjectErr1.put("err", "用户 " + name + " 不存在");
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(jsonObjectErr1);
+//            JSONObject jsonObjectErr1 = new JSONObject();
+//            jsonObjectErr1.put("err", "用户 " + name + " 不存在");
+            return MsgUtil.makeMsg(MsgCode.ERROR, MsgUtil.LOGIN_USER_NOT_EXIST_MSG);
         }
         if ( !Objects.equals(userAuth.getPassword(), password) ) {
-            JSONObject jsonObjectErr2 = new JSONObject();
-            jsonObjectErr2.put("err", "密码错误");
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(jsonObjectErr2);
+//            JSONObject jsonObjectErr2 = new JSONObject();
+//            jsonObjectErr2.put("err", "密码错误");
+            return MsgUtil.makeMsg(MsgCode.ERROR, MsgUtil.LOGIN_PASSWORD_ERROR_MSG);
         }
         User user = userAuth.getUser();
-
+        userService.activateUser(user.getId());
         JSONObject jsonObject = JSONObject.fromObject(user);
         jsonObject.put("userMode", userAuth.getUserMode());
         
 //        JSONObject jsonObject = JSONObject.fromObject(userAuth.getUser());
-        return ResponseEntity.ok().body(jsonObject);
+        return MsgUtil.makeMsg(MsgCode.SUCCESS, MsgUtil.LOGIN_SUCCESS_MSG, jsonObject);
     }
+
+    @PostMapping("/logout")
+    public Msg getUserById(@RequestBody Map<String,Object> data) {
+        int userId = Integer.parseInt(data.get(Constant.USER_ID).toString());
+        if( userService.logout(userId)) {
+            return MsgUtil.makeMsg(MsgCode.SUCCESS, MsgUtil.LOGOUT_SUCCESS_MSG);
+        } else {
+            return MsgUtil.makeMsg(MsgCode.ERROR, MsgUtil.LOGOUT_ERR_MSG);
+        }
+    }
+
+    @PostMapping("/checkSession")
+    public Msg checkSession(@RequestBody Map<String,Object> data) {
+        int userId = Integer.parseInt(data.get(Constant.USER_ID).toString());
+        if( userService.checkSession(userId)) {
+            return MsgUtil.makeMsg(MsgCode.SUCCESS, MsgUtil.CHECK_SESSION_SUCCESS_MSG);
+        } else {
+            return MsgUtil.makeMsg(MsgCode.ERROR, MsgUtil.CHECK_SESSION_ERR_MSG);
+        }
+    }
+
 }

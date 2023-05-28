@@ -22,12 +22,20 @@ const OrderModel: React.FC = ({cartData,onClearCart}) => {
 
     const onFinish = (values) => {
         setConfirmLoading(true);
-        setTimeout(() => {
+        setTimeout(async () => {
             setOpen(false);
             setConfirmLoading(false);
             form.resetFields();
-            sendOrder(values, cartData); // 调用 sendOrder 函数将订单信息发送到后端
-            onClearCart(); // 调用 onClearCart 函数清空购物车
+            await sendOrder(values, cartData).then( // 调用 sendOrder 函数将订单信息发送到后端
+                (res) => {
+                    if (res) {
+                        // alert("订单提交成功");
+                        onClearCart(); // 调用 onClearCart 函数清空购物车
+                    } else {
+                        // alert("订单提交失败");
+                    }
+                }
+            );
         }, 1000);
     };
 

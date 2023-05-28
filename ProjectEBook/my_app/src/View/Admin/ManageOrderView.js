@@ -23,10 +23,23 @@ export class ManageOrderView extends React.Component {
     onSearch = (value) => {
         console.log('search:', value);
     };
-    submit = (orderId) => {
+    submit = async (orderId) => {
         console.log("ManageOrder::submit",orderId,this.state.state)
         if(this.state.state > 0) {
-            changeOrderState(orderId,this.state.state);
+            await changeOrderState(orderId,this.state.state).then(
+                (res) => {
+                    console.log("ManageOrder::submit",res)
+                    if(res) {
+                        const updatedOrders = this.state.orders.map((order) => {
+                            if (order.orderID === orderId) {
+                                return { ...order, state: this.state.state };
+                            }
+                            return order;
+                        });
+                        console.log("ManageOrder::submit",updatedOrders)
+                        this.setState({ orders: updatedOrders });
+                    }
+                } )
         }
     }
     render = () => {

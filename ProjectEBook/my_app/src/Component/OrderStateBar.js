@@ -37,7 +37,7 @@ export const OrderStateBar: React.FC<{step: number}> = ({step}) => {
     // 根据每个状态项生成 Steps 组件的 Step 组件数组
     const steps = items.map((item, index) => {
         return (
-            <Steps key={index} status={item.status} title={getTitle(item.title, item.status)} description={item.description} />
+            <Steps key={index} status={item.status} title={getTitle(item.title, item.status)} description={item.status === 'finish' && item.description} />
         );
     });
 
