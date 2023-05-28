@@ -26,7 +26,7 @@ export class Cart extends React.Component {
         user:null,
     };
     async componentDidMount() {
-        const user = await getUser();
+        const user = getUser();
         if(user === null) {
             this.setState({ user });
         }

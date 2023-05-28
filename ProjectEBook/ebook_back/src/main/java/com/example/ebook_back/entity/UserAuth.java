@@ -35,6 +35,7 @@ public class UserAuth {
     @JoinColumn(name = "user_id")
     private User user;
 
+
 //    UserAuth(String password, String userName, String email, Integer years,String introduce,String avatar ) {
 //        this.password = password;
 //        this.userName = userName;

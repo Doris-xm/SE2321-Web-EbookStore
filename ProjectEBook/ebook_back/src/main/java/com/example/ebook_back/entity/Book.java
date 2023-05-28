@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.Objects;
 
 @Data
 @Entity
@@ -16,20 +17,77 @@ import javax.persistence.Table;
 @JsonIgnoreProperties(value = {"handler","hibernateLazyInitializer","fieldHandler"})
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "id")
 public class Book {
+    @javax.persistence.GeneratedValue(strategy = javax.persistence.GenerationType.IDENTITY)
     @Id
     @Column(name = "id")
     private int id;
 
-    @Column(nullable = false)
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    @javax.persistence.Basic
+    @Column(nullable = false, name = "title")
     private String title;
 
-    @Column(nullable = false)
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    @javax.persistence.Basic
+    @Column(nullable = false, name = "author")
     private String author;
 
-    @Column(nullable = false)
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    @javax.persistence.Basic
+    @Column(nullable = false, name = "price")
     private double price;
 
-    @Column(nullable = false)
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    @javax.persistence.Basic
+    @Column(nullable = false, name = "cover")
     private String cover;
 
+    public String getCover() {
+        return cover;
+    }
+
+    public void setCover(String cover) {
+        this.cover = cover;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Book book = (Book) o;
+        return id == book.id && Double.compare(book.price, price) == 0 && Objects.equals(title, book.title) && Objects.equals(author, book.author) && Objects.equals(cover, book.cover);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, author, price, cover);
+    }
 }

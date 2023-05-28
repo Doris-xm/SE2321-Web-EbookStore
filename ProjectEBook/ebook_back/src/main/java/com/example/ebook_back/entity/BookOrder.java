@@ -34,8 +34,12 @@ public class BookOrder {
     @Column(nullable = false,name = "total_price")
     private double totalprice;
 
-    @Column(nullable = false)
+    @Column(nullable = false,name = "bookID")
     private int bookID;
+//    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+//    @JoinColumn(name = "bookID")
+//    private Book book;
+
 
     @Column(nullable = false)
     private int quantity;

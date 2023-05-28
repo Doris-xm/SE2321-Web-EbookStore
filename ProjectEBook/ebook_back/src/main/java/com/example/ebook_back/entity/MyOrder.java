@@ -74,11 +74,13 @@ public class MyOrder {
         receiver = order.getReceiver();
         phone = order.getPhone();
 
+
         IntStream.range(0, order.getBookIDs().size())
                 .forEach(i -> {
                     BookOrder bookOrder = new BookOrder();
 //                    bookOrder.setOrder(this);
                     bookOrder.setOrderID(this.getOrderID());
+//                    bookOrder.setBook(order.getBookIDs());
                     bookOrder.setBookID(order.getBookIDs().get(i));
                     bookOrder.setQuantity(order.getBookNums().get(i));
                     System.out.println("bookOrder_price " + totalprice);
