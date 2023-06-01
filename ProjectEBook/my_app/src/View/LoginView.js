@@ -1,6 +1,6 @@
 import React from 'react';
 import "../css/login.css"
-import LoginForm from "../Component/LoginForm";
+import LoginForm from "../Component/User/LoginForm";
 
 import {Layout} from "antd";
 

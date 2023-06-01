@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import {Button, Cascader, Form, Input, Modal} from 'antd';
-import {sendOrder} from "../Service/OrderService"
-import {CityOptions} from "../data/city"
+import {sendOrder} from "../../Service/OrderService"
+import {CityOptions} from "../../data/city"
 const OrderModel: React.FC = ({cartData,onClearCart}) => {
     const [form] = Form.useForm();
     const [open, setOpen] = useState(false);

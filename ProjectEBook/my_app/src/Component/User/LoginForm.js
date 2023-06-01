@@ -1,9 +1,10 @@
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import {Button, Checkbox, Form, Input, message} from 'antd';
-import "../css/login.css";
+import "../../css/login.css";
 import {Link, useNavigate} from "react-router-dom";
 import React from "react";
-import {checkUser} from "../Service/UserService";
+import {checkUser} from "../../Service/UserService";
+import ResignModel from "./ResignModel";
 const LoginForm = () => {
     // const props = this.props;
     const onFinish = async (values) => {
@@ -40,7 +41,7 @@ const LoginForm = () => {
                 rules={[
                     {
                         required: true,
-                        message: 'Please input your Username!',
+                        message: '请输入用户名!',
                     },
                 ]}
             >
@@ -51,7 +52,7 @@ const LoginForm = () => {
                 rules={[
                     {
                         required: true,
-                        message: 'Please input your Password!',
+                        message: '请输入密码!',
                     },
                 ]}
             >
@@ -63,11 +64,11 @@ const LoginForm = () => {
             </Form.Item>
             <Form.Item>
                 <Form.Item name="remember" valuePropName="checked" noStyle>
-                    <Checkbox>Remember me</Checkbox>
+                    <Checkbox>记住密码</Checkbox>
                 </Form.Item>
 
-                <a className="login-form-forgot" href="">
-                    Forgot password
+                <a className="login-form-forgot" href="src/Component">
+                    忘记密码
                 </a>
             </Form.Item>
 
@@ -76,12 +77,15 @@ const LoginForm = () => {
                    登录
                 </Button>
                 <br/>
-                <Button className="login-form-button">
+                <Button className="login-form-button" style={{marginTop:"10px"}}>
                     <Link to={"/"}>
                         游客访问
                     </Link>
                 </Button>
-                New here?  <a href="" >register now!</a>
+                <div>
+                    <ResignModel/>
+                    {/*<ResignModel cartData = {this.state.cartData} onClearCart={this.handleClearCart}/>*/}
+                </div>
             </Form.Item>
         </Form>
     );

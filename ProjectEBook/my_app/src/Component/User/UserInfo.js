@@ -1,10 +1,10 @@
 import React from 'react';
 import { Avatar, Dropdown, Menu} from 'antd';
-import '../css/index.css'
-import '../css/View.css'
+import '../../css/index.css'
+import '../../css/View.css'
 import {Link} from "react-router-dom";
-import {checkSession, getUser} from "../Service/UserService";
-import {handleLogout} from "../Service/UserService";
+import {checkSession, getUser} from "../../Service/UserService";
+import {handleLogout} from "../../Service/UserService";
 
 
 export class UserInfo extends React.Component {
@@ -51,14 +51,9 @@ export class UserInfo extends React.Component {
                         登录
                     </Link>
                 </Menu.Item>
-                <Menu.Item>
-                    <Link to = '/login'> {/*TODO*/}
-                        注册
-                    </Link>
-                </Menu.Item>
             </Menu>
         );
-        const userNone = require('../asset/UserAvatar/UserNull.jpg');
+        const userNone = require('../../asset/UserAvatar/UserNull.jpg');
         console.log("Avater",this.state.user)
         return(
             <div id="avatar">

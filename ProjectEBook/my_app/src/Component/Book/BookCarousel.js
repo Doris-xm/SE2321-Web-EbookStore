@@ -4,10 +4,10 @@ import { Carousel } from 'antd';
 export class BookCarousel extends React.Component{
     createContent = () => {
         const images = [
-            require('../asset/carousel/book1.jpg'),
-            require('../asset/carousel/book2.jpg'),
-            require('../asset/carousel/book3.jpg'),
-            require('../asset/carousel/book4.jpg'),
+            require('../../asset/carousel/book1.jpg'),
+            require('../../asset/carousel/book2.jpg'),
+            require('../../asset/carousel/book3.jpg'),
+            require('../../asset/carousel/book4.jpg'),
         ]
         let result = [];
         for (let i = 0; i < 4; i++) {

@@ -1,5 +1,5 @@
 import {Layout, Menu} from "antd";
-import {HeaderInfo} from "../../Component/HeaderInfo";
+import {HeaderInfo} from "../../Component/User/HeaderInfo";
 import React  from "react";
 import {Content, Header} from "antd/es/layout/layout";
 import wave from "../../asset/wave.svg";

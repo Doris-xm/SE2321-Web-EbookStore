@@ -26,6 +26,17 @@ public class UserController {
     public UserAuth getUserById(@RequestParam("name") String name) {
         return  userService.findUserByName(name);
     }
+    @RequestMapping("/resign")
+    public Msg resign(@RequestBody Map<String,Object> data) {
+        String name = data.get(Constant.USERNAME).toString();
+        String password = data.get(Constant.PASSWORD).toString();
+        String mail = data.get(Constant.EMAIL).toString();
+        if (userService.resign(name,password,mail)) {
+            return MsgUtil.makeMsg(MsgCode.SUCCESS, MsgUtil.RESIGN_SUCCESS_MSG);
+        } else {
+            return MsgUtil.makeMsg(MsgCode.ERROR, MsgUtil.RESIGN_FAIL_MSG);
+        }
+    }
 
     @PostMapping("/login")
     public Msg checkLogin(@RequestBody Map<String,Object> data) {
@@ -70,6 +81,25 @@ public class UserController {
             return MsgUtil.makeMsg(MsgCode.SUCCESS, MsgUtil.CHECK_SESSION_SUCCESS_MSG);
         } else {
             return MsgUtil.makeMsg(MsgCode.ERROR, MsgUtil.CHECK_SESSION_ERR_MSG);
+        }
+    }
+
+    @PostMapping("/checkName")
+    public Msg checkNewName(@RequestBody Map<String,Object> data) {
+        String userName = data.get(Constant.USERNAME).toString();
+        if( userService.checkName(userName)) {
+            return MsgUtil.makeMsg(MsgCode.SUCCESS, MsgUtil.SUCCESS_MSG);
+        } else {
+            return MsgUtil.makeMsg(MsgCode.ERROR, MsgUtil.CHECK_NAME_ERR_MSG);
+        }
+    }
+    @PostMapping("/checkEmail")
+    public Msg checkNewEmail(@RequestBody Map<String,Object> data) {
+        String mail = data.get(Constant.EMAIL).toString();
+        if( userService.checkMail(mail)) {
+            return MsgUtil.makeMsg(MsgCode.SUCCESS, MsgUtil.SUCCESS_MSG);
+        } else {
+            return MsgUtil.makeMsg(MsgCode.ERROR, MsgUtil.CHECK_MAIL_ERR_MSG);
         }
     }
 

@@ -4,7 +4,7 @@ import {Layout, InputNumber, Table, Button} from 'antd';
 import type { TableRowSelection } from 'antd/es/table/interface';
 import type { ColumnsType } from 'antd/es/table';
 import '../../css/View.css';
-import OrderModel from "../../Component/OrderModel";
+import OrderModel from "../../Component/Order/OrderModel";
 import {checkSession, getUser} from "../../Service/UserService";
 import {Link} from "react-router-dom";
 import {getBook} from "../../Service/BookService";

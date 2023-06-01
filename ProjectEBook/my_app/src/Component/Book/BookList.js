@@ -2,7 +2,7 @@ import React from 'react';
 import { List } from 'antd';
 import { BookCard } from './BookCard';
 // import { booksData } from '../data/book';
-import {getBooks} from "../Service/BookService"; // 导入自定义图书数据
+import {getBooks} from "../../Service/BookService"; // 导入自定义图书数据
 
 export class BookList extends React.Component {
     constructor(props) {

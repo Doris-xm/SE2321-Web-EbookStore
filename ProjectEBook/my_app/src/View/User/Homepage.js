@@ -2,8 +2,8 @@ import React from "react";
 import {Content, Header} from "antd/es/layout/layout";
 import {Carousel, Layout} from "antd";
 import {SearchBar} from "../../Component/SearchBar";
-import BookCarousel from "../../Component/BookCarousel";
-import {BookList} from "../../Component/BookList";
+import BookCarousel from "../../Component/Book/BookCarousel";
+import {BookList} from "../../Component/Book/BookList";
 import "../../css/View.css"
 
 export class HomePage extends React.Component {

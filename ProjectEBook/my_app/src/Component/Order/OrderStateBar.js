@@ -1,6 +1,6 @@
 import React from 'react';
 import { Steps } from 'antd';
-import {ORDER_STATE} from "../util/Constant";
+import {ORDER_STATE} from "../../util/Constant";
 
 const description1 = "已付款，商家尚未发货";
 const description2 = "商品已发货！";

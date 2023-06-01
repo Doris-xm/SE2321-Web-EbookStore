@@ -15,6 +15,8 @@ public class MsgUtil {
     /* 登录相关*/
     public static final String LOGIN_SUCCESS_MSG = "登录成功！";
     public static final String LOGOUT_SUCCESS_MSG = "登出成功！";
+    public static final String RESIGN_SUCCESS_MSG = "注册成功！";
+    public static final String RESIGN_FAIL_MSG = "注册失败！";
     public static final String LOGOUT_ERR_MSG = "登出异常，用户未登录！";
     public static final String LOGIN_PASSWORD_ERROR_MSG = "密码错误，请重新输入！";
     public static final String LOGIN_USER_NOT_EXIST_MSG = "用户不存在，请先注册！";
@@ -28,7 +30,8 @@ public class MsgUtil {
     public static final String ORDER_ERR_MSG = "下单失败！";
     public static final String CHECK_SESSION_SUCCESS_MSG = "登录状态有效！";
     public static final String CHECK_SESSION_ERR_MSG = "未登录！";
-
+    public static final String CHECK_NAME_ERR_MSG = "用户名已被注册";
+    public static final String CHECK_MAIL_ERR_MSG = "邮箱已被注册";
 
     public static Msg makeMsg(MsgCode code, JSONObject data){
         return new Msg(code, data);

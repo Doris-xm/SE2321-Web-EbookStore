@@ -1,7 +1,7 @@
 import React from 'react';
 import { Row, Col } from 'antd';
-import '../css/index.css'
-import logo from '../asset/logo.svg';
+import '../../css/index.css'
+import logo from '../../asset/logo.svg';
 import {UserInfo} from "./UserInfo";
 
 

@@ -8,5 +8,8 @@ public interface UserService {
     boolean logout(int id);
 
     boolean checkSession(int id);
+    boolean checkName(String name);
+    boolean checkMail(String mail);
+    boolean resign(String name,String password,String email);
 
 }

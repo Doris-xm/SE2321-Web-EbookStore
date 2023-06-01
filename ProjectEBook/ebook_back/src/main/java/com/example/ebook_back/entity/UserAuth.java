@@ -13,7 +13,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "user_auth", schema = "ebook")
 public class UserAuth {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "user_id")
     private int userId;
