@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Objects;
 
 @Data
 @NoArgsConstructor                 //无参构造
@@ -28,8 +27,8 @@ public class UserAuth {
     private int userMode;
 
     @Basic
-    @Column(name = "is_login")
-    private boolean isLogin;
+    @Column(name = "is_ban")
+    private boolean isBan;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "user_id")

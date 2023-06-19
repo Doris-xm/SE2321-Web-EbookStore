@@ -12,28 +12,41 @@ export const checkUser =  async (name, password) => {
             message.error(data.msg);
             return null;
         } else {
-            message.success(data.msg + '欢迎你，' + name + '!');
+            message.success(data.msg + '欢迎你，' + data.data.nickname + '!');
             return data.data;
         }
     };
     return postRequest(url, data, callback);
 };
 
-export const getUser = () => {
+export const getUser = async () => {
     const userJson = localStorage.getItem('User');
-    const authToken = localStorage.getItem('authToken');
-    // console.log('authTOken',authToken)
-    // if (authToken) {
-        return JSON.parse(userJson);
-    // }
-    // return null;
+    console.log('userJson',userJson)
+    const user = JSON.parse(userJson);
+    if (user === null) {
+        return null;
+    }
+    const url = '/api/userById';
+    const data = {
+        userId: user.id,
+    };
+    const callback = (data) => {
+        if (data.status <= 0) {
+            message.error(data.msg);
+            localStorage.removeItem('User');
+            return null;
+        } else {
+            return data.data;
+        }
+    };
+    return postRequest(url, data, callback);
 };
 export const handleLogout = () => {
-    const user = getUser();
+    const user  = JSON.parse(localStorage.getItem('User'));
     if(user === null) {
         return false;
     }
-    const id = getUser().id;
+    const id = user.id;
     const url = `/api/logout`;
     const data = {
         userId: id,
@@ -43,8 +56,7 @@ export const handleLogout = () => {
             // message.error(data.msg);
             return false;
         } else {
-            message.success(data.msg);
-            localStorage.removeItem('authToken');
+            message.success(data.msg)
             localStorage.removeItem('User');
             return true;
         }
@@ -122,3 +134,36 @@ export const resignNewUser = (model) => {
     };
     return postRequest(url, data, callback);
 };
+
+export const getAllUsers =()=>{
+    const url = `/api/users`;
+    const callback = (data) => {
+        if (data.status <= 0) {
+            // message.error(data.msg);
+            return null;
+        } else {
+            // message.success(data.msg);
+            return data.data.users;
+        }
+    };
+    return postRequest(url, null, callback);
+}
+
+export const banUsers =(userId,isBan)=>{
+
+    const url = `/api/banUser`;
+    const data = {
+        userId: userId,
+        isBan: isBan,
+    };
+    const callback = (data) => {
+        if (data.status <= 0) {
+            message.error(data.msg);
+            return false;
+        } else {
+            message.success(data.msg);
+            return true;
+        }
+    };
+    return postRequest(url, data, callback);
+}

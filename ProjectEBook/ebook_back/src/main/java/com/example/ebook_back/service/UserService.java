@@ -1,6 +1,9 @@
 package com.example.ebook_back.service;
 
+import com.example.ebook_back.entity.User;
 import com.example.ebook_back.entity.UserAuth;
+
+import java.util.List;
 
 public interface UserService {
    UserAuth findUserByName(String name);
@@ -11,5 +14,8 @@ public interface UserService {
     boolean checkName(String name);
     boolean checkMail(String mail);
     boolean resign(String name,String password,String email);
+    boolean banUser(int id,boolean ban);
+    List<UserAuth> getAllUsers();
+    UserAuth findUserAuthById(int id);
 
 }

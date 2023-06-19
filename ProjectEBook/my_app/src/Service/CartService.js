@@ -26,8 +26,8 @@ import {message} from "antd";
 //     // localStorage.clear();
 //     console.log(localStorage.getItem("cart"));
 // };
-export const AddToCart = (bookID) => {
-    const user = getUser();
+export const AddToCart = async (bookID) => {
+    const user = await getUser();
     if(user === null){
         message.error('请先登录!');
         return;

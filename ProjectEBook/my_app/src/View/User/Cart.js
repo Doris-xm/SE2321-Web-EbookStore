@@ -26,12 +26,12 @@ export class Cart extends React.Component {
         user:null,
     };
     async componentDidMount() {
-        const user = getUser();
+        const user = await getUser();
         if(user === null) {
             this.setState({ user });
         }
         else {
-           await checkSession(user.id).then(async (res) => {
+            await checkSession(user.id).then(async (res) => {
                 if(res === false) {
                     this.setState({ user: null });
                 }
@@ -53,7 +53,7 @@ export class Cart extends React.Component {
         const existingBookIndex = newData.findIndex((item) => item.bookID === ID);
         // 如果书籍已经存在，则更新其数量
         if (existingBookIndex === -1) {
-           return;
+            return;
         } else {
             if(value > 0){
                 newData[existingBookIndex].quantity = value;
@@ -187,7 +187,7 @@ export class Cart extends React.Component {
             <Layout className={'my-content'}>
                 <h1 >My Cart</h1>
                 <Table rowKey={record => record.id} style={{width: '95%', backgroundColor: 'transparent'}}
-                    columns={columns} dataSource={this.state.cartData}  />
+                       columns={columns} dataSource={this.state.cartData}  />
 
                 <div>
                     <OrderModel cartData = {this.state.cartData} onClearCart={this.handleClearCart}/>
@@ -198,7 +198,6 @@ export class Cart extends React.Component {
     };
 };
 export default Cart;
-
 
 
 

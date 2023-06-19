@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -23,7 +24,7 @@ public class UserController {
     private UserService userService;
 
     @RequestMapping("/user")
-    public UserAuth getUserById(@RequestParam("name") String name) {
+    public UserAuth getUserByName(@RequestParam("name") String name) {
         return  userService.findUserByName(name);
     }
     @RequestMapping("/resign")
@@ -46,26 +47,23 @@ public class UserController {
         // 验证逻辑，如果验证成功则返回 UserAuth.User 对象，否则返回错误信息
         UserAuth userAuth = userService.findUserByName(name);
         if (userAuth == null) {
-//            JSONObject jsonObjectErr1 = new JSONObject();
-//            jsonObjectErr1.put("err", "用户 " + name + " 不存在");
             return MsgUtil.makeMsg(MsgCode.ERROR, MsgUtil.LOGIN_USER_NOT_EXIST_MSG);
         }
         if ( !Objects.equals(userAuth.getPassword(), password) ) {
-//            JSONObject jsonObjectErr2 = new JSONObject();
-//            jsonObjectErr2.put("err", "密码错误");
             return MsgUtil.makeMsg(MsgCode.ERROR, MsgUtil.LOGIN_PASSWORD_ERROR_MSG);
         }
+        if ( (userAuth.getUserMode() == 0) && userAuth.isBan()) {
+            return MsgUtil.makeMsg(MsgCode.ERROR, MsgUtil.LOGIN_BAN_ERROR_MSG);
+        }
         User user = userAuth.getUser();
-        userService.activateUser(user.getId());
         JSONObject jsonObject = JSONObject.fromObject(user);
-        jsonObject.put("userMode", userAuth.getUserMode());
-        
-//        JSONObject jsonObject = JSONObject.fromObject(userAuth.getUser());
+        jsonObject.put(Constant.USER_MODE, userAuth.getUserMode());
+
         return MsgUtil.makeMsg(MsgCode.SUCCESS, MsgUtil.LOGIN_SUCCESS_MSG, jsonObject);
     }
 
     @PostMapping("/logout")
-    public Msg getUserById(@RequestBody Map<String,Object> data) {
+    public Msg Logout(@RequestBody Map<String,Object> data) {
         int userId = Integer.parseInt(data.get(Constant.USER_ID).toString());
         if( userService.logout(userId)) {
             return MsgUtil.makeMsg(MsgCode.SUCCESS, MsgUtil.LOGOUT_SUCCESS_MSG);
@@ -102,5 +100,42 @@ public class UserController {
             return MsgUtil.makeMsg(MsgCode.ERROR, MsgUtil.CHECK_MAIL_ERR_MSG);
         }
     }
+    @PostMapping("/banUser")
+    public Msg banUser(@RequestBody Map<String,Object> data) {
+        int userId = Integer.parseInt(data.get(Constant.USER_ID).toString());
+        boolean isBan = data.get(Constant.USER_BAN).toString().equals("true");
+        if( userService.banUser(userId, isBan)) {
+            if(isBan)
+                return MsgUtil.makeMsg(MsgCode.SUCCESS, MsgUtil.BAN_USER_SUCCESS_MSG);
+            else
+                return MsgUtil.makeMsg(MsgCode.SUCCESS, MsgUtil.UNBAN_USER_SUCCESS_MSG);
+        } else {
+            if(isBan)
+                return MsgUtil.makeMsg(MsgCode.ERROR, MsgUtil.BAN_USER_ERR_MSG);
+            else
+                return MsgUtil.makeMsg(MsgCode.ERROR, MsgUtil.UNBAN_USER_ERR_MSG);
+        }
+    }
+    @PostMapping("/users")
+    public Msg getAllUsers() {
+        List<UserAuth> users = userService.getAllUsers();
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put(Constant.USERS, users);
+        if(users == null)
+            return MsgUtil.makeMsg(MsgCode.ERROR, MsgUtil.ERROR_MSG, null);
+        return MsgUtil.makeMsg(MsgCode.SUCCESS, MsgUtil.SUCCESS_MSG, jsonObject);
+    }
+    @PostMapping("/userById")
+    public Msg getUserById(@RequestBody Map<String,Object> data) {
+        int userId = Integer.parseInt(data.get(Constant.USER_ID).toString());
+        UserAuth userAuth = userService.findUserAuthById(userId);
+        if(userAuth == null)
+            return MsgUtil.makeMsg(MsgCode.ERROR, "用户不存在", null);
+        if(userAuth.isBan())
+            return MsgUtil.makeMsg(MsgCode.ERROR, MsgUtil.LOGIN_BAN_ERROR_MSG, null);
+        User user = userAuth.getUser();
+        JSONObject jsonObject = JSONObject.fromObject(user);
+        return MsgUtil.makeMsg(MsgCode.SUCCESS, MsgUtil.SUCCESS_MSG, jsonObject);
 
+    }
 }

@@ -2,6 +2,8 @@ package com.example.ebook_back.dao;
 import com.example.ebook_back.entity.User;
 import com.example.ebook_back.entity.UserAuth;
 
+import java.util.List;
+
 
 public interface  UserDao {
     UserAuth findByUserName(String name);
@@ -14,5 +16,8 @@ public interface  UserDao {
     boolean createUser(User user);
     boolean createUserAuth(UserAuth userAuth);
     User findUserByMail(String mail);
+    boolean banUser(int id,boolean ban);
+    List<UserAuth> getAllUsers();
+    UserAuth findUserAuthById(int id);
 
 }

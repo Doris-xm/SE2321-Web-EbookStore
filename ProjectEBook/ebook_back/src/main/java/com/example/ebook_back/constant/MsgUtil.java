@@ -21,6 +21,13 @@ public class MsgUtil {
     public static final String LOGIN_PASSWORD_ERROR_MSG = "密码错误，请重新输入！";
     public static final String LOGIN_USER_NOT_EXIST_MSG = "用户不存在，请先注册！";
     public static final String NOT_LOGGED_IN_ERROR_MSG = "登录失效，请重新登录！";
+    public static final String LOGIN_BAN_ERROR_MSG = "登录失败，该账户已被管理员冻结！";
+
+    /* 管理相关 */
+    public static final String BAN_USER_ERR_MSG = "禁用用户失败";
+    public static final String BAN_USER_SUCCESS_MSG = "禁用用户成功";
+    public static final String UNBAN_USER_SUCCESS_MSG = "解禁用户成功";
+    public static final String UNBAN_USER_ERR_MSG = "解禁用户失败";
 
     /* 修改相关*/
     public static final String UPDATE_SUCCESS_MSG = "修改成功！";

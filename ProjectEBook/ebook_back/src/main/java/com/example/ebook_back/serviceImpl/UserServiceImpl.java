@@ -17,6 +17,8 @@ import com.example.ebook_back.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -68,11 +70,23 @@ public class UserServiceImpl implements UserService {
         UserAuth userAuth = new UserAuth();
         userAuth.setUserName(name);
         userAuth.setPassword(password);
-        userAuth.setLogin(false);
+        userAuth.setBan(false);
         userAuth.setUserMode(0);
 //        userAuth.setUser(savedUser);
         System.out.println(savedUser.getId());
         userAuth.setUserId(savedUser.getId());
         return userDao.createUserAuth(userAuth);
+    }
+    @Override
+    public boolean banUser(int id,boolean ban){
+        return userDao.banUser(id,ban);
+    }
+    @Override
+    public List<UserAuth> getAllUsers(){
+        return userDao.getAllUsers();
+    }
+    @Override
+    public UserAuth findUserAuthById(int id){
+        return userDao.findUserAuthById(id);
     }
 }

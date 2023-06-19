@@ -4,9 +4,9 @@ import {USERMODE} from "../util/Constant";
 import AdminView from "./Admin/AdminView";
 
 const SelectView = () => {
-    const user = getUser();
+    const user = JSON.parse(localStorage.getItem('User'));
     console.log("SelectView::",user)
-    if(user == null ){
+    if(user == null){
         return <BasicView/>
     }
     if(user.userMode === USERMODE.ADMIN){

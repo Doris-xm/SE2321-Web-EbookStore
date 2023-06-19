@@ -7,6 +7,8 @@ import com.example.ebook_back.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class UserDaoImpl implements UserDao {
     @Autowired
@@ -25,27 +27,22 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void activateUser(int id){
         UserAuth userAuth = userAuthRepository.findByUserId(id);
-        userAuth.setLogin(true);
+        userAuth.setBan(false);
         userAuthRepository.save(userAuth);
     }
     @Override
     public boolean logout(int id){
-        UserAuth userAuth = userAuthRepository.findByUserId(id);
-        if(userAuth.isLogin()){
-            userAuth.setLogin(false);
-            userAuthRepository.save(userAuth);
-            return true;
-        }
-        return false;
+        return true;
     }
 
     @Override
     public boolean checkSession(int id){
-        UserAuth userAuth = userAuthRepository.findByUserId(id);
-        if(userAuth == null){
-            return false;
-        }
-        return userAuth.isLogin();
+//        UserAuth userAuth = userAuthRepository.findByUserId(id);
+//        if(userAuth == null){
+//            return false;
+//        }
+//        return userAuth.isBan();
+        return true;
     }
     @Override
     public boolean checkName(String name){
@@ -77,5 +74,31 @@ public class UserDaoImpl implements UserDao {
             return false;
         }
         return true;
+    }
+    @Override
+    public boolean banUser(int id,boolean ban){
+        UserAuth userAuth = userAuthRepository.findByUserId(id);
+        if(userAuth == null){
+            return false;
+        }
+        if(userAuth.getUserMode() == 1){
+            return false;
+        }
+        try {
+            userAuth.setBan(ban);
+            userAuthRepository.save(userAuth);
+        }catch (Exception e){
+            System.out.println(e);
+            return false;
+        }
+        return true;
+    }
+    @Override
+    public List<UserAuth> getAllUsers(){
+        return userAuthRepository.findUserAuthByUserMode(0);
+    }
+    @Override
+    public UserAuth findUserAuthById(int id){
+        return userAuthRepository.findByUserId(id);
     }
 }

@@ -13,7 +13,8 @@ public class Constant {
     public static final String USER_ID = "userId";
     public static final String USERNAME = "username";
     public static final String PASSWORD = "password";
-    public static final String USER_Mode = "userMode";
+    public static final String USER_MODE = "userMode";
+    public static final String USER_BAN = "isBan";
     public static final String AVATAR = "avatar";
     public static final String ORDER_ID = "orderId";
     public static final String ORDER_STATE = "state";
@@ -23,6 +24,7 @@ public class Constant {
     public static final String COMMENT_DETAIL = "commentDetail";
     public static final String COMMENT_PHOTO = "commentPhoto";
     public static final String POST_TIME = "postTime";
+    public static final String USERS = "users";
 
 
 

@@ -10,6 +10,7 @@ import {
     SmileOutlined
 } from '@ant-design/icons'
 import ManageOrderView from "../View/Admin/ManageOrderView";
+import ManageUserView from "../View/Admin/ManageUserView";
 
 const getAdminRoutes = () => [
     {
@@ -20,9 +21,16 @@ const getAdminRoutes = () => [
         hideInMenu:false,
     },
     {
-        path: '/manage',
+        path: '/manageOrder',
         label: '管理订单',
         element: <ManageOrderView />,
+        icon: <FileTextOutlined />,
+        hideInMenu:false,
+    },
+    {
+        path: '/manageUser',
+        label: '管理用户',
+        element: <ManageUserView />,
         icon: <FileTextOutlined />,
         hideInMenu:false,
     },

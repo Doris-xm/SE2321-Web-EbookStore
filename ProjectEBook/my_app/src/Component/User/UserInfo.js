@@ -15,7 +15,8 @@ export class UserInfo extends React.Component {
         };
     }
     async componentDidMount() {
-        const user = getUser();
+        const user = await getUser();
+        console.log("userInfo::user",user)
         if(user === null)
             return;
         await checkSession(user.id).then(res => {
