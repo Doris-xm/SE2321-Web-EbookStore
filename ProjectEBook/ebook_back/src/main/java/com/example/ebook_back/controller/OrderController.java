@@ -3,9 +3,13 @@ import com.example.ebook_back.constant.Constant;
 import com.example.ebook_back.constant.Msg;
 import com.example.ebook_back.constant.MsgCode;
 import com.example.ebook_back.constant.MsgUtil;
+import com.example.ebook_back.entity.Book;
+import com.example.ebook_back.entity.BookOrder;
 import com.example.ebook_back.entity.MyOrder;
 import com.example.ebook_back.entity.OrderCommit;
+import com.example.ebook_back.service.BookService;
 import com.example.ebook_back.service.OrderService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,6 +27,8 @@ import java.util.Map;
 public class OrderController {
     @Resource
     private OrderService orderService;
+    @Autowired
+    private BookService bookService;
     @GetMapping("/orders")
     public List<MyOrder> getOrdersById(@RequestParam("id") int id) {
         return orderService.findOrderById(id);
@@ -42,6 +48,16 @@ public class OrderController {
         System.out.println(order.toString());
         // 返回成功的消息
         if( orderService.saveOrder(newOrder)) {
+            List<BookOrder> bookOrders = newOrder.getBookOrders();
+
+            for(BookOrder bookOrder: bookOrders) {
+                int bookId = bookOrder.getBookID();
+                int num = bookOrder.getQuantity();
+                Book book = bookService.findBookById(bookId);
+                book.setStocks(book.getStocks() - num);
+                book.setSales(book.getSales() + num);
+                bookService.addBook(book);
+            }
             return MsgUtil.makeMsg(MsgCode.SUCCESS, MsgUtil.ORDER_SUCCESS_MSG);
         }
        else {

@@ -31,6 +31,7 @@ public class Constant {
     public static final String BOOK_NAME = "title";
     public static final String BOOK_AUTHOR = "author";
     public static final String BOOK_ISBN = "isbn";
+    public static final String BOOK_INTRO = "introduce";
     public static final String BOOK_PRICE = "price";
     public static final String BOOK_STOCK = "stocks";
     public static final String BOOK_COVER = "cover";

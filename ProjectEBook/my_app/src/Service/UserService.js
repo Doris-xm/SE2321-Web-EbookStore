@@ -21,7 +21,6 @@ export const checkUser =  async (name, password) => {
 
 export const getUser = async () => {
     const userJson = localStorage.getItem('User');
-    console.log('userJson',userJson)
     const user = JSON.parse(userJson);
     if (user === null) {
         return null;
@@ -30,6 +29,7 @@ export const getUser = async () => {
     const data = {
         userId: user.id,
     };
+
     const callback = (data) => {
         if (data.status <= 0) {
             message.error(data.msg);

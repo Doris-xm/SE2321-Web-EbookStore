@@ -1,13 +1,22 @@
 import React, { useState } from 'react';
-import {Button, Cascader, Form, Input, Modal} from 'antd';
+import {Button, Cascader, Form, Input, message, Modal} from 'antd';
 import {sendOrder} from "../../Service/OrderService"
 import {CityOptions} from "../../data/city"
+import {getBook} from "../../Service/BookService";
 const OrderModel: React.FC = ({cartData,onClearCart}) => {
     const [form] = Form.useForm();
     const [open, setOpen] = useState(false);
     const [confirmLoading, setConfirmLoading] = useState(false);
 
-    const showModal = () => {
+    const showModal = async () => {
+        for (let i = 0; i < cartData.length; i++) {
+            const book = await getBook(cartData[i].bookID);
+            console.log(book);
+            if (cartData[i].quantity > book.stocks) {
+                message.error(book.title+"库存不足,当前库存" + book.stocks + "本");
+                return;
+            }
+        }
         setOpen(true);
     };
 

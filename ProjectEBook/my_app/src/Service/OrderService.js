@@ -3,7 +3,9 @@ import {getUser} from "./UserService";
 import {getCart} from "./CartService";
 import {clearCart} from "./CartService";
 import {postRequest} from "../util/ajax";
+import {getBook} from "./BookService";
 export const getOrders = async (id) => {
+    console.log("getOrders", id);
     let orders = [];
     try {
         const response = await fetch(`/orders?id=${id}`, {
@@ -68,6 +70,8 @@ export const sendOrder = async (order,cartData) => {
      * createtime: '2020-12-12 12:12:12'
      * }
      */
+    const user = await getUser();
+    const id = user.id;
     const orderCommit = {
         receiver: order.name,
         phone: order.phone,
@@ -78,7 +82,7 @@ export const sendOrder = async (order,cartData) => {
         bookNums,
         orderID: 0,
         state: 1,
-        userID: getUser().id,
+        userID: id,
         createtime: new Date().toISOString()
     };
     console.log("orderCommit", orderCommit);

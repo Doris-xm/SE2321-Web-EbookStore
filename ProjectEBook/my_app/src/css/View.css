@@ -13,7 +13,7 @@ body {
     /*justify-content: center;*/
     align-content: center;
     /*background-image: linear-gradient(45deg, #93a5cf 0%, #e4efe9 100%);*/
-    background-color:rgba(0,0,0,0);
+    background-color:transparent;
 }
 .notLogin-content {
     display: flex;
@@ -43,14 +43,15 @@ body {
 
 .buttons {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     margin-left: 20px;
     align-content: center;
-    justify-content: end;
+    /*justify-content: end;*/
+    justify-content: space-between
 }
 .buttons > button {
     margin-bottom: 10px;
-    background-color: peachpuff;
+    background-color: lightblue;
 }
 .my-descriptions .ant-descriptions-item-content {
     display: flex;
@@ -103,4 +104,10 @@ body {
     border: 0px rgba(255,255,255,0.1) solid;
     border-bottom: 0px rgba(40,40,40,0.2) solid;
     border-right: 0px rgba(40,40,40,0.2) solid;
+}
+
+/* 标题样式 */
+.h1{
+    font-size: 30px;
+    font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
 }

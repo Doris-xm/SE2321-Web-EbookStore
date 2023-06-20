@@ -14,7 +14,7 @@ export class ManageUserView extends React.Component {
             selectedIds: [],
             selectedTitles: [],
             openConfirm: false,
-            openEdit: false,
+            openEdit: -1,
             openUpload: false,
         };
     }
@@ -81,8 +81,9 @@ export class ManageUserView extends React.Component {
                                         this.setState({ openUpload: false })
                                         addBook(values).then(async (res) => {
                                             if (res) {
-                                                const books = await getBooks();
-                                                this.setState({books});
+                                                window.location.reload();
+                                                // const books = await getBooks();
+                                                // this.setState({books});
                                             }
                                         });
                                     }}
@@ -118,6 +119,10 @@ export class ManageUserView extends React.Component {
                                                rules={[{ required: false },]}>
                                         <Input />
                                     </Form.Item>
+                                    <Form.Item label="介绍" name="introduce"
+                                               rules={[{ required: false },]}>
+                                        <Input />
+                                    </Form.Item>
                                 </Form>
                             </Modal>,
                             <Button key="4" type="default"
@@ -133,9 +138,13 @@ export class ManageUserView extends React.Component {
                                 onOk={async () => {
                                     await deleteBooks(this.state.selectedIds).then(async (res) => {
                                         if (res) {
-                                            this.setState({openConfirm: false, selectedRowKeys: []});
-                                            const books = await getBooks();
-                                            this.setState({books});
+                                            const newBooks = this.state.books.filter((book) => {
+                                                return !this.state.selectedIds.includes(book.id);
+                                            });
+                                            const newSearchBooks = this.state.searchBooks.filter((book) => {
+                                                return !this.state.selectedIds.includes(book.id);
+                                            });
+                                            this.setState({books: newBooks, searchBooks: newSearchBooks, openConfirm: false});
                                         } else {
                                             this.setState({openConfirm: false})
                                         }
@@ -205,30 +214,41 @@ export class ManageUserView extends React.Component {
                                 <Button
                                     href={row.url} key="view" type={"default"}
                                     onClick={() => {
-                                        this.setState({ openEdit: true });
+                                        this.setState({ openEdit: row.id });
                                     }}
                                 >
                                     编辑
                                 </Button>,
                                 <Modal
                                     title="修改书籍信息"
-                                    visible={this.state.openEdit}
+                                    visible={this.state.openEdit === row.id}
                                     onOk={(value) => {
                                         this.formRef.submit();
-                                        this.setState({ openEdit: false })
+                                        this.setState({ openEdit: -1 })
                                     }}
                                     onCancel={() => {
                                         this.formRef.resetFields(); // 重置表单字段值
-                                        this.setState({ openEdit: false })
+                                        this.setState({ openEdit: -1 })
                                     }}
                                 >
                                     <Form
                                         onFinish={(values) => {
                                             values.id = row.id;
                                             modifyBook(values).then(async (res) => {
+                                                console.log("modify",values)
                                                 if (res) {
-                                                    const books = await getBooks();
-                                                    this.setState({books});
+                                                    const newBooks = this.state.books.map((book) => {
+                                                        if (book.id === row.id) {
+                                                            //删除旧的对象，添加新的对象
+                                                            const modified= book;
+                                                            modified.author=values.author;  modified.title=values.title;
+                                                            modified.isbn=values.isbn;      modified.price=values.price;
+                                                            modified.stocks=values.stocks;
+                                                            return {...book, ...modified};
+                                                        }
+                                                        return book;
+                                                    });
+                                                    this.setState({books: newBooks});
                                                 }
                                             });
                                         }}
@@ -236,7 +256,7 @@ export class ManageUserView extends React.Component {
                                         size={"middle"} style={{ maxWidth: 600 }}
                                         ref={(formRef) => (this.formRef = formRef)}
                                     >
-                                        <Form.Item label="书名"  name="name"
+                                        <Form.Item label="书名"  name="title"
                                                    initialValue={row.title}
                                                    rules={[{ required: false,  }]}>
                                             <Input />

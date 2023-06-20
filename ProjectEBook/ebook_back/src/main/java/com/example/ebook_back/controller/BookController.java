@@ -82,6 +82,7 @@ public class BookController {
             book.setPrice(Double.valueOf(json.get(Constant.BOOK_PRICE).toString()));
             book.setCover(json.get(Constant.BOOK_COVER).toString());
             book.setIsbn(json.get(Constant.BOOK_ISBN).toString());
+            book.setIntroduce(json.get(Constant.BOOK_INTRO).toString());
             bookService.addBook(book);
         } catch (Exception e) {
             return MsgUtil.makeMsg(MsgCode.ERROR, e.toString());

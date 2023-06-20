@@ -93,7 +93,7 @@ const ResignModel: React.FC = () => {
                     <Form.Item label="邮箱"
                                name="email"
                                rules={[{ required: true, message: '请输入邮箱' },
-                                   { pattern: /^.+@.+$/, message: '邮箱格式不正确' },
+                                   { pattern: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, message: '邮箱格式不正确' },
                                    { validator: checkMail },]}>
                         <Input />
                     </Form.Item>

@@ -1,28 +1,58 @@
 import React from "react";
 import {Content,} from "antd/es/layout/layout";
-import {Button, Card, Layout, List, Select} from "antd";
+import {Button, Card, DatePicker, Layout, List, Select} from "antd";
 import "../../css/View.css"
 import Meta from "antd/es/card/Meta";
 import {changeOrderState, getAllOrders} from "../../Service/OrderService";
 import {ORDER_STATE} from "../../util/Constant";
+import Search from "antd/es/input/Search";
+import {getBook} from "../../Service/BookService";
 
 export class ManageOrderView extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { orders: [] };
-        this.state = { state: -1 };
+        this.state = { orders: [],
+            searchOrders: [],
+            selectedValue: null,
+            state: -1,};
     }
+
     async componentDidMount() {
         const orders = await getAllOrders();
-        this.setState({ orders });
+        const newOrders = await Promise.all(
+            orders.map(async (order) => {
+                const newBookOrders = await Promise.all(
+                    order.bookOrders.map(async (bookOrder) => {
+                        const book = await getBook(bookOrder.bookID);
+                        return { ...bookOrder, title: book.title };
+                    })
+                );
+                return { ...order, bookOrders: newBookOrders };
+            })
+        );
+        this.setState({ orders: newOrders, searchOrders: newOrders });
     }
     onChange = (value) => {
         console.log("ManageOrder::select",value);
         this.setState({state: value})
     };
-    onSearch = (value) => {
-        console.log('search:', value);
+
+    handleTimePickerChange = (value) => {
+        this.setState({ selectedValue: value });
+        if(value === null) {
+            this.setState({searchOrders: this.state.orders});
+            return;
+        }
+        const searchOrders = this.state.orders.filter((order) => {
+            const orderDate = new Date(order.createtime);
+            const startDate = new Date(value[0].format('YYYY-MM-DD'));
+            const endDate = new Date(value[1].format('YYYY-MM-DD'));
+            return orderDate >= startDate && orderDate <= endDate;
+        });
+        console.log(searchOrders);
+        this.setState({searchOrders: searchOrders});
     };
+
     submit = async (orderId) => {
         console.log("ManageOrder::submit",orderId,this.state.state)
         if(this.state.state > 0) {
@@ -43,12 +73,35 @@ export class ManageOrderView extends React.Component {
         }
     }
     render = () => {
+        const { selectedValue } = this.state;
         return (
             <Layout style={{backgroundColor:'transparent'}}>
                 <Content >
+                    <Search
+                        placeholder="输入书名"
+                        allowClear
+                        enterButton="搜索"
+                        size="large"
+                        style={{width:"75%", margin:"20px"}}
+                        onSearch={ async (value) => {
+                            if (value === "") {
+                                this.setState({searchOrders: this.state.orders});
+                                return;
+                            }
+                            const filteredOrders = this.state.orders.filter((order) => {
+                                return order.bookOrders.some((bookOrder) => {
+                                    return bookOrder.title.includes(value);
+                                });
+                            });
+                            this.setState({searchOrders: filteredOrders});
+                        }}
+                    />
+                    <DatePicker.RangePicker value={selectedValue} onChange={this.handleTimePickerChange}
+                                            style={{width:"50%", margin:"20px"}}
+                    />
                     <List
                         grid={{ gutter: 10, column: 4 }}
-                        dataSource={this.state.orders}
+                        dataSource={this.state.searchOrders}
                         pagination={{
                             onChange: page => {
                                 console.log(page);
@@ -69,12 +122,9 @@ export class ManageOrderView extends React.Component {
                                                 <div>
                                                     {item.bookOrders.map( (bookOrder) => (
                                                         <div style={{display:"flex",flexDirection:"row",verticalAlign:"text-top", justifyContent:"space-between",width:"100%"}}>
-                                                            <a href={`/bookDetails/${bookOrder.bookID}`} style={{marginLeft: "10px"}}>
-                                                                书籍编号：{bookOrder.id}
-                                                            </a>
+                                                            <p style={{color:"black"}}>书名：{bookOrder.title}</p>
                                                             <p style={{color:"grey"}}>{bookOrder.quantity}本</p>
                                                             <p style={{color:"grey"}}>{parseFloat(bookOrder.totalprice).toFixed(2)}元</p>
-
                                                         </div>
                                                     ))}
                                                 </div>
@@ -99,7 +149,6 @@ export class ManageOrderView extends React.Component {
                                         placeholder="Select a person"
                                         optionFilterProp="children"
                                         onChange={this.onChange}
-                                        onSearch={this.onSearch}
                                         defaultValue={`已${ORDER_STATE[item.state]}`}
                                         filterOption={(input, option) =>
                                             (option?.label ?? '').toLowerCase().includes(input.toLowerCase())

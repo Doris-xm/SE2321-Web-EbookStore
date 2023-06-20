@@ -1,5 +1,5 @@
 import React from "react";
-import {Descriptions, Badge, Button} from 'antd';
+import {Descriptions, Badge, Button, Card, List, Layout} from 'antd';
 import '../css/View.css'
 import {Link} from "react-router-dom";
 import {getUser} from "../Service/UserService";
@@ -31,49 +31,61 @@ export class User extends React.Component {
             );
         }
         return (
-            <div className="my-content" >
-                <div className="horizon-content">
-                    <img src={this.state.user.avatar} style={{width: 200,height:'auto'}}/>
-                    <div className="buttons">
-                        <Button type="primary">修改信息</Button>
-                        <Button type="primary"  onClick={handleLogout}>
-                            <Link to = '/login'>
-                                退出账号
-                            </Link>
-                        </Button>
+            <Layout style={{backgroundColor:"transparent",display:"flex",alignItems:"center"}} >
+                <h1 className="h1">
+                    欢迎回来! {this.state.user.nickname} !</h1>
+                <Card
+                    className="glass-container"
+                    style={{  marginTop: 50,width:"50%"}}
+                    bodyStyle={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        width: '100%',
+                    }}
+                >
+                    <div style={{alignItems:"flex-start"}}>
+                        <img
+                            src={this.state.user.avatar}
+                            alt="头像"
+                            style={{width: 200,height:'auto'}}
+                        />
                     </div>
+
+                    <div
+                        style={{
+                            width: '100%',
+                            display: 'flex',
+                            alignItems: 'center',
+                            flexDirection:'column',
+                            justifyContent: 'space-between',
+                            color: 'black', // 设置字体颜色为黑色
+                            lineHeight: '2.5', // 设置行间距
+                        }}
+                    >
+                        <div style={{ fontSize: '20px', fontWeight: 'bold' }}>
+                            昵称：{this.state.user.nickname}
+                        </div>
+                        <div style={{  fontSize: '16px' }}>
+                            邮箱：{this.state.user.email}
+                        </div>
+                        <div style={{  fontSize: '16px' }}>
+                            来到Bookstore的第{this.state.user.years}年
+                        </div>
+                        <div style={{  fontSize: '16px' }}>
+                            个人简介：{this.state.user.introduce}
+                        </div>
+                    </div>
+                </Card>
+                <div style={{marginTop:15}} className="buttons">
+                    {/*<Button type="primary">修改信息</Button>*/}
+                    <Button type="primary"  onClick={handleLogout}>
+                        <Link to = '/login'>
+                            退出账号
+                        </Link>
+                    </Button>
                 </div>
 
-                <div style={{ width: '95%' }}>
-                    <Descriptions title="用户信息" bordered={false} >
-                        <Descriptions.Item label="昵称">{this.state.user.name}</Descriptions.Item>
-                        <Descriptions.Item label="账号">{this.state.user.id}</Descriptions.Item>
-                        <Descriptions.Item label="来到书店">{this.state.user.Use_year}年</Descriptions.Item>
-                        <Descriptions.Item label="邮箱">(未填写)</Descriptions.Item>
-                        <Descriptions.Item label="电话" span={2}>
-                            2019-04-24 18:00:00
-                        </Descriptions.Item>
-                        <Descriptions.Item label="状态" span={3}>
-                            <Badge status="processing" text="在线" />
-                        </Descriptions.Item>
-                        <Descriptions.Item label="Negotiated Amount">$80.00</Descriptions.Item>
-                        <Descriptions.Item label="Discount">$20.00</Descriptions.Item>
-                        <Descriptions.Item label="Official Receipts">$60.00</Descriptions.Item>
-                        <Descriptions.Item label="个人简介">
-                            大家好
-                            <br/>
-                            Hello
-                            <br/>
-                            大家好
-                            <br/>
-                            大家好
-                            <br/>
-                            大家好
-                        </Descriptions.Item>
-                    </Descriptions>
-                </div>
-
-            </div>
+            </Layout>
 
         );
     };

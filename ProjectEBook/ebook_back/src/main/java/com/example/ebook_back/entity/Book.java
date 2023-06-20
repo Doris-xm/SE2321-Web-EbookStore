@@ -39,6 +39,9 @@ public class Book {
     @Basic
     @Column(name = "sales")
     private int sales;
+    @Basic
+    @Column(name = "introduce")
+    private String introduce;
 
     public int getId() {
         return id;

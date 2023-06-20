@@ -67,7 +67,8 @@ export const AddToCart = async (bookID) => {
 // };
 export const getCart = async () => {
     let cart = [];
-    const id = getUser().id;
+    const user = await getUser();
+    const id = user.id;
     try {
         const response = await fetch(`/cart?userID=${id}`, {
             method: 'GET',
@@ -83,8 +84,9 @@ export const getCart = async () => {
     return cart;
 };
 
-export const clearCart = () => {
-    const userID = getUser().id;
+export const clearCart = async () => {
+    const user = await getUser();
+    const userID = user.id;
     fetch('http://localhost:8001/cartclear', {
         method: 'POST',
         headers: {
@@ -133,8 +135,9 @@ export const clearCart = () => {
 //     localStorage.setItem("cart", JSON.stringify(cart));
 //     console.log(localStorage.getItem("cart"));
 // };
-export const ChangeQuantity = (bookID, quantity) => {
-    const userID = getUser().id;
+export const ChangeQuantity = async (bookID, quantity) => {
+    const user = await getUser();
+    const userID = user.id;
     fetch('http://localhost:8001/cartquantity', {
         method: 'POST',
         headers: {
