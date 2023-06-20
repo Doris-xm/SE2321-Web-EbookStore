@@ -6,5 +6,7 @@ import java.util.List;
 public interface  BookDao {
     Book findBookById(int id);
     List<Book> findAll();
+    void deleteById(int id);
+    void save(Book book);
 
 }

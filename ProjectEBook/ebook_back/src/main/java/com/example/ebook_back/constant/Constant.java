@@ -26,6 +26,13 @@ public class Constant {
     public static final String POST_TIME = "postTime";
     public static final String USERS = "users";
 
-
+    /* Book 相关*/
+    public static final String BOOK_ID = "id";
+    public static final String BOOK_NAME = "title";
+    public static final String BOOK_AUTHOR = "author";
+    public static final String BOOK_ISBN = "isbn";
+    public static final String BOOK_PRICE = "price";
+    public static final String BOOK_STOCK = "stocks";
+    public static final String BOOK_COVER = "cover";
 
 }

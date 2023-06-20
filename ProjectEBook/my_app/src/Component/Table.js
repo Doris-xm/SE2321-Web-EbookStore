@@ -5,7 +5,7 @@ export class Table extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: this.props.data,
+            data: this.props.books,
             sortby: null,
             descending: false,
             edit: null, // [row index, cell index],
@@ -13,6 +13,7 @@ export class Table extends React.Component {
             preSearchData: null,
             // headers: this.props.headers,
         };
+        console.log('Table constructor',this.props.books);
         this.handleSearch = this.handleSearch.bind(this);
         this.handleData = this.handleData.bind(this);
         this.handlePreSearchData = this.handlePreSearchData.bind(this);
@@ -98,56 +99,44 @@ export class Table extends React.Component {
     };
 
     render = () => {
-        const {data} = this.props;
-        const {preSearchData} = this.props;
-        const {search} = this.props;
-        const {edit} = this.props;
-        const {sortby} = this.props;
-        const {descending} = this.props;
-
-        this.state.data = data;
-        this.state.preSearchData = preSearchData;
-        this.state.search = search;
-        this.state.edit = edit;
-        this.state.sortby = sortby;
-        this.state.descending = descending;
+        const { data, preSearchData, search, edit, sortby, descending, headers } = this.props;
 
         return (
             <table>
                 <thead onClick={this.sort}>
-                <tr>{
-                    this.props.headers.map(function (title, idx) {
-                        if (this.state.sortby === idx) {
-                            title += this.state.descending ? ' \u2191' : ' \u2193';
+                <tr>
+                    {headers.map(function (title, idx) {
+                        if (sortby === idx) {
+                            title += descending ? ' \u2191' : ' \u2193';
                         }
                         return <th key={idx}>{title}</th>;
-                    }, this)
-                }</tr>
+                    })}
+                </tr>
                 </thead>
                 <tbody onDoubleClick={this.showEditor}>
                 {this.renderSearch()}
-                {this.state.data.map(function (row, rowidx) {
+                {data.map(function (row, rowidx) {
                     return (
-                        <tr key={rowidx}>{
-                            row.map(function (cell, idx) {
+                        <tr key={rowidx}>
+                            {row.map(function (cell, idx) {
                                 let content = cell;
-                                let edit = this.state.edit;
                                 if (edit && edit.row === rowidx && edit.cell === idx) {
                                     content = (
                                         <form onSubmit={this.save}>
-                                            <input type="text" defaultValue={cell}/>
+                                            <input type="text" defaultValue={cell} />
                                         </form>
                                     );
                                 }
                                 return <td key={idx} data-row={rowidx}>{content}</td>;
-                            }, this)}
+                            })}
                         </tr>
                     );
-                }, this)}
+                })}
                 </tbody>
             </table>
         );
     }
+
 };
 
 Table.propTypes = {

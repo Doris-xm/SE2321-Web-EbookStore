@@ -1,5 +1,7 @@
 import {Link} from "react-router-dom";
 import React from "react";
+import {message} from "antd";
+import {postRequest} from "../util/ajax";
 
 export const getBooks = async () => {
     let books = [];
@@ -27,6 +29,22 @@ export const getBook = async (id) => {
         console.error("Error fetching books:", error);
     }
     return book;
+};
+export const deleteBooks = async (bookIds) => {
+    console.log("deleteBooks", bookIds);
+    const url = '/api/deleteBooks';
+    const data = {
+        bookIds: bookIds,
+    };
+    const callback = (data) => {
+        if (data.status <= 0) {
+            message.error(data.msg);
+            return null;
+        } else {
+            return data.data;
+        }
+    };
+    return postRequest(url, data, callback);
 };
 
 // export const getBookName = async (id) => {

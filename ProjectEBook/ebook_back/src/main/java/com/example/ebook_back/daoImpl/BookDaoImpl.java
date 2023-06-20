@@ -33,4 +33,17 @@ public class BookDaoImpl implements BookDao {
         return bookRepository.findAll();
     }
 
+    @Override
+    public void deleteById(int id){
+        Book book = bookRepository.findBookById(id);
+        if(book == null){
+            throw(new RuntimeException("Book not found"));
+        }
+        bookRepository.removeBookById(id);
+    }
+    @Override
+    public void save(Book book){
+        bookRepository.save(book);
+    }
+
 }

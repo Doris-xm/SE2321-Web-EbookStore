@@ -32,6 +32,10 @@ public class MsgUtil {
     /* 修改相关*/
     public static final String UPDATE_SUCCESS_MSG = "修改成功！";
     public static final String UPDATE_ERR_MSG = "修改失败！";
+    public static final String DELETE_SUCCESS_MSG = "删除成功！";
+    public static final String ADD_SUCCESS_MSG = "增加成功！";
+    public static final String MODIFY_SUCCESS_MSG = "修改成功！";
+
     /* 订单相关*/
     public static final String ORDER_SUCCESS_MSG = "下单成功！";
     public static final String ORDER_ERR_MSG = "下单失败！";

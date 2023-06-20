@@ -32,4 +32,22 @@ public class BookServiceImpl implements BookService {
     public List<Book> getBooks() {
         return bookDao.findAll();
     }
+    @Override
+    public void deleteBooks(List<Integer> bookIds) {
+        try {
+            for (int bookId : bookIds) {
+                bookDao.deleteById(bookId);
+            }
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+    @Override
+    public void addBook(Book book) {
+        try {
+            bookDao.save(book);
+        } catch (Exception e) {
+            throw e;
+        }
+    }
 }

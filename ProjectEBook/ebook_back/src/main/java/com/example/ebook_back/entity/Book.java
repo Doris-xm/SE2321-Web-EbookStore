@@ -5,10 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Data
@@ -17,10 +14,31 @@ import java.util.Objects;
 @JsonIgnoreProperties(value = {"handler","hibernateLazyInitializer","fieldHandler"})
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "id")
 public class Book {
-    @javax.persistence.GeneratedValue(strategy = javax.persistence.GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id")
     private int id;
+    @Basic
+    @Column(nullable = false, name = "title")
+    private String title;
+    @Basic
+    @Column(nullable = false, name = "author")
+    private String author;
+    @Basic
+    @Column(nullable = false, name = "price")
+    private double price;
+    @Basic
+    @Column(nullable = false, name = "cover")
+    private String cover;
+    @Basic
+    @Column(name = "isbn")
+    private String isbn;
+    @Basic
+    @Column(name = "stocks")
+    private int stocks;
+    @Basic
+    @Column(name = "sales")
+    private int sales;
 
     public int getId() {
         return id;
@@ -30,10 +48,6 @@ public class Book {
         this.id = id;
     }
 
-    @javax.persistence.Basic
-    @Column(nullable = false, name = "title")
-    private String title;
-
     public String getTitle() {
         return title;
     }
@@ -41,10 +55,6 @@ public class Book {
     public void setTitle(String title) {
         this.title = title;
     }
-
-    @javax.persistence.Basic
-    @Column(nullable = false, name = "author")
-    private String author;
 
     public String getAuthor() {
         return author;
@@ -54,10 +64,6 @@ public class Book {
         this.author = author;
     }
 
-    @javax.persistence.Basic
-    @Column(nullable = false, name = "price")
-    private double price;
-
     public double getPrice() {
         return price;
     }
@@ -65,10 +71,6 @@ public class Book {
     public void setPrice(double price) {
         this.price = price;
     }
-
-    @javax.persistence.Basic
-    @Column(nullable = false, name = "cover")
-    private String cover;
 
     public String getCover() {
         return cover;
@@ -89,5 +91,29 @@ public class Book {
     @Override
     public int hashCode() {
         return Objects.hash(id, title, author, price, cover);
+    }
+
+    public String getIsbn() {
+        return isbn;
+    }
+
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
+    }
+
+    public int getStocks() {
+        return stocks;
+    }
+
+    public void setStocks(int stocks) {
+        this.stocks = stocks;
+    }
+
+    public int getSales() {
+        return sales;
+    }
+
+    public void setSales(int sales) {
+        this.sales = sales;
     }
 }
