@@ -16,6 +16,7 @@ export class ManageUserView extends React.Component {
             openConfirm: false,
             openEdit: -1,
             openUpload: false,
+            sorted:false,
         };
     }
     async componentDidMount() {
@@ -63,6 +64,21 @@ export class ManageUserView extends React.Component {
                 <ProList
                     toolBarRender={() => {
                         return [
+                            <Button key="3" type="default" onClick={()=>{
+                                if(this.state.sorted){
+                                    const sortedBooks = this.state.books.sort((a, b) => {
+                                        return a.id - b.id;
+                                    });
+                                    this.setState({books:sortedBooks, searchBooks: sortedBooks,sorted:!this.state.sorted})
+                                    return;
+                                }
+                                const sortedBooks = this.state.books.sort((a, b) => {
+                                    return b.sales - a.sales;
+                                });
+                                this.setState({books:sortedBooks, searchBooks: sortedBooks,sorted:!this.state.sorted})
+                            }}>
+                                {this.state.sorted?"编号排序":"销量排序"}
+                            </Button>,
                             <Button key="3" type="primary" onClick={()=>{this.setState({openUpload: true})}}>
                                 上传书籍
                             </Button>,
