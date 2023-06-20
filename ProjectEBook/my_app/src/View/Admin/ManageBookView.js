@@ -1,30 +1,24 @@
 import {ProForm, ProList} from '@ant-design/pro-components';
-import {Button, Input, Layout, Modal, Space, Tag} from 'antd';
+import {Button, Cascader, Form, Input, Layout, Modal, Space, Tag} from 'antd';
 import React from "react";
-import {banUsers, getAllUsers} from "../../Service/UserService";
-import {deleteBooks, getBooks} from "../../Service/BookService";
+import {addBook, deleteBooks, getBooks, modifyBook} from "../../Service/BookService";
 
 export class ManageUserView extends React.Component {
     constructor(props) {
         super(props);
-        // this.state = { books: booksData };
+        this.formRef = React.createRef();
         this.state = { books: [],
             selectedRowKeys: [],
             selectedIds: [],
             selectedTitles: [],
             openConfirm: false,
+            openEdit: false,
+            openUpload: false,
         };
     }
-    onSelectChange = (selectedRowKeys) => {
-        this.setState({ selectedRowKeys });
-    };
     async componentDidMount() {
         const books = await getBooks();
         this.setState({ books});
-    }
-    confirm =(selection)=>{
-        console.log(selection);
-        return true;
     }
 
     render = () => {
@@ -33,11 +27,9 @@ export class ManageUserView extends React.Component {
         const rowSelection = {
             selectedRowKeys,
             onChange: (selectedKeys, selectedRows) => {
+                console.log('selectedRows: ', selectedRows)
                 const selectedBookIds = selectedRows.map((row) => row.id);
                 const selectedBookTitles = selectedRows.map((row) => row.title);
-
-                // 在这里可以使用 selectedBookIds 和 selectedBookTitles 做进一步的操作
-                // ...
 
                 this.setState({
                     selectedRowKeys: selectedKeys,
@@ -51,9 +43,63 @@ export class ManageUserView extends React.Component {
                 <ProList
                     toolBarRender={() => {
                         return [
-                            <Button key="3" type="primary">
+                            <Button key="3" type="primary" onClick={()=>{this.setState({openUpload: true})}}>
                                 上传书籍
                             </Button>,
+                            <Modal
+                                title="上传新的书籍"
+                                visible={this.state.openUpload}
+                                onOk={() => {
+                                    this.formRef.submit();
+                                }}
+                                onCancel={() => {
+                                    this.setState({ openUpload: false })
+                                }}
+                            >
+                                <Form
+                                    onFinish={(values) => {
+                                        this.setState({ openUpload: false })
+                                        addBook(values).then(async (res) => {
+                                            if (res) {
+                                                const books = await getBooks();
+                                                this.setState({books});
+                                            }
+                                        });
+                                    }}
+                                    labelCol={{ span: 4 }} wrapperCol={{ span: 14 }} layout="horizontal"
+                                    size={"middle"} style={{ maxWidth: 600 }}
+                                    ref={(formRef) => (this.formRef = formRef)}
+                                >
+                                    <Form.Item label="书名"  name="title"
+                                               rules={[{ required: true,  }]}>
+                                        <Input />
+                                    </Form.Item>
+                                    <Form.Item label="ISBN-13" name="isbn"
+                                               rules={[ { required: true, max: 13,min: 13 }]}>
+                                        <Input />
+                                    </Form.Item>
+                                    <Form.Item label="作者" name="author"
+                                               rules={[{ required: true }]}>
+                                        <Input />
+                                    </Form.Item>
+                                    <Form.Item label="价格" name="price"
+                                               rules={[{ required: true },
+                                                   {pattern: new RegExp(/^[0-9]+(\.[0-9]+)?$/), message: '请输入数字'}
+                                               ]}>
+                                        <Input />
+                                    </Form.Item>
+                                    <Form.Item label="库存" name="stocks"
+                                               rules={[{ required: true },
+                                                   {pattern: new RegExp(/^[0-9]+$/), message: '请输入正整数'}
+                                               ]}>
+                                        <Input />
+                                    </Form.Item>
+                                    <Form.Item label="封面URL" name="cover"
+                                               rules={[{ required: false },]}>
+                                        <Input />
+                                    </Form.Item>
+                                </Form>
+                            </Modal>,
                             <Button key="4" type="default"
                                     onClick={ () => {
                                         this.setState({ openConfirm: true });
@@ -65,12 +111,13 @@ export class ManageUserView extends React.Component {
                                 title="确认删除"
                                 open={this.state.openConfirm}
                                 onOk={async () => {
-                                    await deleteBooks(this.state.selectedIds).then((res)=>{
-                                        if(res){
-                                            this.setState({ openConfirm: false ,selectedRowKeys:[]});
-                                        }
-                                        else {
-                                            this.setState({ openConfirm: false})
+                                    await deleteBooks(this.state.selectedIds).then(async (res) => {
+                                        if (res) {
+                                            this.setState({openConfirm: false, selectedRowKeys: []});
+                                            const books = await getBooks();
+                                            this.setState({books});
+                                        } else {
+                                            this.setState({openConfirm: false})
                                         }
                                     });
                                 }}
@@ -101,8 +148,7 @@ export class ManageUserView extends React.Component {
                     headerTitle="全部书籍"
                     rowSelection={rowSelection}
                     pagination={{
-                        pageSize:8,
-                        total: this.state.books.length, // 展示总数
+                        pageSize:this.state.books.length, // 展示总数
                     }}
                     dataSource={this.state.books}
                     showActions="hover"
@@ -119,6 +165,7 @@ export class ManageUserView extends React.Component {
                                     <span>
                                         <span>ISBN-13: {row.isbn} </span>
                                         <span>,  作者: {row.author}</span>
+                                        <span>,  价格: {row.price}</span>
                                     </span>
                                 );
                             },
@@ -142,14 +189,70 @@ export class ManageUserView extends React.Component {
                         actions: {
                             render: (text, row) => [
                                 <Button
-                                    href={row.url}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    key="view"
-                                    type={"default"}
+                                    href={row.url} key="view" type={"default"}
+                                    onClick={() => {
+                                        this.setState({ openEdit: true });
+                                    }}
                                 >
                                     编辑
                                 </Button>,
+                                <Modal
+                                    title="修改书籍信息"
+                                    visible={this.state.openEdit}
+                                    onOk={(value) => {
+                                        this.formRef.submit();
+                                        this.setState({ openEdit: false })
+                                    }}
+                                    onCancel={() => {
+                                        this.formRef.resetFields(); // 重置表单字段值
+                                        this.setState({ openEdit: false })
+                                    }}
+                                >
+                                    <Form
+                                        onFinish={(values) => {
+                                            values.id = row.id;
+                                            modifyBook(values).then(async (res) => {
+                                                if (res) {
+                                                    const books = await getBooks();
+                                                    this.setState({books});
+                                                }
+                                            });
+                                        }}
+                                        labelCol={{ span: 4 }} wrapperCol={{ span: 14 }} layout="horizontal"
+                                        size={"middle"} style={{ maxWidth: 600 }}
+                                        ref={(formRef) => (this.formRef = formRef)}
+                                    >
+                                        <Form.Item label="书名"  name="name"
+                                                   initialValue={row.title}
+                                                   rules={[{ required: false,  }]}>
+                                            <Input />
+                                        </Form.Item>
+                                        <Form.Item label="ISBN-13" name="isbn"
+                                                   initialValue={row.isbn}
+                                                   rules={[ { required: false, max: 13,min: 13 }]}>
+                                            <Input />
+                                        </Form.Item>
+                                        <Form.Item label="作者" name="author"
+                                                   initialValue={row.author}
+                                                   rules={[{ required: false }]}>
+                                            <Input />
+                                        </Form.Item>
+                                        <Form.Item label="价格" name="price"
+                                                   initialValue={row.price}
+                                                   rules={[{ required: false },
+                                                       {pattern: new RegExp(/^[0-9]+(\.[0-9]+)?$/), message: '请输入数字'}
+                                                   ]}>
+                                            <Input />
+                                        </Form.Item>
+                                        <Form.Item label="库存" name="stocks"
+                                                    initialValue={row.stocks}
+                                                   rules={[{ required: false },
+                                                       {pattern: new RegExp(/^[0-9]+$/), message: '请输入正整数'}
+                                                   ]}>
+                                            <Input />
+                                        </Form.Item>
+                                    </Form>
+                                </Modal>
                             ],
                             search: false,
                         },

@@ -8,6 +8,6 @@ public interface BookService {
     Book findBookById(int id);
 
     List<Book> getBooks() ;
-    void deleteBooks(List<Integer> bookIds);
+//    void deleteBooks(List<Integer> bookIds);
     void addBook(Book book);
 }

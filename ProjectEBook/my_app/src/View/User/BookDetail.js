@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import '../../css/View.css'
-import {Badge, Button, Descriptions} from "antd";
+import {Badge, Button, Descriptions, message} from "antd";
 import { useParams,useNavigate  } from "react-router-dom";
 import {getBook} from "../../Service/BookService";
 import {AddToCart} from "../../Service/CartService";
@@ -14,18 +14,28 @@ function BookDetail () {
     useEffect(() => {
         const fetchData = async () => {
             const fetchedBook = await getBook(bookId);
+            if(fetchedBook === null || fetchedBook.stocks < 0) {
+                message.error("该书已下架");
+                setBook(null);
+                return;
+            }
             setBook(fetchedBook);
         };
         fetchData();
     }, [bookId]);
-
-
-    if(!book) {
-         return <div>Loading</div>;
-    }
     const handleGoBack = () => {
         navigate(-1); // 调用navigate返回上一页
     };
+
+    if(!book) {
+        return (
+            <div>
+                <div>该书已下架</div>
+                <Button className="buttons" onClick={handleGoBack}>返回</Button>
+            </div>
+        );
+    }
+
     const handleAddToCart = () => {
         let user = getUser();
         if(user === null)

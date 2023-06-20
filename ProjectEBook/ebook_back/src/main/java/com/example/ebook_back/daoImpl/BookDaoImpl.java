@@ -30,17 +30,19 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public List<Book> findAll(){
-        return bookRepository.findAll();
+        List<Book> books = bookRepository.findAll();
+        books.removeIf(book -> book.getStocks() < 0);
+        return books;
     }
 
-    @Override
-    public void deleteById(int id){
-        Book book = bookRepository.findBookById(id);
-        if(book == null){
-            throw(new RuntimeException("Book not found"));
-        }
-        bookRepository.removeBookById(id);
-    }
+//    @Override
+//    public void deleteById(int id){
+//        Book book = bookRepository.findBookById(id);
+//        if(book == null){
+//            throw(new RuntimeException("Book not found"));
+//        }
+//        bookRepository.removeBookById(id);
+//    }
     @Override
     public void save(Book book){
         bookRepository.save(book);

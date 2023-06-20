@@ -35,6 +35,7 @@ public class MsgUtil {
     public static final String DELETE_SUCCESS_MSG = "删除成功！";
     public static final String ADD_SUCCESS_MSG = "增加成功！";
     public static final String MODIFY_SUCCESS_MSG = "修改成功！";
+    public static final String BOOK_DELETED_ERR_MSG = "书籍已下架！";
 
     /* 订单相关*/
     public static final String ORDER_SUCCESS_MSG = "下单成功！";

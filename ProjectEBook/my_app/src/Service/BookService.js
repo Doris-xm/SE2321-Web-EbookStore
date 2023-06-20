@@ -15,20 +15,14 @@ export const getBooks = async () => {
     return books;
 };
 export const getBook = async (id) => {
-    let book = null;
-    try {
-        const response = await fetch(`/book?id=${id}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-        });
-        book = await response.json();
-        console.log("getbook", book);
-    } catch (error) {
-        console.error("Error fetching books:", error);
-    }
-    return book;
+    const url = '/api/book';
+    const data = {
+        id: id,
+    };
+    const callback = (data) => {
+        return data.data;
+    };
+    return postRequest(url, data, callback);
 };
 export const deleteBooks = async (bookIds) => {
     console.log("deleteBooks", bookIds);
@@ -39,9 +33,38 @@ export const deleteBooks = async (bookIds) => {
     const callback = (data) => {
         if (data.status <= 0) {
             message.error(data.msg);
-            return null;
+            return false;
         } else {
-            return data.data;
+            message.success(data.msg);
+            return true;
+        }
+    };
+    return postRequest(url, data, callback);
+};
+export const modifyBook = async (data) => {
+    console.log("modifyBook", data);
+    const url = '/api/modifyBook';
+    const callback = (data) => {
+        if (data.status <= 0) {
+            message.error(data.msg);
+            return false;
+        } else {
+            message.success(data.msg);
+            return true;
+        }
+    };
+    return postRequest(url, data, callback);
+};
+export const addBook = async (data) => {
+    console.log("add", data);
+    const url = '/api/addBook';
+    const callback = (data) => {
+        if (data.status <= 0) {
+            message.error(data.msg);
+            return false;
+        } else {
+            message.success(data.msg);
+            return true;
         }
     };
     return postRequest(url, data, callback);

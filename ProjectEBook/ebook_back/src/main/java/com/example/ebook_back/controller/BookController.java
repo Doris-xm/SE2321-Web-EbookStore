@@ -11,8 +11,11 @@ import net.sf.json.JSONObject;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 public class BookController {
@@ -27,8 +30,16 @@ public class BookController {
         return bookService.getBooks();
     }
     @RequestMapping("/book")
-    public Book getBookById(@RequestParam("id") int id) {
-        return  bookService.findBookById(id);
+    public Msg getBookById(@RequestBody Map<String,Object> json) {
+        int id = (int) json.get(Constant.BOOK_ID);
+        Book book = bookService.findBookById(id);
+        if(book == null)
+            return MsgUtil.makeMsg(MsgCode.ERROR, MsgUtil.ERROR_MSG, null);
+        JSONObject jsonObject = JSONObject.fromObject(book);
+        if(book.getStocks() < 0)
+            return MsgUtil.makeMsg(MsgCode.ERROR, MsgUtil.BOOK_DELETED_ERR_MSG,jsonObject);
+
+        return MsgUtil.makeMsg(MsgCode.SUCCESS, MsgUtil.SUCCESS_MSG, jsonObject);
     }
 //    @RequestMapping("/")
 //    public String home() {
@@ -36,14 +47,30 @@ public class BookController {
 //        return booksString;
 //    }
     @PostMapping("/deleteBooks")
-    public Msg getUserById(@RequestBody Map<String,Object> json) {
-        try {
-            List<Integer> bookIds = (List<Integer>) json.get("bookIds");
-            bookService.deleteBooks(bookIds);
-        } catch (Exception e) {
-            return MsgUtil.makeMsg(MsgCode.ERROR, e.toString());
+    /*
+    * @brief 删除书籍:将书籍的库存设置为-1
+    * */
+    public Msg deleteBooks(@RequestBody Map<String,Object> json) {
+        List<Integer> bookIds= (ArrayList<Integer>) json.get("bookIds");
+        for (int bookId : bookIds) {
+            Book book = bookService.findBookById(bookId);
+            if(book == null)
+                return MsgUtil.makeMsg(MsgCode.ERROR, MsgUtil.BOOK_DELETED_ERR_MSG);
+            book.setStocks(-1);
+            bookService.addBook(book);
         }
+
         return MsgUtil.makeMsg(MsgCode.SUCCESS, MsgUtil.DELETE_SUCCESS_MSG);
+//        try {
+//            String bookIdsString = (String) json.get("bookIds");
+//            List<Integer> bookIds = Arrays.stream(bookIdsString.split(","))
+//                    .map(Integer::parseInt)
+//                    .collect(Collectors.toList());
+//            bookService.deleteBooks(bookIds);
+//        } catch (Exception e) {
+//            return MsgUtil.makeMsg(MsgCode.ERROR, e.toString());
+//        }
+//        return MsgUtil.makeMsg(MsgCode.SUCCESS, MsgUtil.DELETE_SUCCESS_MSG);
     }
     @PostMapping("/addBook")
     public Msg AddBook(@RequestBody Map<String,Object> json) {
@@ -65,31 +92,25 @@ public class BookController {
     public Msg ModifyBook(@RequestBody Map<String,Object> json) {
         try {
             System.out.println(json);
-            Book book = new Book();
             int id = Integer.valueOf(json.get(Constant.BOOK_ID).toString());
-            book = bookService.findBookById(id);
+            Book book = bookService.findBookById(id);
             if(book == null)
-                return MsgUtil.makeMsg(MsgCode.ERROR, "书籍不存在");
+                return MsgUtil.makeMsg(MsgCode.ERROR, MsgUtil.BOOK_DELETED_ERR_MSG);
 
-            String title = json.get(Constant.BOOK_NAME).toString();
-            if(title != null)
-                book.setTitle(title);
-            String author = json.get(Constant.BOOK_AUTHOR).toString();
-            if(author != null)
-                book.setAuthor(author);
-            int stocks = Integer.valueOf(json.get(Constant.BOOK_STOCK).toString());
-            if(stocks != -1)
-                book.setStocks(stocks);
-            double price = Double.valueOf(json.get(Constant.BOOK_PRICE).toString());
-            if(price != -1)
-                book.setPrice(price);
-            String cover = json.get(Constant.BOOK_COVER).toString();
-            if(cover != null)
-                book.setCover(cover);
-            String isbn = json.get(Constant.BOOK_ISBN).toString();
-            if(isbn != null)
-                book.setIsbn(isbn);
+            if(json.get(Constant.BOOK_NAME) != null)
+                book.setTitle(json.get(Constant.BOOK_NAME).toString());
+           if(json.get(Constant.BOOK_AUTHOR) != null)
+                book.setAuthor(json.get(Constant.BOOK_AUTHOR).toString());
+            if(json.get(Constant.BOOK_STOCK) != null)
+                book.setStocks(Integer.valueOf(json.get(Constant.BOOK_STOCK).toString()));
+            if(json.get(Constant.BOOK_PRICE) != null)
+                book.setPrice(Double.valueOf(json.get(Constant.BOOK_PRICE).toString()));
+            if(json.get(Constant.BOOK_COVER) != null)
+                book.setCover(json.get(Constant.BOOK_COVER).toString());
+            if(json.get(Constant.BOOK_ISBN) != null)
+                book.setIsbn(json.get(Constant.BOOK_ISBN).toString());
             bookService.addBook(book);
+
             JSONObject jsonObject = JSONObject.fromObject(book);
             return MsgUtil.makeMsg(MsgCode.SUCCESS, MsgUtil.MODIFY_SUCCESS_MSG, jsonObject);
         } catch (Exception e) {
