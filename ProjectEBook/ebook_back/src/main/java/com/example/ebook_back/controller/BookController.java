@@ -31,7 +31,7 @@ public class BookController {
     }
     @RequestMapping("/book")
     public Msg getBookById(@RequestBody Map<String,Object> json) {
-        int id = (int) json.get(Constant.BOOK_ID);
+        int id = Integer.parseInt(json.get(Constant.BOOK_ID).toString());
         Book book = bookService.findBookById(id);
         if(book == null)
             return MsgUtil.makeMsg(MsgCode.ERROR, MsgUtil.ERROR_MSG, null);

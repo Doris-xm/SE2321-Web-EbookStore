@@ -2,12 +2,14 @@ import {ProForm, ProList} from '@ant-design/pro-components';
 import {Button, Cascader, Form, Input, Layout, Modal, Space, Tag} from 'antd';
 import React from "react";
 import {addBook, deleteBooks, getBooks, modifyBook} from "../../Service/BookService";
+import Search from "antd/es/input/Search";
 
 export class ManageUserView extends React.Component {
     constructor(props) {
         super(props);
         this.formRef = React.createRef();
         this.state = { books: [],
+            searchBooks: [],
             selectedRowKeys: [],
             selectedIds: [],
             selectedTitles: [],
@@ -18,7 +20,7 @@ export class ManageUserView extends React.Component {
     }
     async componentDidMount() {
         const books = await getBooks();
-        this.setState({ books});
+        this.setState({ books, searchBooks:books });
     }
 
     render = () => {
@@ -40,6 +42,24 @@ export class ManageUserView extends React.Component {
         };
         return (
             <Layout style={{alignItems:"center",background:"transparent"}}>
+                <Search
+                    placeholder="输入书名或ISBN-13"
+                    allowClear
+                    enterButton="搜索"
+                    size="large"
+                    style={{width:"75%", margin:"20px"}}
+                    onSearch={async (value) => {
+                        if(value === "") {
+                            this.setState({searchBooks: this.state.books});
+                            return;
+                        }
+                        const searchBooks = this.state.books.filter((book) => {
+                            return book.title.includes(value) || book.isbn.includes(value);
+                        });
+                        this.setState({searchBooks});
+                        console.log("searchBooks: ", searchBooks);
+                    }}
+                />
                 <ProList
                     toolBarRender={() => {
                         return [
@@ -136,21 +156,15 @@ export class ManageUserView extends React.Component {
                     }}
                     style={{margin:"20px", width:"75%"}}
                     search={
-                        {
-                            // filterType: 'light',
-                            // placeholder: '请输入书名或ISBN-13',
-                            // onSearch: (value) => {
-                            //     console.log(value);
-                            // },
-                        }
+                       false
                     }
                     rowKey="name"
                     headerTitle="全部书籍"
                     rowSelection={rowSelection}
                     pagination={{
-                        pageSize:this.state.books.length, // 展示总数
+                        pageSize:this.state.searchBooks.length, // 展示总数
                     }}
-                    dataSource={this.state.books}
+                    dataSource={this.state.searchBooks}
                     showActions="hover"
                     metas={{
                         title: {

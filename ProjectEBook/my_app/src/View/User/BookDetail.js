@@ -14,6 +14,7 @@ function BookDetail () {
     useEffect(() => {
         const fetchData = async () => {
             const fetchedBook = await getBook(bookId);
+            console.log(fetchedBook)
             if(fetchedBook === null || fetchedBook.stocks < 0) {
                 message.error("该书已下架");
                 setBook(null);
