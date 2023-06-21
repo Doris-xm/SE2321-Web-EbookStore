@@ -4,6 +4,7 @@ import '../css/View.css'
 import {Link} from "react-router-dom";
 import {getUser} from "../Service/UserService";
 import {handleLogout} from "../Service/UserService";
+import UserImage from "../Component/User/UserImage";
 
 export class User extends React.Component {
     constructor(props) {
@@ -36,7 +37,7 @@ export class User extends React.Component {
                     欢迎回来! {this.state.user.nickname} !</h1>
                 <Card
                     className="glass-container"
-                    style={{  marginTop: 50,width:"50%"}}
+                    style={{  marginTop: 30,width:"50%"}}
                     bodyStyle={{
                         display: 'flex',
                         alignItems: 'center',
@@ -84,7 +85,7 @@ export class User extends React.Component {
                         </Link>
                     </Button>
                 </div>
-
+                <UserImage user={this.state.user}  />
             </Layout>
 
         );
