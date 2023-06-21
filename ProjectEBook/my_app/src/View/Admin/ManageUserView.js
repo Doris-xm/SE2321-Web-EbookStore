@@ -1,5 +1,5 @@
 import {ProForm, ProList} from '@ant-design/pro-components';
-import {Button, Input, Layout, Space, Tag} from 'antd';
+import {Button, DatePicker, Input, Layout, Space, Tag} from 'antd';
 import React from "react";
 import {banUsers, getAllUsers} from "../../Service/UserService";
 import {getAllOrders} from "../../Service/OrderService";
@@ -10,7 +10,8 @@ export class ManageUserView extends React.Component {
         // this.state = { books: booksData };
         this.state = { users: [],
             sorted: false,
-            sortedUsers: [],};
+            sortedUsers: [],
+        };
     }
     async componentDidMount() {
         const users_detail = await getAllUsers();
@@ -38,10 +39,42 @@ export class ManageUserView extends React.Component {
         this.setState({ users: users,sortedUsers: users});
     }
 
+    handleTimePickerChange = async (value) => {
+        if (value === null) {
+            this.setState({sorted: false, sortedUsers: this.state.users});
+            return;
+        }
+        const orders = await getAllOrders();
+
+        const userExpenses = {}; // 用于保存每个用户的消费额度
+
+        orders.forEach(order => {
+            const orderDate = new Date(order.createtime);
+            const startDate = new Date(value[0].format('YYYY-MM-DD'));
+            const endDate = new Date(value[1].format('YYYY-MM-DD'));
+            if (orderDate < startDate || orderDate > endDate) {
+                return;
+            }
+            if (userExpenses[order.userID]) {
+                userExpenses[order.userID] += order.totalprice;
+            } else {
+                userExpenses[order.userID] = order.totalprice;
+            }
+        });
+        const filteredUsers = this.state.users.map(user => ({
+            ...user,
+            expense: userExpenses[user.id] || 0, // 获取每个用户的消费额度，如果不存在则默认为0
+        }));
+        filteredUsers.sort((a, b) => b.expense - a.expense);
+        this.setState({sortedUsers: filteredUsers, sorted: false})
+    };
 
     render = () => {
         return (
             <Layout style={{alignItems:"center",background:"transparent"}}>
+                <DatePicker.RangePicker  onChange={this.handleTimePickerChange}
+                                         style={{width:"50%", margin:"20px"}}
+                />
             <ProList
                 toolBarRender={() => {
                     return [
@@ -69,7 +102,7 @@ export class ManageUserView extends React.Component {
                 rowKey="name"
                 headerTitle="用户列表"
                 pagination={{
-                    pageSize: 5,
+                    pageSize: 8,
                     total: this.state.users.length, // 展示总数
                 }}
                 dataSource={this.state.sortedUsers}

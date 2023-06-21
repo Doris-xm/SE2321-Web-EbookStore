@@ -64,5 +64,9 @@ public class OrderServiceImpl implements OrderService {
     public boolean changeState(int orderId, int state) {
         return orderDao.changeState(orderId, state);
     }
+    @Override
+    public List<BookOrder> findAllOrderItems() {
+        return bookOrderDao.findAll();
+    }
 
 }

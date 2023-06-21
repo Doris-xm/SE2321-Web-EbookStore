@@ -9,6 +9,8 @@ import com.example.ebook_back.entity.MyOrder;
 import com.example.ebook_back.entity.OrderCommit;
 import com.example.ebook_back.service.BookService;
 import com.example.ebook_back.service.OrderService;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -76,5 +78,18 @@ public class OrderController {
             return MsgUtil.makeMsg(MsgCode.ERROR, MsgUtil.UPDATE_ERR_MSG);
 //            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("状态修改失败！");
         }
+    }
+    @PostMapping
+    @RequestMapping("/all_order_items")
+    public Msg AllOrderItems() {
+        List<BookOrder> bookOrders = orderService.findAllOrderItems();
+        JSONArray jsonArray = new JSONArray();
+        for (BookOrder bookOrder : bookOrders) {
+            jsonArray.add(JSONObject.fromObject(bookOrder));
+        }
+        JSONObject result = new JSONObject();
+        result.put("bookOrders", jsonArray);
+
+        return MsgUtil.makeMsg(MsgCode.SUCCESS, MsgUtil.SUCCESS_MSG,result);
     }
 }

@@ -4,7 +4,7 @@ import React from "react";
 import {addBook, deleteBooks, getBooks, modifyBook} from "../../Service/BookService";
 import Search from "antd/es/input/Search";
 
-export class ManageUserView extends React.Component {
+export class ManageBookView extends React.Component {
     constructor(props) {
         super(props);
         this.formRef = React.createRef();
@@ -181,7 +181,7 @@ export class ManageUserView extends React.Component {
                     }}
                     style={{margin:"20px", width:"75%"}}
                     search={
-                       false
+                        false
                     }
                     rowKey="name"
                     headerTitle="全部书籍"
@@ -295,7 +295,7 @@ export class ManageUserView extends React.Component {
                                             <Input />
                                         </Form.Item>
                                         <Form.Item label="库存" name="stocks"
-                                                    initialValue={row.stocks}
+                                                   initialValue={row.stocks}
                                                    rules={[{ required: false },
                                                        {pattern: new RegExp(/^[0-9]+$/), message: '请输入正整数'}
                                                    ]}>
@@ -312,4 +312,4 @@ export class ManageUserView extends React.Component {
         );
     }
 }
-export default ManageUserView;
+export default ManageBookView;

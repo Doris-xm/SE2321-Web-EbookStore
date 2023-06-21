@@ -12,6 +12,7 @@ import {
 import ManageOrderView from "../View/Admin/ManageOrderView";
 import ManageUserView from "../View/Admin/ManageUserView";
 import ManageBookView from "../View/Admin/ManageBookView";
+import SalesView from "../View/Admin/SalesView";
 
 
 const getAdminRoutes = () => [
@@ -36,6 +37,14 @@ const getAdminRoutes = () => [
         icon: <FileTextOutlined />,
         hideInMenu:false,
     },
+    {
+        path: '/mangeSales',
+        label: '销量统计',
+        element: <SalesView />,
+        icon: <FileTextOutlined />,
+        hideInMenu:false,
+    },
+
 ];
 
 

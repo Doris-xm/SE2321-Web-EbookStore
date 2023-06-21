@@ -21,4 +21,8 @@ public class BookOrderDaoImpl implements BookOrderDao {
     public void saveBookOrder(BookOrder bookOrder){
         bookOrderRepository.save(bookOrder);
     }
+    @Override
+    public List<BookOrder> findAll(){
+        return bookOrderRepository.findAll();
+    }
 }

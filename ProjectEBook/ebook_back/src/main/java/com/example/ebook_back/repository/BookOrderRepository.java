@@ -10,4 +10,5 @@ import java.util.List;
 public interface  BookOrderRepository extends JpaRepository<BookOrder, Integer>{
     //    List<BookOrder> findByOrder_OrderID(int orderID);
     List<BookOrder> findByOrderID(int orderID);
+    List<BookOrder> findAll();
 }

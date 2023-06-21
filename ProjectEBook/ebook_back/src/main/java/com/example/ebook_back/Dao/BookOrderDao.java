@@ -10,4 +10,5 @@ public interface BookOrderDao{
      List<BookOrder> findByOrderID(int orderID);
 
      void saveBookOrder(BookOrder bookOrder);
+     List<BookOrder> findAll();
 }

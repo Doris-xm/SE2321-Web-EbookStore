@@ -118,3 +118,14 @@ export const changeOrderState = (orderId,state) => {
     };
     return postRequest(url, data, callback);
 }
+export const getAllItems = () => {
+    const url = `/api/all_order_items`;
+    const callback = (data) => {
+        if (data.status <= 0) {
+            return null;
+        } else {
+            return data.data;
+        }
+    };
+    return postRequest(url, null, callback);
+}
