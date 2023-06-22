@@ -97,9 +97,9 @@ export class ManageBookView extends React.Component {
                                         this.setState({ openUpload: false })
                                         addBook(values).then(async (res) => {
                                             if (res) {
-                                                window.location.reload();
-                                                // const books = await getBooks();
-                                                // this.setState({books});
+                                                // window.location.reload();
+                                                const books = await getBooks();
+                                                this.setState({books});
                                             }
                                         });
                                     }}

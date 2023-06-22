@@ -67,7 +67,7 @@ export class ManageOrderView extends React.Component {
                             return order;
                         });
                         console.log("ManageOrder::submit",updatedOrders)
-                        this.setState({ orders: updatedOrders });
+                        this.setState({ searchOrders: updatedOrders });
                     }
                 } )
         }

@@ -80,9 +80,11 @@ public class BookController {
             book.setAuthor(json.get(Constant.BOOK_AUTHOR).toString());
             book.setStocks(Integer.valueOf(json.get(Constant.BOOK_STOCK).toString()));
             book.setPrice(Double.valueOf(json.get(Constant.BOOK_PRICE).toString()));
-            book.setCover(json.get(Constant.BOOK_COVER).toString());
             book.setIsbn(json.get(Constant.BOOK_ISBN).toString());
-            book.setIntroduce(json.get(Constant.BOOK_INTRO).toString());
+            if(json.get(Constant.BOOK_COVER) != null)
+                book.setCover(json.get(Constant.BOOK_COVER).toString());
+            if(json.get(Constant.BOOK_INTRO) != null)
+                book.setIntroduce(json.get(Constant.BOOK_INTRO).toString());
             bookService.addBook(book);
         } catch (Exception e) {
             return MsgUtil.makeMsg(MsgCode.ERROR, e.toString());
