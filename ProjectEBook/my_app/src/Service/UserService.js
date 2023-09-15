@@ -7,6 +7,7 @@ export const checkUser =  async (name, password) => {
         username:name,
         password:password
     };
+    console.log(data);
     const callback = (data) => {
         if (data.status <= 0) {
             message.error(data.msg);
@@ -56,7 +57,17 @@ export const handleLogout = () => {
             // message.error(data.msg);
             return false;
         } else {
-            message.success(data.msg)
+            let hint = data.msg + ', 登录时长：';
+            let hour = parseInt(data.data.duration / 1000 / 60 / 60);
+            let minute = parseInt(data.data.duration / 1000 / 60 % 60);
+            let second = parseInt(data.data.duration / 1000 % 60);
+            if(hour > 0)
+                hint += hour + '小时';
+            if(minute > 0)
+                hint += minute + '分钟';
+            if(second > 0)
+                hint += second + '秒';
+            message.success(hint);
             localStorage.removeItem('User');
             return true;
         }

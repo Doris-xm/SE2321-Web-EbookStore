@@ -6,11 +6,15 @@ import com.example.ebook_back.constant.MsgCode;
 import com.example.ebook_back.constant.MsgUtil;
 import com.example.ebook_back.entity.User;
 import com.example.ebook_back.entity.UserAuth;
+import com.example.ebook_back.service.TimeService;
 import com.example.ebook_back.service.UserService;
 import net.sf.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.WebApplicationContext;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -22,6 +26,10 @@ import java.util.Objects;
 public class UserController {
     @Resource
     private UserService userService;
+
+    @Autowired
+    WebApplicationContext applicationContext;
+
 
     @RequestMapping("/user")
     public UserAuth getUserByName(@RequestParam("name") String name) {
@@ -41,6 +49,10 @@ public class UserController {
 
     @PostMapping("/login")
     public Msg checkLogin(@RequestBody Map<String,Object> data) {
+        TimeService timeService = applicationContext.getBean(TimeService.class);
+        System.out.println("login");
+        System.out.println(this);
+        System.out.println(timeService);
         String name = data.get(Constant.USERNAME).toString();
         String password = data.get(Constant.PASSWORD).toString();
 
@@ -58,15 +70,22 @@ public class UserController {
         User user = userAuth.getUser();
         JSONObject jsonObject = JSONObject.fromObject(user);
         jsonObject.put(Constant.USER_MODE, userAuth.getUserMode());
+        timeService.TimeCount(true);
 
         return MsgUtil.makeMsg(MsgCode.SUCCESS, MsgUtil.LOGIN_SUCCESS_MSG, jsonObject);
     }
 
     @PostMapping("/logout")
     public Msg Logout(@RequestBody Map<String,Object> data) {
+        TimeService timeService = applicationContext.getBean(TimeService.class);
+        System.out.println("logout");
+        System.out.println(this);
+        System.out.println(timeService);
         int userId = Integer.parseInt(data.get(Constant.USER_ID).toString());
         if( userService.logout(userId)) {
-            return MsgUtil.makeMsg(MsgCode.SUCCESS, MsgUtil.LOGOUT_SUCCESS_MSG);
+            JSONObject obj=new JSONObject();
+            obj.put("duration", timeService.TimeCount(false));
+            return MsgUtil.makeMsg(MsgCode.SUCCESS, MsgUtil.LOGOUT_SUCCESS_MSG, obj);
         } else {
             return MsgUtil.makeMsg(MsgCode.ERROR, MsgUtil.LOGOUT_ERR_MSG);
         }
