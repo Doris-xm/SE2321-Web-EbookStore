@@ -14,6 +14,7 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
+import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.KafkaException;
 import org.apache.kafka.common.errors.AuthorizationException;
@@ -62,24 +63,35 @@ public class OrderController {
         Properties props = new Properties();
         props.put("bootstrap.servers", "localhost:9092");
         props.setProperty("transactional.id", "my-transactional-id");
+        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, OrderSerializer.class.getName());
+        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
+
 
         Producer<String, MyOrder> producer = null;
         // 发送订单到kafka
         try {
-            producer = new KafkaProducer<>(props, new StringSerializer(), new OrderSerializer());
+            producer = new KafkaProducer<>(props);
             producer.initTransactions();
             producer.beginTransaction();
             // 发送订单
             producer.send(new ProducerRecord<String, MyOrder>("orders", Integer.toString(newOrder.getOrderID()), newOrder));
             producer.commitTransaction();
         } catch (ProducerFencedException e) {
-            producer.close();
+            if (producer != null)
+                producer.close();
+            System.out.println(e);
         } catch (OutOfOrderSequenceException e) {
-            producer.close();
+            if (producer != null)
+                producer.close();
+            System.out.println(e);
         } catch (AuthorizationException e) {
-            producer.close();
+            if (producer != null)
+                producer.close();
+            System.out.println(e);
         } catch (KafkaException e) {
-            producer.abortTransaction();
+            if(producer != null)
+                producer.abortTransaction();
+            System.out.println(e);
         }
 
         // 返回成功的消息

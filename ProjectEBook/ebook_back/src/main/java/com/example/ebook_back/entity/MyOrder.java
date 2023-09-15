@@ -67,7 +67,7 @@ public class MyOrder {
 //        orderID = null;
         userID = order.getUserID();
         state = order.getState();
-        address = order.getAddress();
+        address = order.getAddress() + ' ' + order.getAddress_detail();
         createtime = order.getCreatetime();
         finishtime = null;
         comment = null;

@@ -1,10 +1,12 @@
 package com.example.ebook_back.deserializer;
 
+import com.alibaba.fastjson.JSON;
 import com.example.ebook_back.entity.MyOrder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.apache.kafka.common.serialization.Deserializer;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 public class OrderDeserializer implements Deserializer<MyOrder> {
@@ -20,11 +22,8 @@ public class OrderDeserializer implements Deserializer<MyOrder> {
             return null;
         }
         try {
-            String orderJson = new String(data, "UTF-8");
-            // 使用JSON库或其他方法将JSON字符串转换为Order对象
-            ObjectMapper objectMapper = new ObjectMapper();
-            objectMapper.registerModule(new JavaTimeModule());
-            return objectMapper.readValue(orderJson, MyOrder.class);
+            String json = new String(data, StandardCharsets.UTF_8);
+            return JSON.parseObject(json, MyOrder.class);
         } catch (Exception e) {
             e.printStackTrace();
             // 处理反序列化异常

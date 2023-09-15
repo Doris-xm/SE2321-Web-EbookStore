@@ -9,6 +9,7 @@ import com.example.ebook_back.entity.MyOrder;
 import com.example.ebook_back.service.BookService;
 import com.example.ebook_back.service.OrderService;
 import net.sf.json.JSONObject;
+import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
@@ -39,7 +40,10 @@ public class KafkaCon {
         props.setProperty("group.id", "test");
         props.setProperty("enable.auto.commit", "true");
         props.setProperty("auto.commit.interval.ms", "100");
-        KafkaConsumer<String, MyOrder> consumer = new KafkaConsumer<>(props, new StringDeserializer(), new OrderDeserializer());
+        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, OrderDeserializer.class.getName());
+        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
+
+        KafkaConsumer<String, MyOrder> consumer = new KafkaConsumer<>(props);
         consumer.subscribe(Arrays.asList("orders"));
 
         while (true) {

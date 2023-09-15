@@ -1,10 +1,12 @@
 package com.example.ebook_back.deserializer;
 
+import com.alibaba.fastjson.JSON;
 import com.example.ebook_back.entity.MyOrder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.apache.kafka.common.serialization.Serializer;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 public class OrderSerializer implements Serializer<MyOrder> {
@@ -15,10 +17,8 @@ public class OrderSerializer implements Serializer<MyOrder> {
             return null;
         }
         try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            objectMapper.registerModule(new JavaTimeModule());
-            String orderJson = objectMapper.writeValueAsString(data);
-            return orderJson.getBytes("UTF-8");
+            String json = JSON.toJSONString(data);
+            return json.getBytes(StandardCharsets.UTF_8);
         } catch (Exception e) {
             e.printStackTrace();
             // 处理反序列化异常
