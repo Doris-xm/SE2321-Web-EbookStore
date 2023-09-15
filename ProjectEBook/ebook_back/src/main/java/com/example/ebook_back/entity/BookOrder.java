@@ -14,7 +14,7 @@ import javax.transaction.Transactional;
 @Entity
 @Table(name = "bookorder")
 @JsonIgnoreProperties(value = {"handler","hibernateLazyInitializer","fieldHandler"})
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "id")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "id", scope = BookOrder.class)
 public class BookOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

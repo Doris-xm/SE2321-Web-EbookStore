@@ -17,7 +17,7 @@ import java.util.stream.IntStream;
 @Entity
 @Table(name = "myorder")
 @JsonIgnoreProperties(value = {"handler","hibernateLazyInitializer","fieldHandler"})
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "orderID")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "orderID", scope = MyOrder.class)
 public class MyOrder {
 
     @Id
