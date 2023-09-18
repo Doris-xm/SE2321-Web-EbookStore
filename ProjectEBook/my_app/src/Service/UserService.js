@@ -14,6 +14,7 @@ export const checkUser =  async (name, password) => {
             return null;
         } else {
             message.success(data.msg + '欢迎你，' + data.data.nickname + '!');
+            localStorage.setItem('token', data.data.token);
             return data.data;
         }
     };
@@ -69,6 +70,7 @@ export const handleLogout = () => {
                 hint += second + '秒';
             message.success(hint);
             localStorage.removeItem('User');
+            localStorage.removeItem('token');
             return true;
         }
     };

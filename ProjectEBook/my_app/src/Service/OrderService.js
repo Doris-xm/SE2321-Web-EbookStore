@@ -8,10 +8,11 @@ export const getOrders = async (id) => {
     console.log("getOrders", id);
     let orders = [];
     try {
-        const response = await fetch(`/orders?id=${id}`, {
+        const response = await fetch(`/orders`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
+                'token':`${localStorage.getItem("token")}`
             },
         });
         orders = await response.json();

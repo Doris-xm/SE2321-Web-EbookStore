@@ -8,6 +8,7 @@ import com.example.ebook_back.entity.User;
 import com.example.ebook_back.entity.UserAuth;
 import com.example.ebook_back.service.TimeService;
 import com.example.ebook_back.service.UserService;
+import com.example.ebook_back.serviceImpl.TokenServiceImpl;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -29,6 +30,9 @@ public class UserController {
 
     @Autowired
     WebApplicationContext applicationContext;
+
+    @Autowired
+    private TokenServiceImpl tokenService;
 
 
     @RequestMapping("/user")
@@ -70,6 +74,9 @@ public class UserController {
         User user = userAuth.getUser();
         JSONObject jsonObject = JSONObject.fromObject(user);
         jsonObject.put(Constant.USER_MODE, userAuth.getUserMode());
+        String token = tokenService.getToken(userAuth);
+
+        jsonObject.put("token", token);
         timeService.TimeCount(true);
 
         return MsgUtil.makeMsg(MsgCode.SUCCESS, MsgUtil.LOGIN_SUCCESS_MSG, jsonObject);
