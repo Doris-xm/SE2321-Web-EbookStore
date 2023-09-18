@@ -1,6 +1,7 @@
 package com.example.ebook_back.websocket;
 
 import com.example.ebook_back.annotation.UserLoginToken;
+import com.example.ebook_back.config.CustomWebSocketConfig;
 import com.example.ebook_back.serviceImpl.TokenServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -11,7 +12,7 @@ import javax.websocket.server.ServerEndpoint;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Component
-@ServerEndpoint("/websocket/transfer/{userId}")
+@ServerEndpoint(value="/websocket",configurator = CustomWebSocketConfig.class)
 public class WebSocketServer {
     private static final ConcurrentHashMap<String, Session> SESSIONS= new ConcurrentHashMap<>();
 

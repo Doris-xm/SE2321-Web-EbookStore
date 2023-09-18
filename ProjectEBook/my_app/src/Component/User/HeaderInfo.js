@@ -3,6 +3,7 @@ import { Row, Col } from 'antd';
 import '../../css/index.css'
 import logo from '../../asset/logo.svg';
 import {UserInfo} from "./UserInfo";
+import {Notification} from "../Notice/Notification";
 
 
 export class HeaderInfo extends React.Component {
@@ -18,10 +19,12 @@ export class HeaderInfo extends React.Component {
                                 <img alt="logo"  className="logo" src={logo} style={{ height:45 }}/>
                             </a>
                         </Col>
-                        <Col xs={0} sm={0} md={14} lg={14} xl={14} xxl={20} />
-                        <Col xs={0} sm={0} md={5} lg={5} xl={5} xxl={4} >
-                        {/*<Col xs={0} sm={0} md={19} lg={19} xl={19} xxl={20} offset={1}>*/}
+                        <Col xs={0} sm={0} md={10} lg={10} xl={10} xxl={10} />
+                        <Col xs={0} sm={0} md={3} lg={3} xl={3} xxl={3} >
                             <UserInfo />
+                        </Col>
+                        <Col xs={5} sm={0} md={3} lg={3} xl={3} xxl={3} >
+                            <Notification />
                         </Col>
                     </Row>
                 </div>
