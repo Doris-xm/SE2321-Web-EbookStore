@@ -37,7 +37,8 @@ export const AddToCart = async (bookID) => {
     fetch('http://localhost:8001/addtocart', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'token': localStorage.getItem("token")
         },
         body: JSON.stringify([userID, bookID]),
     })
@@ -73,7 +74,8 @@ export const getCart = async () => {
         const response = await fetch(`/cart?userID=${id}`, {
             method: 'GET',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'token': localStorage.getItem("token")
             },
         });
         cart = await response.json();
@@ -90,7 +92,8 @@ export const clearCart = async () => {
     fetch('http://localhost:8001/cartclear', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'token': localStorage.getItem("token")
         },
         body: JSON.stringify(userID),
     })
@@ -141,7 +144,8 @@ export const ChangeQuantity = async (bookID, quantity) => {
     fetch('http://localhost:8001/cartquantity', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'token': localStorage.getItem("token")
         },
         body: JSON.stringify([userID, bookID, quantity]),
     })

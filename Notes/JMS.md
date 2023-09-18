@@ -75,3 +75,15 @@ Event（消息）：Header（属性），Key（Topic分区，hash(key)），Time
 Cluster：ZooKeeper管理
 
 Customer Groups：发心跳
+
+
+
+
+
+小结：
+
+解决了代码堵塞导致的前端堵塞，消息处理的异步，用户可以马上得到结果。
+
+> ps：ajax是前后端异步
+
+问题：怎么拿到后端的最终的反应。ajax只拿到了未处理的响应，并且不知道什么时候真正处理完。

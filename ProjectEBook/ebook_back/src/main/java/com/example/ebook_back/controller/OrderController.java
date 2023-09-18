@@ -10,6 +10,7 @@ import com.example.ebook_back.entity.MyOrder;
 import com.example.ebook_back.entity.OrderCommit;
 import com.example.ebook_back.service.BookService;
 import com.example.ebook_back.service.OrderService;
+import com.example.ebook_back.serviceImpl.TokenServiceImpl;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.kafka.clients.producer.KafkaProducer;
@@ -31,6 +32,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -42,8 +44,15 @@ public class OrderController {
     private OrderService orderService;
     @Autowired
     private BookService bookService;
+    @Autowired
+    private TokenServiceImpl tokenService;
     @GetMapping("/orders")
-    public List<MyOrder> getOrdersById(@RequestParam("id") int id) {
+//    public List<MyOrder> getOrdersById(@RequestParam("id") int id) {
+//        return orderService.findOrderById(id);
+//    }
+    public List<MyOrder> getOrdersById(HttpServletRequest httpServletRequest) {
+        String token = httpServletRequest.getHeader("token");
+        int id = tokenService.getUserIdFromToken(token);
         return orderService.findOrderById(id);
     }
     @RequestMapping("/allorders")
