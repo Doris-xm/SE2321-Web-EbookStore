@@ -92,6 +92,7 @@ public class UserController {
         if( userService.logout(userId)) {
             JSONObject obj=new JSONObject();
             obj.put("duration", timeService.TimeCount(false));
+            // TODO:设置token无效
             return MsgUtil.makeMsg(MsgCode.SUCCESS, MsgUtil.LOGOUT_SUCCESS_MSG, obj);
         } else {
             return MsgUtil.makeMsg(MsgCode.ERROR, MsgUtil.LOGOUT_ERR_MSG);

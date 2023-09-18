@@ -32,6 +32,10 @@ public class TokenServiceImpl {
         return id;
     }
 
+    // 设置token无效，logout
+    public void setTokenInvalid(String token) {
+
+    }
     public long getExpireTime(String token) {
         DecodedJWT jwt = JWT.decode(token);
         Date expireTime = jwt.getExpiresAt();

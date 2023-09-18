@@ -2,7 +2,7 @@ import { message } from 'antd';
 import {getUser} from "./UserService";
 import {getCart} from "./CartService";
 import {clearCart} from "./CartService";
-import {postRequest} from "../util/ajax";
+import {postRequest, postRequest_token} from "../util/ajax";
 import {getBook} from "./BookService";
 export const getOrders = async (id) => {
     console.log("getOrders", id);
@@ -33,6 +33,7 @@ export const getAllOrders = async () => {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
+                'token':`${localStorage.getItem("token")}`
             },
         });
         orders = await response.json();
@@ -99,7 +100,7 @@ export const sendOrder = async (order,cartData) => {
             return true;
         }
     };
-    return postRequest(url, orderCommit, callback);
+    return postRequest_token(url, orderCommit, callback);
 };
 
 export const changeOrderState = (orderId,state) => {
