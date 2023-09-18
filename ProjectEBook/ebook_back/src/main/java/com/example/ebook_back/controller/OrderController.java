@@ -1,4 +1,5 @@
 package com.example.ebook_back.controller;
+import com.example.ebook_back.annotation.UserLoginToken;
 import com.example.ebook_back.constant.Constant;
 import com.example.ebook_back.constant.Msg;
 import com.example.ebook_back.constant.MsgCode;
@@ -47,6 +48,7 @@ public class OrderController {
     @Autowired
     private TokenServiceImpl tokenService;
     @GetMapping("/orders")
+    @UserLoginToken
 //    public List<MyOrder> getOrdersById(@RequestParam("id") int id) {
 //        return orderService.findOrderById(id);
 //    }

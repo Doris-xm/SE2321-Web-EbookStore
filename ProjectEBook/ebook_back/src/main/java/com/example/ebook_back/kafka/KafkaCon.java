@@ -8,6 +8,7 @@ import com.example.ebook_back.entity.BookOrder;
 import com.example.ebook_back.entity.MyOrder;
 import com.example.ebook_back.service.BookService;
 import com.example.ebook_back.service.OrderService;
+import com.example.ebook_back.websocket.WebSocketServer;
 import net.sf.json.JSONObject;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -31,6 +32,9 @@ public class KafkaCon {
 
     @Autowired
     private BookService bookService;
+
+    @Autowired
+    private WebSocketServer webSocketServer;
 
     @KafkaListener(id = "orderListener", topics = "orders")
     public void listenForOrders() {
@@ -64,6 +68,7 @@ public class KafkaCon {
                     bookService.addBook(book);
                 }
                     System.out.println(MsgUtil.ORDER_SUCCESS_MSG);
+                    webSocketServer.sendMessageToUser(String.valueOf(newOrder.getUserID()), "商家已开始处理您的订单"+newOrder.getOrderID()+"，请及时查看");
                 }
                else {
                     System.out.println(MsgUtil.ORDER_ERR_MSG);
