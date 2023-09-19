@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 
 
-@Service("TokenService")
+@Service("TokenServiceImpl")
 public class TokenServiceImpl {
     private static final long EXPIRATION_TIME = 1000 * 60 * 30;
     private static final String SECRET_KEY = "your_secret_key";

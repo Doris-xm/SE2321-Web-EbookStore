@@ -6,6 +6,7 @@ import {UserInfo} from "./UserInfo";
 import {Notification} from "../Notice/Notification";
 
 
+
 export class HeaderInfo extends React.Component {
 
     render(){

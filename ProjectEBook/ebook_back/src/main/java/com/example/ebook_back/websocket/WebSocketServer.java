@@ -1,34 +1,45 @@
 package com.example.ebook_back.websocket;
 
 import com.example.ebook_back.annotation.UserLoginToken;
-import com.example.ebook_back.config.CustomWebSocketConfig;
 import com.example.ebook_back.serviceImpl.TokenServiceImpl;
+import org.hibernate.annotations.Source;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.websocket.*;
+import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Component
-@ServerEndpoint(value="/websocket",configurator = CustomWebSocketConfig.class)
+@ServerEndpoint(value="/websocket/{token}")
 public class WebSocketServer {
+
+    @Resource
+    private TokenServiceImpl tokenServiceImpl;
+
     private static final ConcurrentHashMap<String, Session> SESSIONS= new ConcurrentHashMap<>();
 
-    @Autowired
-    private TokenServiceImpl tokenService;
+    private static WebSocketServer webSocketServer;
 
 //    @OnMessage
 //    public void onMessage(String message, Session session) {
 //        System.out.println("Received: " + message);
 //    }
+    @PostConstruct
+    public void init() {
+        /* fix Component中Autowired注入为null问题 */
+        webSocketServer = this;
+        webSocketServer.tokenServiceImpl = this.tokenServiceImpl;
+    }
 
     @OnOpen
     @UserLoginToken
-    public void onOpen(Session session, HttpServletRequest httpServletRequest) {
-        String token = httpServletRequest.getHeader("token");
-        int id = tokenService.getUserIdFromToken(token);
+    public void onOpen(Session session, @PathParam("token") String token) {
+        int id = webSocketServer.tokenServiceImpl.getUserIdFromToken(token);
         String userId = String.valueOf(id);
         if(SESSIONS.get(userId) != null) {
             return;
@@ -38,13 +49,9 @@ public class WebSocketServer {
     }
 
     @OnClose
-    @UserLoginToken
-    public void onClose(HttpServletRequest httpServletRequest) {
-        String token = httpServletRequest.getHeader("token");
-        int id = tokenService.getUserIdFromToken(token);
-        String userId = String.valueOf(id);
-        SESSIONS.remove(userId);
-        System.out.println("Session closed: " + httpServletRequest.getSession().getId());
+//    @UserLoginToken
+    public void onClose() {
+        System.out.println("Session closed");
     }
 
     @OnError
