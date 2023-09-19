@@ -31,7 +31,7 @@ const tabList = [
 ];
 const ContentList: React.FC = ({order}) => {
 
-    console.log("OrderCard",order);
+    // console.log("OrderCard",order);
     const [bookOrdersNew, setBookOrdersNew] = useState([]);
 
     /**

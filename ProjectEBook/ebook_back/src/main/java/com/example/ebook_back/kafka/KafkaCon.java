@@ -1,6 +1,5 @@
 package com.example.ebook_back.kafka;
 
-import com.example.ebook_back.constant.MsgCode;
 import com.example.ebook_back.constant.MsgUtil;
 import com.example.ebook_back.deserializer.OrderDeserializer;
 import com.example.ebook_back.entity.Book;
@@ -8,7 +7,6 @@ import com.example.ebook_back.entity.BookOrder;
 import com.example.ebook_back.entity.MyOrder;
 import com.example.ebook_back.service.BookService;
 import com.example.ebook_back.service.OrderService;
-import com.example.ebook_back.websocket.WebSocketServer;
 import net.sf.json.JSONObject;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -17,14 +15,16 @@ import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 @Component
+//@MessageMapping("/order_response") //client需发送至/app/sendOrderResponse
 public class KafkaCon {
 
     @Autowired
@@ -34,9 +34,11 @@ public class KafkaCon {
     private BookService bookService;
 
     @Autowired
-    private WebSocketServer webSocketServer;
+    private SimpMessagingTemplate simpMessagingTemplate;
+
 
     @KafkaListener(id = "orderListener", topics = "orders")
+//    @MessageMapping("/order_response")
     public void listenForOrders() {
         // 处理下订单消息的逻辑
         Properties props = new Properties();
@@ -68,7 +70,10 @@ public class KafkaCon {
                     bookService.addBook(book);
                 }
                     System.out.println(MsgUtil.ORDER_SUCCESS_MSG);
-                    webSocketServer.sendMessageToUser(String.valueOf(newOrder.getUserID()), "商家已开始处理您的订单"+newOrder.getOrderID()+"，请及时查看");
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("id", newOrder.getOrderID());
+                    jsonObject.put("price", newOrder.getTotalprice());
+                    simpMessagingTemplate.convertAndSendToUser(String.valueOf(newOrder.getUserID()), "/order_response", jsonObject.toString());
                 }
                else {
                     System.out.println(MsgUtil.ORDER_ERR_MSG);

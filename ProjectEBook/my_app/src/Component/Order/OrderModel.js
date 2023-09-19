@@ -70,11 +70,13 @@ const OrderModel: React.FC = ({cartData,onClearCart}) => {
                 >
                     <Form.Item label="收件人"
                                name="name"
+                               initialValue={"dxm"}
                                rules={[{ required: true, message: '请输入收件人姓名' }]}>
                         <Input />
                     </Form.Item>
                     <Form.Item label="手机号"
                                name="phone"
+                               initialValue={"13365122739"}
                                rules={[{ required: true, message: '请输入手机号' },
                                    {pattern: /^1[3456789]\d{9}$/,
                                        message: '请输入正确的手机号',},
@@ -83,6 +85,7 @@ const OrderModel: React.FC = ({cartData,onClearCart}) => {
                     </Form.Item>
                     <Form.Item label="收货地址"
                                name="address"
+                               initialValue={["中国", "上海", "闵行区"]}
                                rules={[{ required: true, message: '请选择收货地址' }]}>
                         <Cascader
                             options={CityOptions}
@@ -90,6 +93,7 @@ const OrderModel: React.FC = ({cartData,onClearCart}) => {
                     </Form.Item>
                     <Form.Item label="详细地址"
                                name="detail"
+                               initialValue={"南京大学仙林校区"}
                                rules={[{ required: true, message: '请输入详细地址' }]}>
                         <Input />
                     </Form.Item>
