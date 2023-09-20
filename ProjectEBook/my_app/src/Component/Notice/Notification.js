@@ -18,9 +18,8 @@ export const Notification = () => {
         }
         if(!disable)
             openSocket(localStorage.getItem('token'));
-        else stompClient.send('/app/hi/sendOrderResponse', {}, JSON.stringify({content: 'hello'}));
 
-    }, [disable]);
+    }, [disable,unread]);
 
     const openSocket = (token) => {
         if(disable) return;
@@ -34,15 +33,20 @@ export const Notification = () => {
             // 订阅主题
             stompClient.subscribe('/user/topic/order_response', (msg) => {
                 console.log("wwwww",msg);
-                setContent(msg);
+                let obj = JSON.parse(msg.body);
+                let message = "您的订单" + obj.id + "已被接单，共"+ obj.price + "元";
+                if(unread === 0)
+                    setContent(message);
+                else
+                    setContent(content + '\n' + message);
                 setUnread(unread + 1);
                 // 在这里处理从WebSocket接收到的消息
             });
 
             stompClient.subscribe('/topic',(msg) =>{
                 console.log("广播：",msg);
-                setContent(msg);
-                setUnread(unread + 1);
+                // setContent(msg.body);
+                // setUnread(unread + 1);
             })
 
             //如果连接断开
