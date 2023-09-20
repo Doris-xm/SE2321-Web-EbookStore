@@ -8,6 +8,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -18,7 +19,7 @@ import javax.websocket.server.ServerEndpoint;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-@Component
+@Controller
 @MessageMapping("/hi")
 public class WebSocketServer {
 
@@ -28,6 +29,7 @@ public class WebSocketServer {
    @MessageMapping("/sendOrderResponse") //client需发送至/app/sendOrderResponse
     public void sendOrderResponse(Map<String, Object> params) {
         System.out.println("sendOrderResponse");
-        simpMessagingTemplate.convertAndSend("/topic", "message");
+        simpMessagingTemplate.convertAndSend("/topic", "test connection");
+//        simpMessagingTemplate.convertAndSendToUser("1", "/topic/order_response", "test send to User");
     }
 }

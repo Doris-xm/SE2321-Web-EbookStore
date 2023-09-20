@@ -32,7 +32,7 @@ export const Notification = () => {
             console.log('连接成功');
 
             // 订阅主题
-            stompClient.subscribe('/user/order_response', (msg) => {
+            stompClient.subscribe('/user/topic/order_response', (msg) => {
                 console.log("wwwww",msg);
                 setContent(msg);
                 setUnread(unread + 1);
@@ -41,6 +41,8 @@ export const Notification = () => {
 
             stompClient.subscribe('/topic',(msg) =>{
                 console.log("广播：",msg);
+                setContent(msg);
+                setUnread(unread + 1);
             })
 
             //如果连接断开
@@ -48,7 +50,10 @@ export const Notification = () => {
                 console.log('连接断开');
                 setDisable(false);
             };
-            stompClient.send('/app/hi/sendOrderResponse', {}, JSON.stringify({content: 'hello'}));
+            let jsonobj ={
+                content: 'hello'
+            }
+            stompClient.send('/app/hi/sendOrderResponse', {}, JSON.stringify(jsonobj));
 
         });
     };

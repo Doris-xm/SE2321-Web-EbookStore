@@ -16,15 +16,17 @@ import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
-@Component
-//@MessageMapping("/order_response") //client需发送至/app/sendOrderResponse
+//@Component
+@Controller
 public class KafkaCon {
 
     @Autowired
@@ -38,8 +40,8 @@ public class KafkaCon {
 
 
     @KafkaListener(id = "orderListener", topics = "orders")
-//    @MessageMapping("/order_response")
-    public void listenForOrders() {
+    @MessageMapping("/order_response")
+    public void listenForOrders() throws Exception {
         // 处理下订单消息的逻辑
         Properties props = new Properties();
         props.setProperty("bootstrap.servers", "localhost:9092");
@@ -73,7 +75,8 @@ public class KafkaCon {
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put("id", newOrder.getOrderID());
                     jsonObject.put("price", newOrder.getTotalprice());
-                    simpMessagingTemplate.convertAndSendToUser(String.valueOf(newOrder.getUserID()), "/order_response", jsonObject.toString());
+                    simpMessagingTemplate.convertAndSendToUser(String.valueOf(newOrder.getUserID()), "/topic/order_response", jsonObject.toString());
+
                 }
                else {
                     System.out.println(MsgUtil.ORDER_ERR_MSG);
@@ -81,5 +84,12 @@ public class KafkaCon {
             }
         }
     }
+
+//    @SendTo("/topic")
+//    public String sendMessage(String message) throws Exception {
+////        Thread.sleep(1000);
+//        System.out.println("send message"+message);
+//        return message;
+//    }
 
 }
