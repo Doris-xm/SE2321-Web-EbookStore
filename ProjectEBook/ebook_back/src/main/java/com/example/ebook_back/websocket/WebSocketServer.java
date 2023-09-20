@@ -18,7 +18,9 @@ import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-
+/*
+This is for testing websocket connection.
+ */
 @Controller
 @MessageMapping("/hi")
 public class WebSocketServer {

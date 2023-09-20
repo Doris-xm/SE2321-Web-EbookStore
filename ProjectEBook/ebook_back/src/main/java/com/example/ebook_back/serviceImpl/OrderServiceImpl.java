@@ -7,6 +7,7 @@ import com.example.ebook_back.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -30,17 +31,16 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional(Transactional.TxType.REQUIRED)
     public boolean saveOrder(MyOrder order) {
         try {
-//            System.out.println("New Order1:");
-            orderDao.saveOrder(order);
-//            System.out.println("New Order1:");
+            orderDao.saveOrder(order); // 保存订单到数据库
             IntStream.range(0, order.getBookOrders().size())
                     .forEach(i -> {
                         BookOrder bookOrder = order.getBookOrders().get(i);
                         System.out.println("New Order1:");
                         bookOrder.setOrderID(order.getOrderID());
-                        bookOrderDao.saveBookOrder(bookOrder);
+                        bookOrderDao.saveBookOrder(bookOrder); // 保存订单项到数据库
                     });
             return true;
         } catch (Exception e) {

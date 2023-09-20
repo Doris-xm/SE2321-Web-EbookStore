@@ -48,7 +48,7 @@ Annotation实现：靠容器解决
 
 @transactional()
 
-- Required：没有事务context，就新开一个事务。有事务contex，只有在整个事务结束了才能提交
+- Required：没有事务context，就新开一个事务。有事务context，只有在整个事务结束了才能提交
 
 - RequriesNew：原先的事务context会被挂起，必须自己新开一个，提交后，再恢复上层事务
 
