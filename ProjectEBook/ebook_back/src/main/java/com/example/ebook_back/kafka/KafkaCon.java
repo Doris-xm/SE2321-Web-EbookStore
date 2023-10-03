@@ -36,7 +36,7 @@ public class KafkaCon {
     private BookService bookService;
 
     @Autowired
-    private SimpMessagingTemplate simpMessagingTemplate;
+    private SynchronizedMsg synchronizedMsg;
 
 
     @KafkaListener(id = "orderListener", topics = "orders")
@@ -75,7 +75,7 @@ public class KafkaCon {
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put("id", newOrder.getOrderID());
                     jsonObject.put("price", newOrder.getTotalprice());
-                    simpMessagingTemplate.convertAndSendToUser(String.valueOf(newOrder.getUserID()), "/topic/order_response", jsonObject.toString());
+                    synchronizedMsg.sendMsgToUser(String.valueOf(newOrder.getUserID()), "/topic/order_response", jsonObject.toString());
 
                 }
                else {

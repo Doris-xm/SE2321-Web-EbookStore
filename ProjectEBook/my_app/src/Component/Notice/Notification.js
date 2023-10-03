@@ -19,7 +19,7 @@ export const Notification = () => {
         if(!disable)
             openSocket(localStorage.getItem('token'));
 
-    }, [disable,unread]);
+    }, [disable,content,unread]);
 
     const openSocket = (token) => {
         if(disable) return;
@@ -35,11 +35,15 @@ export const Notification = () => {
                 console.log("wwwww",msg);
                 let obj = JSON.parse(msg.body);
                 let message = "您的订单" + obj.id + "已被接单，共"+ obj.price + "元";
-                if(unread === 0)
-                    setContent(message);
-                else
-                    setContent(content + '\n' + message);
-                setUnread(unread + 1);
+                setUnread((prevUnread) => prevUnread + 1);
+                setContent((prevContent) => {
+                    if (unread === 0) {
+                        return message;
+                    } else {
+                        return prevContent + '\n' + message;
+                    }
+                });
+                console.log("收到"+content+',未读'+unread+'条');
                 // 在这里处理从WebSocket接收到的消息
             });
 
