@@ -36,45 +36,76 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public Book findBookById(int id){
-        Object book_redis = redisTemplate.opsForValue().get("book"+id);
-        if (book_redis != null) {
-            logger.info("从缓存中获取book: " + book_redis);
-            return JSON.parseObject((String) book_redis,Book.class);
+        try {
+            Object book_redis = redisTemplate.opsForValue().get("book"+id);
+            if (book_redis != null) {
+                logger.info("从缓存中获取book: " + book_redis);
+                return JSON.parseObject((String) book_redis,Book.class);
+            }
         }
+        catch (Exception e) {
+            logger.error("redis连接超时");
+        }
+
         Book book = bookRepository.findBookById(id);
         if(book == null)
             return null;
         logger.info("第一次访问，从数据库中获取book: " + book.getId() + book);
-        redisTemplate.opsForValue().set("book"+book.getId(), JSON.toJSONString(book));
+        try {
+            redisTemplate.opsForValue().set("book"+book.getId(), JSON.toJSONString(book));
+        }
+        catch (Exception e) {
+            logger.error("redis连接超时");
+        }
         return book;
     }
 
     @Override
     public List<Book> findAll(){
-        Object books_redis = redisTemplate.opsForValue().get("all_books");
-        if (books_redis != null) {
-            logger.info("从缓存中获取all_books ");
-            return JSON.parseArray((String) books_redis,Book.class);
+        try {
+            Object books_redis = redisTemplate.opsForValue().get("all_books");
+            if (books_redis != null) {
+                logger.info("从缓存中获取all_books ");
+                return JSON.parseArray((String) books_redis,Book.class);
+            }
+        }
+        catch (Exception e) {
+            logger.error("redis连接超时");
         }
         List<Book> books = bookRepository.findAll();
         logger.info("第一次访问，从数据库中获取all_books");
-        redisTemplate.opsForValue().set("all_books", JSON.toJSONString(books));
+        try {
+            redisTemplate.opsForValue().set("all_books", JSON.toJSONString(books));
+        }
+        catch (Exception e) {
+            logger.error("redis连接超时");
+        }
         books.removeIf(book -> book.getStocks() < 0);
         return books;
     }
 
     @Override
     public void save(Book book){
-        redisTemplate.delete("all_books");
-        logger.info("修改了book,删除all_books缓存");
-        if (redisTemplate.opsForValue().get("book"+book.getId()) != null) {
-            redisTemplate.delete("book"+book.getId());
-            logger.info("修改了book,删除book"+book.getId()+"缓存");
+        try {
+            redisTemplate.delete("all_books");
+            logger.info("修改了book,删除all_books缓存");
+            if (redisTemplate.opsForValue().get("book"+book.getId()) != null) {
+                redisTemplate.delete("book"+book.getId());
+                logger.info("修改了book,删除book"+book.getId()+"缓存");
+            }
+        }
+        catch (Exception e) {
+            logger.error("redis连接超时");
         }
         Book book_new = bookRepository.save(book);
-        if (book_new!=null) {
-            logger.info("更新book"+book.getId()+"缓存");
-            redisTemplate.opsForValue().set("book"+book.getId(), JSON.toJSONString(book_new));
+        try {
+            if (book_new!=null) {
+                logger.info("更新book"+book.getId()+"缓存");
+                redisTemplate.opsForValue().set("book"+book.getId(), JSON.toJSONString(book_new));
+            }
+        }
+        catch (Exception e) {
+            logger.error("redis连接超时");
         }
     }
 
