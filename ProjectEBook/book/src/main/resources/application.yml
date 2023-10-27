@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: book-service
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+      - org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
+  jpa:
+    open-in-view: false
+  datasource:
+    url: jdbc:mysql://localhost:3306/ebook?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+    username: root
+    password: duxinmin
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+
+eureka:
+  instance:
+    prefer-ip-address: true
+    ip-address: localhost
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://localhost:8040/eureka
+server:
+  port: 11130
