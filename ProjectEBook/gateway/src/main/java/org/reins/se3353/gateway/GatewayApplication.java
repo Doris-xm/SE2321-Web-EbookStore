@@ -1,7 +1,4 @@
 package org.reins.se3353.gateway;
-
-import org.reins.se3353.gateway.filters.JwtCheckFilter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -17,17 +14,12 @@ public class GatewayApplication {
 		SpringApplication.run(GatewayApplication.class, args);
 	}
 
-	@Autowired
-	JwtCheckFilter jwtCheckFilter;
 	@Bean
 	public RouteLocator myRoutes(RouteLocatorBuilder builder) {
 		return builder.routes()
 				.route(r -> r.path("/book/**")
-						.filters(f -> f.rewritePath("/book","").filter(jwtCheckFilter))
+						.filters(f -> f.rewritePath("/book",""))
 						.uri("lb://BOOK-SERVICE")
-				).route(r->r.path("/user/**")
-						.filters(f->f.rewritePath("/user",""))
-						.uri("lb://USER-AUTH")
 				)
 				.build();
 	}

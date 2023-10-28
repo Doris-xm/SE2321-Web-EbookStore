@@ -6,14 +6,16 @@ import org.reins.se3353.book.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 
 @Repository
 public class BookDaoImpl implements BookDao {
     @Autowired
     private BookRepository bookRepository;
     @Override
-    public Book findBookById(int id){
-        return bookRepository.findBookById(id);
+    public List<Book> findBooksByName(String name){
+        return bookRepository.findBooksByName(name);
     }
 
 }
