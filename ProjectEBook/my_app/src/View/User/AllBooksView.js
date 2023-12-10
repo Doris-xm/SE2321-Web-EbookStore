@@ -1,7 +1,7 @@
 import {ProForm, ProList} from '@ant-design/pro-components';
 import {Button, Cascader, Form, Input, Layout, Modal, Space, Tag} from 'antd';
 import React from "react";
-import {addBook, deleteBooks, getBooks, modifyBook} from "../../Service/BookService";
+import {addBook, deleteBooks, getBooks, modifyBook, searchAuthor} from "../../Service/BookService";
 import Search from "antd/es/input/Search";
 import {Link} from "react-router-dom";
 
@@ -10,7 +10,8 @@ export class AllBooksView extends React.Component {
         super(props);
         this.formRef = React.createRef();
         this.state = { books: [],
-            searchBooks: []
+            searchBooks: [],
+            searchAuthor: "",
         };
     }
     async componentDidMount() {
@@ -40,6 +41,22 @@ export class AllBooksView extends React.Component {
                         console.log("searchBooks: ", searchBooks);
                     }}
                 />
+                <Search
+                    placeholder="输入书名查询作者"
+                    allowClear
+                    enterButton="搜索"
+                    size="large"
+                    style={{width:"75%", margin:"20px"}}
+                    onSearch={ async (value) => {
+                        if (value === "") {
+                            this.setState({searchAuthor: ""});
+                            return;
+                        }
+                        const searchBooks = await searchAuthor(value);
+                        this.setState({searchAuthor: searchBooks.author});
+                    }}
+                />
+                <h1 style={{margin:"20px"}}>{this.state.searchAuthor}</h1>
                 <ProList
                     style={{margin:"20px", width:"75%"}}
                     search={

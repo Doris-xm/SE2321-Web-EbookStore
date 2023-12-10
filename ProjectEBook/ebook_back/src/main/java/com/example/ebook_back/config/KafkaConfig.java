@@ -15,10 +15,14 @@ public class KafkaConfig {
 //                .replicas(1)
 //                .build();
 //    }
-    // zookeeper-server-start  /opt/homebrew/Cellar/kafka/3.5.1/libexec/config/zookeeper.properties
-    // kafka-server-start /opt/homebrew/etc/kafka/server.properties
+    // sudo zookeeper-server-start /opt/homebrew/etc/kafka/zookeeper.properties
+    // sudo kafka-server-start /opt/homebrew/etc/kafka/server.properties
     // kafka-topics --create --topic orders --bootstrap-server localhost:9092
     // kafka-topics --list --bootstrap-server localhost:9092
 
+    //install in   /opt/homebrew/opt/kafka/bin/kafka-server-start /opt/homebrew/etc/kafka/server.properties
 
+    // fix bug:
+    //  sudo rm -rf /opt/homebrew/var/lib/kafka-logs
+    //  sudo rm -rf /opt/homebrew/var/lib/zookeeper/version-2
 }

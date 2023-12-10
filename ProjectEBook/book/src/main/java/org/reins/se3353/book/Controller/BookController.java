@@ -9,29 +9,23 @@ import org.reins.se3353.book.constant.Msg;
 import org.reins.se3353.book.constant.MsgCode;
 import org.reins.se3353.book.constant.MsgUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.graphql.data.method.annotation.Argument;
+import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Controller;
 
 import java.util.List;
 import java.util.Map;
 
 
-@Slf4j
-@RestController
+//@Slf4j
+@Controller
 public class BookController {
     @Autowired
     private BookService bookService;
-    @RequestMapping("/searchAuth")
-    public Msg getBookById(@RequestBody Map<String,Object> json) {
-        String bookName = (String) json.get("bookName");
-        List<Book> books = bookService.findBooksByName(bookName);
-        if(books.size() == 0)
-            return MsgUtil.makeMsg(MsgCode.ERROR, MsgUtil.ERROR_MSG, null);
-        JSONObject jsonObject = new JSONObject();
-        for (Book book : books) {
-            jsonObject.put(book.getTitle(), book.getAuthor());
-        }
-
-
-        return MsgUtil.makeMsg(MsgCode.SUCCESS, MsgUtil.SUCCESS_MSG, jsonObject);
+    @QueryMapping
+    public List<Book> getBookByName(@Argument String title) {
+        List<Book> books = bookService.findBooksByName(title);
+        return books;
     }
 }

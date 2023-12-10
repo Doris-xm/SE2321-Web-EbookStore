@@ -61,21 +61,21 @@ public class KafkaCon {
                 System.out.printf("offset = %d, key = %s, value = %s%n", record.offset(), record.key(), record.value());
                 MyOrder newOrder = record.value();
                 if( orderService.saveOrder(newOrder)) {
-                List<BookOrder> bookOrders = newOrder.getBookOrders();
+                    List<BookOrder> bookOrders = newOrder.getBookOrders();
 
-                for(BookOrder bookOrder: bookOrders) {
-                    int bookId = bookOrder.getBookID();
-                    int num = bookOrder.getQuantity();
-                    Book book = bookService.findBookById(bookId);
-                    book.setStocks(book.getStocks() - num);
-                    book.setSales(book.getSales() + num);
-                    bookService.addBook(book);
-                }
-                    System.out.println(MsgUtil.ORDER_SUCCESS_MSG);
-                    JSONObject jsonObject = new JSONObject();
-                    jsonObject.put("id", newOrder.getOrderID());
-                    jsonObject.put("price", newOrder.getTotalprice());
-                    synchronizedMsg.sendMsgToUser(String.valueOf(newOrder.getUserID()), "/topic/order_response", jsonObject.toString());
+                    for(BookOrder bookOrder: bookOrders) {
+                        int bookId = bookOrder.getBookID();
+                        int num = bookOrder.getQuantity();
+                        Book book = bookService.findBookById(bookId);
+                        book.setStocks(book.getStocks() - num);
+                        book.setSales(book.getSales() + num);
+                        bookService.addBook(book);
+                    }
+                        System.out.println(MsgUtil.ORDER_SUCCESS_MSG);
+                        JSONObject jsonObject = new JSONObject();
+                        jsonObject.put("id", newOrder.getOrderID());
+                        jsonObject.put("price", newOrder.getTotalprice());
+                        synchronizedMsg.sendMsgToUser(String.valueOf(newOrder.getUserID()), "/topic/order_response", jsonObject.toString());
 
                 }
                else {

@@ -82,3 +82,21 @@ export const addBook = async (data) => {
 //     //     "Loading"
 //     // );
 // };
+
+
+export const searchAuthor = async (title) => {
+    const url = 'http://localhost:8008/book/searchAuth';
+    const data = {
+        bookName: title,
+    };
+    const callback = (data) => {
+        if (data.status <= 0) {
+            // message.error(data.msg);
+            return data.data;
+        } else {
+            // message.success(data.msg);
+            return data.data;
+        }
+    };
+    return postRequest(url, data, callback);
+};

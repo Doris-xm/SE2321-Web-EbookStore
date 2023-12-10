@@ -1,0 +1,13 @@
+query BookByName ($title: String) {
+ getBookByName(title: $title) {
+    id
+    title
+    author
+    price
+    cover
+    isbn
+    stocks
+    sales
+    introduce
+  }
+}

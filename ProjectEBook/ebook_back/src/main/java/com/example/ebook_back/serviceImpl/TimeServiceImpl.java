@@ -14,6 +14,7 @@ public class TimeServiceImpl implements TimeService{
             return 0L;
         }
         else{
+            if (startTime == null) return 0L;
             Long TimeCount = System.currentTimeMillis() - startTime;
             startTime = 0L;
             return TimeCount;

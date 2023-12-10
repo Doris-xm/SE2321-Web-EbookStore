@@ -1,0 +1,15 @@
+type Query {
+    getBookByName(title: String): [Book]
+}
+
+type Book {
+    id: ID
+    title: String
+    author: String
+    price: Float
+    cover: String
+    isbn: String
+    stocks: Int
+    sales: Int
+    introduce: String
+}
