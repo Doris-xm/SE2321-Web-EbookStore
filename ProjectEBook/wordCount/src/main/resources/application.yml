@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: wordCount-service
+  jpa:
+    open-in-view: false
+  datasource:
+    url: jdbc:mysql://localhost:3306/ebook?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+    username: root
+    password: duxinmin
+    driver-class-name: com.mysql.jdbc.Driver
+    tomcat:
+      max-active: 20
+
+#eureka:
+#  instance:
+#    prefer-ip-address: true
+#    ip-address: localhost
+#  client:
+#    registerWithEureka: true
+#    fetchRegistry: true
+#    serviceUrl:
+#      defaultZone: http://localhost:8040/eureka
+server:
+  port: 11131

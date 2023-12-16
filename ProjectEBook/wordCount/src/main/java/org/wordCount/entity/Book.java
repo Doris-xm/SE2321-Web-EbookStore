@@ -1,4 +1,4 @@
-package org.reins.se3353.book.entity;
+package org.wordCount.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
