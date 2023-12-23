@@ -6,6 +6,7 @@ import {BookList} from "../../Component/Book/BookList";
 import "../../css/View.css"
 import {getBooks} from "../../Service/BookService";
 import Search from "antd/es/input/Search";
+import {CountHotWords} from "../../Service/WordCountService";
 
 export class HomePage extends React.Component {
     constructor(props) {
@@ -14,11 +15,15 @@ export class HomePage extends React.Component {
         this.state = { books: [],
             searchBooks: [],
             searching: false,
+            hotWords: []
         };
     }
     async componentDidMount() {
         const books = await getBooks();
         this.setState({ books, searchBooks: books });
+        const hotWords = await CountHotWords();
+        console.log("hotWords: ", hotWords);
+        this.setState({ hotWords: hotWords });
     }
 
     render = () => {
@@ -40,12 +45,26 @@ export class HomePage extends React.Component {
                                 }
                                 this.setState({searching: true})
                                 const searchBooks = this.state.books.filter((book) => {
-                                    return book.title.includes(value) || book.author.includes(value);
+                                    return book.title.includes(value) || book.author.includes(value) || book.introduce.includes(value);
                                 });
                                 this.setState({searchBooks});
                                 console.log("searchBooks: ", searchBooks);
                             }}
                         />
+                        <div>
+                            <h2>Hot Words</h2>
+                            {this.state.hotWords && this.state.hotWords.length > 0 ? (
+                                <ul>
+                                    {this.state.hotWords.map((item, index) => (
+                                        <li key={index}>
+                                            {item.word}, {item.count}
+                                        </li>
+                                    ))}
+                                </ul>
+                            ) : (
+                                <p></p>
+                            )}
+                        </div>
                         {!this.state.searching && <div style={{width: '60%'}}>
                             <BookCarousel/>
                         </div>}

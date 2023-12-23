@@ -12,6 +12,7 @@ import org.apache.hadoop.util.GenericOptionsParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.wordCount.entity.Book;
 import org.wordCount.service.*;
 
@@ -22,7 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Controller
+@RestController
 public class WordCountController {
 
     @Autowired
@@ -39,11 +40,11 @@ public class WordCountController {
             String intro = book.getIntroduce();
             String priceRange;
             if (price < 10) {
-                priceRange = "Cheap";
+                priceRange = "input/Cheap";
             } else if (price >= 10 && price <= 30) {
-                priceRange = "Medium";
+                priceRange = "input/Medium";
             } else {
-                priceRange = "Expensive";
+                priceRange = "input/Expensive";
             }
 
             introByPriceRange.computeIfAbsent(priceRange, k -> new ArrayList<>()).add(intro);
@@ -107,7 +108,12 @@ public class WordCountController {
         FileInputFormat.addInputPath(job, new Path(otherArgs.get(0)));
         FileOutputFormat.setOutputPath(job, new Path(otherArgs.get(1)));
         JSONObject jsonObject = new JSONObject();
+
         jsonObject.put("status", job.waitForCompletion(true) ? 0 : 1);
+        int numMaps = job.getConfiguration().getInt("mapreduce.job.maps", -1);
+        int numReduces = job.getConfiguration().getInt("mapreduce.job.reduces", -1);
+        jsonObject.put("numMaps", numMaps);
+        jsonObject.put("numReduces", numReduces);
         return jsonObject;
 
 //        System.exit(job.waitForCompletion(true) ? 0 : 1);

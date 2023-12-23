@@ -87,4 +87,25 @@ let postRequest_token = (url, json, callback) => {
         });
 };
 
-export { postRequest, postRequest_v2,postRequest_token };
+let getRequest = (url, callback) => {
+    let opts = {
+        method: "GET",
+        credentials: "include"
+    };
+
+    return fetch(url, opts)
+        .then((response) => {
+            return response.json();
+        })
+        .then((data) => {
+            console.log("getre:", data);
+            console.log(callback===null)
+            if(callback !== null)
+                return callback(data);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+};
+
+export { postRequest, postRequest_v2,postRequest_token, getRequest };

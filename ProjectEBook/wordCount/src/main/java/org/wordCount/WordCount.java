@@ -3,11 +3,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.StringTokenizer;
+import java.util.*;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
@@ -65,22 +61,28 @@ public class WordCount {
                         + StringUtils.stringifyException(ioe));
             }
         }
+        // 定义关键词列表
+        private final List<String> keywords = Arrays.asList("american", "chinese", "girl", "women", "adventure", "human","novel","societal","tale");
 
         @Override
         public void map(Object key, Text value, Context context
         ) throws IOException, InterruptedException {
-            String line = (caseSensitive) ?
-                    value.toString() : value.toString().toLowerCase();
+//            String line = (caseSensitive) ?
+//                    value.toString() : value.toString().toLowerCase();
+            String line = value.toString().toLowerCase();
             for (String pattern : patternsToSkip) {
                 line = line.replaceAll(pattern, "");
             }
             StringTokenizer itr = new StringTokenizer(line);
             while (itr.hasMoreTokens()) {
-                word.set(itr.nextToken());
-                context.write(word, one);
-                Counter counter = context.getCounter(CountersEnum.class.getName(),
-                        CountersEnum.INPUT_WORDS.toString());
-                counter.increment(1);
+                String token = itr.nextToken();
+                if (keywords.contains(token)) {
+                    word.set(token);
+                    context.write(word, one);
+                    Counter counter = context.getCounter(CountersEnum.class.getName(),
+                            CountersEnum.INPUT_WORDS.toString());
+                    counter.increment(1);
+                }
             }
         }
     }
