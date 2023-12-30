@@ -35,7 +35,7 @@ export class AllBooksView extends React.Component {
                             return;
                         }
                         const searchBooks = this.state.books.filter((book) => {
-                            return book.title.includes(value) || book.isbn.includes(value);
+                            return book.bookDetail.title.includes(value) || book.bookDetail.isbn.includes(value);
                         });
                         this.setState({searchBooks});
                         console.log("searchBooks: ", searchBooks);
@@ -53,7 +53,7 @@ export class AllBooksView extends React.Component {
                             return;
                         }
                         const searchBooks = await searchAuthor(value);
-                        this.setState({searchAuthor: searchBooks.author});
+                        this.setState({searchAuthor: searchBooks.bookDetail.author});
                     }}
                 />
                 <h1 style={{margin:"20px"}}>{this.state.searchAuthor}</h1>
@@ -72,6 +72,13 @@ export class AllBooksView extends React.Component {
                     metas={{
                         title: {
                             dataIndex: 'title',
+                            render: (_, row) => {
+                                return (
+                                    <Space size={0}>
+                                        <span>{row.bookDetail.title}</span>
+                                    </Space>
+                                );
+                            },
                             title: '书名',
                         },
                         description: {
@@ -80,21 +87,30 @@ export class AllBooksView extends React.Component {
                             render: (_, row) => {
                                 return (
                                     <span>
-                                        <span>ISBN-13: {row.isbn} </span>
-                                        <span>,  作者: {row.author}</span>
+                                        <span>ISBN-13: {row.bookDetail.isbn} </span>
+                                        <span>,  作者: {row.bookDetail.author}</span>
                                     </span>
                                 );
                             },
                         },
                         avatar: {
                             dataIndex: 'cover',
+                            render: (_, row) => {
+                                return (
+                                    <img
+                                        src={row.bookDetail.cover}
+                                        width={40}
+                                        alt={row.bookDetail.title}
+                                    />
+                                );
+                            },
                             search: false,
                         },
                         subTitle: {
                             render: (_, row) => {
                                 return (
                                     <Space size={0}>
-                                        <Tag color="gold">￥：{row.price}</Tag>
+                                        <Tag color="gold">￥：{row.bookDetail.price}</Tag>
                                         <Tag color={row.stocks <= 5 ? 'red' : 'green'}>库存：{row.stocks}</Tag>
                                         <Tag color={row.sales >= 30 ? 'orange' : 'blue'}>销量：{row.sales}</Tag>
                                     </Space>

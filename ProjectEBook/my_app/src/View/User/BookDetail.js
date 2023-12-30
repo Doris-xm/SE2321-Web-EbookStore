@@ -49,19 +49,19 @@ function BookDetail () {
       <Layout style={{width:"80%",display: 'flex', alignItems: 'center',background:"transparent",marginTop:30,marginLeft:60}}>
             <Row>
                 <Col span={6}>
-                    <img src={book.cover} style={{ width: '200px' }} />
+                    <img src={book.bookDetail.cover} style={{ width: '200px' }} />
                 </Col>
                 <Col span={18}>
                     <Descriptions title="详细信息" bordered={false} style={{ fontWeight: 'bold' }}>
-                        <Descriptions.Item label="书名" >{book.title}</Descriptions.Item>
-                        <Descriptions.Item label="作者">{book.author}</Descriptions.Item>
-                        <Descriptions.Item label="价格">{book.price}</Descriptions.Item>
+                        <Descriptions.Item label="书名" >{book.bookDetail.title}</Descriptions.Item>
+                        <Descriptions.Item label="作者">{book.bookDetail.author}</Descriptions.Item>
+                        <Descriptions.Item label="价格">{book.bookDetail.price}</Descriptions.Item>
                         <Descriptions.Item label="库存">
                             <Badge status="processing" text={book.stocks} />
                         </Descriptions.Item>
-                        <Descriptions.Item label="ISBN编号">{book.isbn}</Descriptions.Item>
+                        <Descriptions.Item label="ISBN编号">{book.bookDetail.isbn}</Descriptions.Item>
                         <Descriptions.Item label="销量">{book.sales}</Descriptions.Item>
-                        <Descriptions.Item label="详细介绍">{book.introduce}</Descriptions.Item>
+                        <Descriptions.Item label="详细介绍">{book.bookDetail.introduce}</Descriptions.Item>
                     </Descriptions>
                     <div className="button-group" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                         {book.stocks > 0 ? <Button className="buttons" onClick={handleAddToCart}>

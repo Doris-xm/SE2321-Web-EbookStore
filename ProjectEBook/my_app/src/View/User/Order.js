@@ -77,7 +77,7 @@ export class Order extends React.Component {
                                     const filteredBooks = await Promise.all(
                                         order.bookOrders.map(async (book) => {
                                             const Book_name = await getBook(book.bookID);
-                                            return Book_name.title.includes(value);
+                                            return Book_name.bookDetail.title.includes(value);
                                         })
                                     );
                                     return filteredBooks.includes(true) ? order : null;

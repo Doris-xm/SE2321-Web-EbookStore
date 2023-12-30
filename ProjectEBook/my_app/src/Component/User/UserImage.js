@@ -34,7 +34,7 @@ export class UserImage extends React.Component {
         });
         searchBooks.map((book) => {
             book.quantity = Sales[book.id];
-            book.expense = book.quantity * book.price;
+            book.expense = book.quantity * book.bookDetail.price;
             total += book.quantity;
             totalPrice += book.expense;
         });
@@ -131,6 +131,13 @@ export class UserImage extends React.Component {
                    metas={{
                        title: {
                            dataIndex: 'title',
+                           render: (_, row) => {
+                               return (
+                                   <Space size={0}>
+                                       <Tag color='blue'>{row.bookDetail.title}</Tag>
+                                   </Space>
+                               );
+                           },
                            title: '书名',
                        },
                        description: {
@@ -139,14 +146,18 @@ export class UserImage extends React.Component {
                            render: (_, row) => {
                                return (
                                    <span>
-                                        <span>  价格: {row.price}</span>
-                                        <span>,  数量: {row.quantity}</span>
+                                        <span>  {row.bookDetail.isbn}</span>
                                     </span>
                                );
                            },
                        },
                        avatar: {
                            dataIndex: 'cover',
+                           render: (_, row) => {
+                               return (
+                                   <img src={row.bookDetail.cover} alt={row.bookDetail.title} width={50}/>
+                               );
+                           },
                            search: false,
                        },
                        subTitle: {

@@ -45,7 +45,7 @@ export class HomePage extends React.Component {
                                 }
                                 this.setState({searching: true})
                                 const searchBooks = this.state.books.filter((book) => {
-                                    return book.title.includes(value) || book.author.includes(value) || book.introduce.includes(value);
+                                    return book.bookDetail.title.includes(value) || book.bookDetail.author.includes(value) || book.bookDetail.introduce.includes(value);
                                 });
                                 this.setState({searchBooks});
                                 console.log("searchBooks: ", searchBooks);

@@ -5,6 +5,7 @@ import com.example.ebook_back.constant.Msg;
 import com.example.ebook_back.constant.MsgCode;
 import com.example.ebook_back.constant.MsgUtil;
 import com.example.ebook_back.entity.Book;
+import com.example.ebook_back.entity.BookDetail;
 import com.example.ebook_back.service.BookService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.sf.json.JSONObject;
@@ -76,15 +77,17 @@ public class BookController {
     public Msg AddBook(@RequestBody Map<String,Object> json) {
         try {
             Book book = new Book();
-            book.setTitle(json.get(Constant.BOOK_NAME).toString());
-            book.setAuthor(json.get(Constant.BOOK_AUTHOR).toString());
+            BookDetail bookDetail = new BookDetail();
+            bookDetail.setTitle(json.get(Constant.BOOK_NAME).toString());
+            bookDetail.setAuthor(json.get(Constant.BOOK_AUTHOR).toString());
             book.setStocks(Integer.valueOf(json.get(Constant.BOOK_STOCK).toString()));
-            book.setPrice(Double.valueOf(json.get(Constant.BOOK_PRICE).toString()));
-            book.setIsbn(json.get(Constant.BOOK_ISBN).toString());
+            bookDetail.setPrice(Double.valueOf(json.get(Constant.BOOK_PRICE).toString()));
+            bookDetail.setIsbn(json.get(Constant.BOOK_ISBN).toString());
             if(json.get(Constant.BOOK_COVER) != null)
-                book.setCover(json.get(Constant.BOOK_COVER).toString());
+                bookDetail.setCover(json.get(Constant.BOOK_COVER).toString());
             if(json.get(Constant.BOOK_INTRO) != null)
-                book.setIntroduce(json.get(Constant.BOOK_INTRO).toString());
+                bookDetail.setIntroduce(json.get(Constant.BOOK_INTRO).toString());
+            book.setBookDetail(bookDetail);
             bookService.addBook(book);
         } catch (Exception e) {
             return MsgUtil.makeMsg(MsgCode.ERROR, e.toString());
@@ -97,21 +100,23 @@ public class BookController {
             System.out.println(json);
             int id = Integer.valueOf(json.get(Constant.BOOK_ID).toString());
             Book book = bookService.findBookById(id);
+            BookDetail bookDetail = book.getBookDetail();
             if(book == null)
                 return MsgUtil.makeMsg(MsgCode.ERROR, MsgUtil.BOOK_DELETED_ERR_MSG);
 
             if(json.get(Constant.BOOK_NAME) != null)
-                book.setTitle(json.get(Constant.BOOK_NAME).toString());
+                bookDetail.setTitle(json.get(Constant.BOOK_NAME).toString());
            if(json.get(Constant.BOOK_AUTHOR) != null)
-                book.setAuthor(json.get(Constant.BOOK_AUTHOR).toString());
+               bookDetail.setAuthor(json.get(Constant.BOOK_AUTHOR).toString());
             if(json.get(Constant.BOOK_STOCK) != null)
                 book.setStocks(Integer.valueOf(json.get(Constant.BOOK_STOCK).toString()));
             if(json.get(Constant.BOOK_PRICE) != null)
-                book.setPrice(Double.valueOf(json.get(Constant.BOOK_PRICE).toString()));
+                bookDetail.setPrice(Double.valueOf(json.get(Constant.BOOK_PRICE).toString()));
             if(json.get(Constant.BOOK_COVER) != null)
-                book.setCover(json.get(Constant.BOOK_COVER).toString());
+                bookDetail.setCover(json.get(Constant.BOOK_COVER).toString());
             if(json.get(Constant.BOOK_ISBN) != null)
-                book.setIsbn(json.get(Constant.BOOK_ISBN).toString());
+                bookDetail.setIsbn(json.get(Constant.BOOK_ISBN).toString());
+            book.setBookDetail(bookDetail);
             bookService.addBook(book);
 
             JSONObject jsonObject = JSONObject.fromObject(book);

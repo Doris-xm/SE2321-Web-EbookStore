@@ -257,8 +257,8 @@ export class ManageBookView extends React.Component {
                                                         if (book.id === row.id) {
                                                             //删除旧的对象，添加新的对象
                                                             const modified= book;
-                                                            modified.author=values.author;  modified.title=values.title;
-                                                            modified.isbn=values.isbn;      modified.price=values.price;
+                                                            modified.author=values.bookDetail.author;  modified.title=values.bookDetail.title;
+                                                            modified.isbn=values.bookDetail.isbn;      modified.price=values.bookDetail.price;
                                                             modified.stocks=values.stocks;
                                                             return {...book, ...modified};
                                                         }

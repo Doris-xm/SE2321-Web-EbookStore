@@ -45,7 +45,7 @@ const ContentList: React.FC = ({order}) => {
                 order.bookOrders.map(async (bookOrder) => {
                     const book = await getBook(bookOrder.bookID);
                     return {
-                        bookName: book.title,
+                        bookName: book.bookDetail.title,
                         bookID: bookOrder.bookID,
                         quantity: bookOrder.quantity,
                         totalprice: bookOrder.totalprice,

@@ -81,11 +81,11 @@ export class Cart extends React.Component {
             let book = await getBook(cart_book.bookID);
             return {
                 bookID: cart_book.bookID,
-                title: book.title,
-                author: book.author,
-                price: book.price,
+                title: book.bookDetail.title,
+                author: book.bookDetail.author,
+                price: book.bookDetail.price,
                 quantity: cart_book.quantity,
-                total:  parseFloat((book.price * cart_book.quantity).toFixed(2)),
+                total:  parseFloat((book.bookDetail.price * cart_book.quantity).toFixed(2)),
                 // selected: cart_book.selected || false, // 默认未选中x
                 selected: true, // 默认未选中x
             };

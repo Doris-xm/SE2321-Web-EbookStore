@@ -22,15 +22,15 @@ export class BookCard extends React.Component{
                 <Card
                     className={'book-card'}
                     hoverable
-                    cover={<img alt="load error" src={info.cover} className={"bookImg"}/>}
+                    cover={<img alt="load error" src={info.bookDetail.cover} className={"bookImg"}/>}
                     // onClick={this.showBookDetails.bind(this, info.id)}
                 >
                     <Meta
-                        title={`${info.title}`}
+                        title={`${info.bookDetail.title}`}
                         description={
                           <>
-                              <div>{info.author}</div>
-                              <div>{` ¥ ${info.price}`}</div>
+                              <div>{info.bookDetail.author}</div>
+                              <div>{` ¥ ${info.bookDetail.price}`}</div>
                           </>
                         }
                     />
