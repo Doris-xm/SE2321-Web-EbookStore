@@ -83,7 +83,22 @@ export const addBook = async (data) => {
 //     // );
 // };
 
-
+export const searchByLabel = async (label) => {
+    const url = 'http://localhost:11132/related_type';
+    const data = {
+        label: label,
+    };
+    const callback = (data) => {
+        if (data.status <= 0) {
+            // message.error(data.msg);
+            return data.books;
+        } else {
+            // message.success(data.msg);
+            return data.books;
+        }
+    };
+    return postRequest(url, data, callback);
+};
 export const searchAuthor = async (title) => {
     const url = 'http://localhost:8008/book/searchAuth';
     const data = {

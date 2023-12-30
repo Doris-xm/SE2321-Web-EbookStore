@@ -7,5 +7,6 @@ import java.util.List;
 public interface  BookDao {
     List<Book> findBooksByName(String name);
     List<Book> findALLBooks();
+    List<Book> findByLabel(String label);
 
 }

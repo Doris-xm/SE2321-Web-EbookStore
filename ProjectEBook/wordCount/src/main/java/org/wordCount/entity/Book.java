@@ -4,6 +4,7 @@ import jakarta.persistence.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
+import java.util.Objects;
 
 @Document(collection = "book_detail")
 public class Book {
@@ -66,4 +67,16 @@ public class Book {
     public void setType(List<String> type) {
         this.type = type;
     }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Book book = (Book) o;
+        return Objects.equals(id, book.id); // 假设 id 是 Book 的唯一标识符
+    }
+    @Override
+    public int hashCode() {
+        return Objects.hash(id); // 使用 id 生成哈希码
+    }
+
 }

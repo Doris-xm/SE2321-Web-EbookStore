@@ -9,4 +9,5 @@ import java.util.List;
 public interface BookService {
     List<Book> findBooksByName(String name);
     List<Book> findALLBooks();
+    List<Book> findByLabel(String label);
 }

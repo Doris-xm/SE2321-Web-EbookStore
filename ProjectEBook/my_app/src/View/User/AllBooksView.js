@@ -1,7 +1,7 @@
 import {ProForm, ProList} from '@ant-design/pro-components';
 import {Button, Cascader, Form, Input, Layout, Modal, Space, Tag} from 'antd';
 import React from "react";
-import {addBook, deleteBooks, getBooks, modifyBook, searchAuthor} from "../../Service/BookService";
+import {addBook, deleteBooks, getBooks, modifyBook, searchAuthor, searchByLabel} from "../../Service/BookService";
 import Search from "antd/es/input/Search";
 import {Link} from "react-router-dom";
 
@@ -12,6 +12,7 @@ export class AllBooksView extends React.Component {
         this.state = { books: [],
             searchBooks: [],
             searchAuthor: "",
+            searchLabel: [],
         };
     }
     async componentDidMount() {
@@ -57,6 +58,34 @@ export class AllBooksView extends React.Component {
                     }}
                 />
                 <h1 style={{margin:"20px"}}>{this.state.searchAuthor}</h1>
+                <Search
+                    placeholder="输入标签查询书籍"
+                    allowClear
+                    enterButton="搜索"
+                    size="large"
+                    style={{width:"75%", margin:"20px"}}
+                    onSearch={ async (value) => {
+                        if (value === "") {
+                            this.setState({searchLabel: ""});
+                            return;
+                        }
+                        const LabelBooks = await searchByLabel(value);
+                        console.log("LabelBooks: ", LabelBooks);
+                        this.setState({searchLabel: LabelBooks});
+                    }}
+                />
+                <div style={{ margin: "20px" }}>
+                    {this.state.searchLabel && this.state.searchLabel.map((book, index) => (
+                        <div key={index}>
+                            <h1>{book.title}</h1>
+                            <div>
+                                {book.type.map((type, i) => (
+                                    <Tag key={i} color="blue">{type}</Tag>
+                                ))}
+                            </div>
+                        </div>
+                    ))}
+                </div>
                 <ProList
                     style={{margin:"20px", width:"75%"}}
                     search={

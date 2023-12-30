@@ -14,7 +14,7 @@ spring:
     mongodb:
       uri: mongodb://localhost:27017/ebook_mg
   neo4j:
-    uri: bolt://localhost:7474
+    uri: bolt://localhost:7687
     authentication:
       username: neo4j
       password: duxinmin

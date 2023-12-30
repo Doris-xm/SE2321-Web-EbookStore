@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface BookRepository extends MongoRepository<Book, Integer> {
     List<Book> findBookByTitle(String title);
+    List<Book> findBookByTypeContaining(String type);
 }
