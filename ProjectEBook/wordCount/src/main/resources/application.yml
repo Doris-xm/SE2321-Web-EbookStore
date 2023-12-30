@@ -10,6 +10,15 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     tomcat:
       max-active: 20
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/ebook_mg
+  neo4j:
+    uri: bolt://localhost:7474
+    authentication:
+      username: neo4j
+      password: duxinmin
+
 
 #eureka:
 #  instance:

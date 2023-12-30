@@ -1,4 +1,4 @@
-package org.wordCount;
+package org.wordCount.WordCount;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;

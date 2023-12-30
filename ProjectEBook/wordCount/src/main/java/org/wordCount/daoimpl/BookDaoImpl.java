@@ -15,11 +15,11 @@ public class BookDaoImpl implements BookDao {
     private BookRepository bookRepository;
     @Override
     public List<Book> findBooksByName(String name){
-        return bookRepository.findBooksByName(name);
+        return bookRepository.findBookByTitle(name);
     }
     @Override
     public List<Book> findALLBooks(){
-        return bookRepository.findALLBooks();
+        return bookRepository.findAll();
     }
 
 }

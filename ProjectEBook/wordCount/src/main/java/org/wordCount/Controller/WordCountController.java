@@ -1,4 +1,4 @@
-package org.wordCount;
+package org.wordCount.Controller;
 
 import net.sf.json.JSONObject;
 import org.apache.hadoop.conf.Configuration;
@@ -10,18 +10,15 @@ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.util.GenericOptionsParser;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.wordCount.WordCount.WordCount;
 import org.wordCount.entity.Book;
 import org.wordCount.service.*;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 public class WordCountController {
@@ -34,29 +31,26 @@ public class WordCountController {
         JSONObject jsonObject = new JSONObject();
         List<Book> books = bookService.findALLBooks();
         // 根据图书类型分组
-        Map<String, List<String>> introByPriceRange = new HashMap<>();
+        List<String> type_list = Arrays.asList("Literature", "Fiction", "Education", "History");
+        Map<String, List<String>> introByType = new HashMap<>();
         for (Book book : books) {
-            Double price = book.getPrice();
+            List<String> types = book.getType();
             String intro = book.getIntroduce();
-            String priceRange;
-            if (price < 10) {
-                priceRange = "input/Cheap";
-            } else if (price >= 10 && price <= 30) {
-                priceRange = "input/Medium";
-            } else {
-                priceRange = "input/Expensive";
+            for (String type : types) {
+                if (!type_list.contains(type))
+                    continue;
+                introByType.computeIfAbsent(type, k -> new ArrayList<>()).add(intro);
+                break;
             }
-
-            introByPriceRange.computeIfAbsent(priceRange, k -> new ArrayList<>()).add(intro);
         }
 
         // 写入不同类型的简介到对应文件中
-        for (Map.Entry<String, List<String>> entry : introByPriceRange.entrySet()) {
-            String priceRange = entry.getKey();
+        for (Map.Entry<String, List<String>> entry : introByType.entrySet()) {
+            String type = entry.getKey();
             List<String> intros = entry.getValue();
 
             // 构建文件名
-            String fileName = priceRange + ".txt";
+            String fileName = "input/"+ type + ".txt";
 
             // 写入文件
             try (PrintWriter writer = new PrintWriter(fileName)) {
