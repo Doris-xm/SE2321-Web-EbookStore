@@ -1,0 +1,5 @@
+userId,isBan,result
+123,true,true
+456,false,true
+404,true,false
+404,false,false

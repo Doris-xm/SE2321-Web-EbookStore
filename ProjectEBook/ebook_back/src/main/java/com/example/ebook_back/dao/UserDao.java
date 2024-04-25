@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface  UserDao {
     UserAuth findByUserName(String name);
-    void activateUser(int id);
+    boolean activateUser(int id);
     boolean logout(int id);
 
     boolean checkSession(int id);

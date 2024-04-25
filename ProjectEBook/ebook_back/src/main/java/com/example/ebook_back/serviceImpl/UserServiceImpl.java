@@ -51,13 +51,7 @@ public class UserServiceImpl implements UserService {
         return userDao.checkMail(mail);
     }
     @Override
-    public boolean resign(String name,String password,String email){
-        if(!checkName(name)){
-            return false;
-        }
-        if(!checkMail(email)){
-            return false;
-        }
+    public boolean register(String name,String password,String email){
         User user = new User();
         user.setEmail(email);
         user.setNickname(name);

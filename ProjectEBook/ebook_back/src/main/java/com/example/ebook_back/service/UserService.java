@@ -13,7 +13,7 @@ public interface UserService {
     boolean checkSession(int id);
     boolean checkName(String name);
     boolean checkMail(String mail);
-    boolean resign(String name,String password,String email);
+    boolean register(String name,String password,String email);
     boolean banUser(int id,boolean ban);
     List<UserAuth> getAllUsers();
     UserAuth findUserAuthById(int id);

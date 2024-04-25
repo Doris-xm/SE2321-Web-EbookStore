@@ -29,22 +29,20 @@ public class UserController {
     private UserService userService;
 
     @Autowired
-    WebApplicationContext applicationContext;
-
-    @Autowired
     private TokenServiceImpl tokenService;
 
 
-    @RequestMapping("/user")
-    public UserAuth getUserByName(@RequestParam("name") String name) {
-        return  userService.findUserByName(name);
-    }
     @RequestMapping("/resign")
-    public Msg resign(@RequestBody Map<String,Object> data) {
+    public Msg register(@RequestBody Map<String,Object> data) {
         String name = data.get(Constant.USERNAME).toString();
         String password = data.get(Constant.PASSWORD).toString();
         String mail = data.get(Constant.EMAIL).toString();
-        if (userService.resign(name,password,mail)) {
+        if( !checkNewName(name))
+            return MsgUtil.makeMsg(MsgCode.ERROR, "用户名已存在");
+        if( !checkNewEmail(mail))
+            return MsgUtil.makeMsg(MsgCode.ERROR, "邮箱已存在");
+
+        if (userService.register(name,password,mail)) {
             return MsgUtil.makeMsg(MsgCode.SUCCESS, MsgUtil.RESIGN_SUCCESS_MSG);
         } else {
             return MsgUtil.makeMsg(MsgCode.ERROR, MsgUtil.RESIGN_FAIL_MSG);
@@ -52,11 +50,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public Msg checkLogin(@RequestBody Map<String,Object> data) {
-        TimeService timeService = applicationContext.getBean(TimeService.class);
-        System.out.println("login");
-        System.out.println(this);
-        System.out.println(timeService);
+    public Msg login(@RequestBody Map<String,Object> data) {
         String name = data.get(Constant.USERNAME).toString();
         String password = data.get(Constant.PASSWORD).toString();
 
@@ -77,55 +71,28 @@ public class UserController {
         String token = tokenService.getToken(userAuth);
 
         jsonObject.put("token", token);
-        timeService.TimeCount(true);
 
         return MsgUtil.makeMsg(MsgCode.SUCCESS, MsgUtil.LOGIN_SUCCESS_MSG, jsonObject);
     }
 
     @PostMapping("/logout")
     public Msg Logout(@RequestBody Map<String,Object> data) {
-        TimeService timeService = applicationContext.getBean(TimeService.class);
-        System.out.println("logout");
-        System.out.println(this);
-        System.out.println(timeService);
         int userId = Integer.parseInt(data.get(Constant.USER_ID).toString());
         if( userService.logout(userId)) {
             JSONObject obj=new JSONObject();
-            obj.put("duration", timeService.TimeCount(false));
-            // TODO:设置token无效
             return MsgUtil.makeMsg(MsgCode.SUCCESS, MsgUtil.LOGOUT_SUCCESS_MSG, obj);
         } else {
             return MsgUtil.makeMsg(MsgCode.ERROR, MsgUtil.LOGOUT_ERR_MSG);
         }
     }
 
-    @PostMapping("/checkSession")
-    public Msg checkSession(@RequestBody Map<String,Object> data) {
-        int userId = Integer.parseInt(data.get(Constant.USER_ID).toString());
-        if( userService.checkSession(userId)) {
-            return MsgUtil.makeMsg(MsgCode.SUCCESS, MsgUtil.CHECK_SESSION_SUCCESS_MSG);
-        } else {
-            return MsgUtil.makeMsg(MsgCode.ERROR, MsgUtil.CHECK_SESSION_ERR_MSG);
-        }
+
+    public boolean checkNewName(String userName) {
+        return userService.checkName(userName);
     }
 
-    @PostMapping("/checkName")
-    public Msg checkNewName(@RequestBody Map<String,Object> data) {
-        String userName = data.get(Constant.USERNAME).toString();
-        if( userService.checkName(userName)) {
-            return MsgUtil.makeMsg(MsgCode.SUCCESS, MsgUtil.SUCCESS_MSG);
-        } else {
-            return MsgUtil.makeMsg(MsgCode.ERROR, MsgUtil.CHECK_NAME_ERR_MSG);
-        }
-    }
-    @PostMapping("/checkEmail")
-    public Msg checkNewEmail(@RequestBody Map<String,Object> data) {
-        String mail = data.get(Constant.EMAIL).toString();
-        if( userService.checkMail(mail)) {
-            return MsgUtil.makeMsg(MsgCode.SUCCESS, MsgUtil.SUCCESS_MSG);
-        } else {
-            return MsgUtil.makeMsg(MsgCode.ERROR, MsgUtil.CHECK_MAIL_ERR_MSG);
-        }
+    public boolean checkNewEmail(String mail) {
+        return userService.checkMail(mail);
     }
     @PostMapping("/banUser")
     public Msg banUser(@RequestBody Map<String,Object> data) {
@@ -143,15 +110,7 @@ public class UserController {
                 return MsgUtil.makeMsg(MsgCode.ERROR, MsgUtil.UNBAN_USER_ERR_MSG);
         }
     }
-    @PostMapping("/users")
-    public Msg getAllUsers() {
-        List<UserAuth> users = userService.getAllUsers();
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put(Constant.USERS, users);
-        if(users == null)
-            return MsgUtil.makeMsg(MsgCode.ERROR, MsgUtil.ERROR_MSG, null);
-        return MsgUtil.makeMsg(MsgCode.SUCCESS, MsgUtil.SUCCESS_MSG, jsonObject);
-    }
+
     @PostMapping("/userById")
     public Msg getUserById(@RequestBody Map<String,Object> data) {
         int userId = Integer.parseInt(data.get(Constant.USER_ID).toString());

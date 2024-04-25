@@ -1,0 +1,5 @@
+name,password,email,result
+new_user,password123,new_user@example.com,true
+existing_user,password123,new_user@example.com,false
+new_user,password123,existing_user@example.com,false
+crash_case,password123,new_user@example.com,false

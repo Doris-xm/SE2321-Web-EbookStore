@@ -1,0 +1,6 @@
+name,password,result
+existing_user,correct_password,true
+non_existing_user,any_password,false
+existing_user,incorrect_password,false
+ban_user,correct_password,false
+root,correct_password,true

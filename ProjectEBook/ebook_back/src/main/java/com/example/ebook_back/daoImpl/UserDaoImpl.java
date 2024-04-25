@@ -25,25 +25,20 @@ public class UserDaoImpl implements UserDao {
         return userRepository.findByEmail(mail);
     }
     @Override
-    public void activateUser(int id){
+    public boolean activateUser(int id){
         UserAuth userAuth = userAuthRepository.findByUserId(id);
+        if (userAuth == null || !userAuth.isBan()){
+            return false;
+        }
         userAuth.setBan(false);
         userAuthRepository.save(userAuth);
-    }
-    @Override
-    public boolean logout(int id){
         return true;
     }
+    @Override
+    public boolean logout(int id){return true;}
 
     @Override
-    public boolean checkSession(int id){
-//        UserAuth userAuth = userAuthRepository.findByUserId(id);
-//        if(userAuth == null){
-//            return false;
-//        }
-//        return userAuth.isBan();
-        return true;
-    }
+    public boolean checkSession(int id){return true;}
     @Override
     public boolean checkName(String name){
         UserAuth userAuth = userAuthRepository.findByUserName(name);
@@ -81,16 +76,13 @@ public class UserDaoImpl implements UserDao {
         if(userAuth == null){
             return false;
         }
+        if(userAuth.isBan())
+            return false;
         if(userAuth.getUserMode() == 1){
             return false;
         }
-        try {
-            userAuth.setBan(ban);
-            userAuthRepository.save(userAuth);
-        }catch (Exception e){
-            System.out.println(e);
-            return false;
-        }
+        userAuth.setBan(ban);
+        userAuthRepository.save(userAuth);
         return true;
     }
     @Override

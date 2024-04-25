@@ -1,0 +1,3 @@
+mail,result_id
+existing_user@example.com,123
+non_existing_user@example.com,-1
